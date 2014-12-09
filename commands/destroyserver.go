@@ -43,7 +43,6 @@ func (_ destroyServer) Exec(c Client, args []string, key string) (err error) {
 	}
 
 	err = requests.PostDestroyServer(c, key, serverId)
-
 	if err != nil {
 		return
 	}

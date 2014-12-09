@@ -61,7 +61,7 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 		8192 MB RAM,120 GB SSD,5.00 TB BW                  | 4    | 70.00       | 28 
 		16384 MB RAM,250 GB SSD,8.00 TB BW                 | 4    | 125.00      | 71 
 
-## TODO
+## Progress
 
 		* public                                                                  [x]
 			* listregions                                                         [x]
