@@ -1,4 +1,4 @@
-# VULTRAPI
+# VULTRAPI [![Build Status](https://travis-ci.org/stephan83/vultrapi.svg?branch=master)](https://travis-ci.org/stephan83/vultrapi)
 
 Client/Library for [Vultr API](https://vultr.com) written in go.
 

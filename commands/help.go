@@ -7,11 +7,12 @@ import (
 )
 
 type help struct {
-	commands map[string]Command
+	name string
+	cd CommandDict
 }
 
-func NewHelp(commands map[string]Command) Command {
-	return help{commands}
+func NewHelp(name string, cd CommandDict) Command {
+	return help{name, cd}
 }
 
 func (_ help) Desc() string {
@@ -36,14 +37,14 @@ func (h help) Exec(_ Client, args []string, _ string) (err error) {
 		return
 	}
 
-	cmd, ok := h.commands[args[1]]
+	cmd, ok := h.cd[args[1]]
 	if !ok {
 		err = ErrUnknownCommand{}
 		return
 	}
 
 	fmt.Printf("%s\n\n", cmd.Desc())
-	PrintUsage(args[1], cmd)
+	h.cd.PrintCommandUsage(h.name, args[1])
 
 	if cmd.NeedsKey() {
 		fmt.Println("\nYou must set env variable VULTR_API_KEY to your API key.")
