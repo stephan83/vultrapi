@@ -66,7 +66,7 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 
 		* script                                                                  [ ]
 
-		* tests...                                                                [ ]
+		* tests...                                                                [.]
 
 ## License
 
