@@ -7,38 +7,6 @@ import (
 	"strings"
 )
 
-/*
-{
-  "1571183": {
-    "SUBID": "1571183",
-    "os": "CentOS 7 x64",
-    "ram": "1024 MB",
-    "disk": "Virtual 20 GB",
-    "main_ip": "108.61.177.174",
-    "vcpu_count": "1",
-    "location": "France",
-    "DCID": "24",
-    "default_password": "pyetbuch!0",
-    "date_created": "2014-12-09 16:18:30",
-    "pending_charges": 0.02,
-    "status": "active",
-    "cost_per_month": "7.00",
-    "current_bandwidth_gb": 0,
-    "allowed_bandwidth_gb": "2000",
-    "netmask_v4": "255.255.254.0",
-    "gateway_v4": "108.61.176.1",
-    "power_status": "running",
-    "VPSPLANID": "30",
-    "v6_network": "::",
-    "v6_main_ip": "",
-    "v6_network_size": "0",
-    "label": "",
-    "internal_ip": "",
-    "kvm_url": "https://my.vultr.com/subs/vps/novnc/api.php?data=KFEEG6SFGRJDGQSIGRRXE6LTKZVG24JVM53WGMZVPFETCS2RFNKWGRKGKQ2VM5ZRNU3UEMRXJJ3XMK32KBHHIY3VKJGE223YKZ2GG4ZQLBLEUN2TLBWHGNKRIJKVGVSTLBHUQ4JWIFXUQSZWHBUUG4DXLFFWK33SINEXC5KBNFYGKMKZIFVWSWKSK5SEO5SFKBFWYY3VJNDTQ4CCKRIW6R2ZNVUGOYRSINBWCRSJPBGFETSCNFAUKRDHIZJUGZSYMR4HQRLCKF5FMSS2OM6Q",
-    "auto_backups": "no"
-  }
-}
-*/
 type Server struct {
 	Id                  int     `json:"SUBID,string"`
 	OS                  string  `json:"os"`
@@ -52,15 +20,15 @@ type Server struct {
 	DateCreated         string  `json:"date_created"`
 	PendingCharges      float64 `json:"pending_charges"`
 	Status              string  `json:"status"`
-	CostPerMonth        string  `json:"cost_per_month"`
+	PricePerMonth       string  `json:"cost_per_month"`
 	CurrentBandwidthGB  float64 `json:"current_bandwidth_gb"`
 	AllowedBandwidthGB  string  `json:"allowed_bandwidth_gb"`
 	IPV4Netmask         string  `json:"netmask_v4"`
 	IPV4Gateway         string  `json:"gateway_v4"`
-	PowerStatus         string  `json:"running"`
+	PowerStatus         string  `json:"power_status"`
 	PlanId              int     `json:"VPSPLANID,string"`
 	IPV6Network         string  `json:"v6_network"`
-	IVV6IP              string  `json:"v6_main_ip"`
+	IPV6                string  `json:"v6_main_ip"`
 	IPV6NetworkSize     int  `json:"v6_network_size,string"`
 	Label               string  `json:"label"`
 	PrivateIP           string  `json:"internal_ip"`
@@ -73,9 +41,40 @@ const (
 	serverFormat = "%-15s | %-18s | %-15s | %-10s | %s"
 )
 
-func (r Server) String() string {
-	return fmt.Sprintf(serverFormat, r.Location, r.Label, r.IPV4,
-		r.Status, strconv.Itoa(r.Id))
+func (s Server) String() string {
+	return fmt.Sprintf(serverFormat, s.Location, s.Label, s.IPV4,
+		s.Status, strconv.Itoa(s.Id))
+}
+
+func (s Server) Details() string {
+	return strings.Join([]string{
+		fmt.Sprintf("%21s: %d", "ID", s.Id),
+		fmt.Sprintf("%21s: %s", "OS", s.OS),
+		fmt.Sprintf("%21s: %s", "RAM", s.RAM),
+		fmt.Sprintf("%21s: %s", "DISK", s.Disk),
+		fmt.Sprintf("%21s: %s", "IPV4", s.IPV4),
+		fmt.Sprintf("%21s: %d", "CPUS", s.CPUs),
+		fmt.Sprintf("%21s: %s", "LOCATION", s.Location),
+		fmt.Sprintf("%21s: %d", "REGION ID", s.RegionId),
+		fmt.Sprintf("%21s: %s", "DEFAULT PASSWORD", s.DefaultPassword),
+		fmt.Sprintf("%21s: %s", "DATE CREATED", s.DateCreated),
+		fmt.Sprintf("%21s: %.2f", "PENDING CHARGES", s.PendingCharges),
+		fmt.Sprintf("%21s: %s", "STATUS", s.Status),
+		fmt.Sprintf("%21s: %s", "PRICE/MONTH", s.PricePerMonth),
+		fmt.Sprintf("%21s: %.2f", "CURRENT BANDWIDTH GB", s.CurrentBandwidthGB),
+		fmt.Sprintf("%21s: %s", "ALLOWED BANDWIDTH GB", s.AllowedBandwidthGB),
+		fmt.Sprintf("%21s: %s", "IPV4 NETMASK", s.IPV4Netmask),
+		fmt.Sprintf("%21s: %s", "IPV4 GATEWAY", s.IPV4Gateway),
+		fmt.Sprintf("%21s: %s", "POWER STATUS", s.PowerStatus),
+		fmt.Sprintf("%21s: %d", "PLAN ID", s.PlanId),
+		fmt.Sprintf("%21s: %s", "IPV6 NETWORK", s.IPV6Network),
+		fmt.Sprintf("%21s: %s", "IPV6", s.IPV6),
+		fmt.Sprintf("%21s: %d", "IPV6 NETWORK SIZE", s.IPV6NetworkSize),
+		fmt.Sprintf("%21s: %s", "LABEL", s.Label),
+		fmt.Sprintf("%21s: %s", "PRIVATE IP", s.PrivateIP),
+		fmt.Sprintf("%21s: %s", "KVM URL", s.KVMURL),
+		fmt.Sprintf("%21s: %s", "AUTO BACKUPS", strconv.FormatBool(s.AutoBackups)),
+	}, "\n")
 }
 
 type ServerDict map[string]Server

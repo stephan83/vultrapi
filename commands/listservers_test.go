@@ -8,7 +8,7 @@ func ExampleListServers() {
 	// Output:
 	// LOCATION        | LABEL              | IPV4            | STATUS     | ID
 	// ------------------------------------------------------------------------------
-	// France          |                    | 108.61.177.174  | active     | 1571183
+	// France          | test               | 108.61.177.174  | active     | 1571183
 	// France          |                    | 0               | pending    | 1571200
 	// Japan           |                    | 0               | pending    | 1571201
 }
@@ -19,7 +19,7 @@ func ExampleListServersWithRegion() {
 	// Output:
 	// LOCATION        | LABEL              | IPV4            | STATUS     | ID
 	// ------------------------------------------------------------------------------
-	// France          |                    | 108.61.177.174  | active     | 1571183
+	// France          | test               | 108.61.177.174  | active     | 1571183
 	// France          |                    | 0               | pending    | 1571200
 }
 
@@ -64,11 +64,11 @@ var servers = []byte(`{
 		"power_status": "running",
 		"VPSPLANID": "30",
 		"v6_network": "::",
-		"v6_main_ip": "",
+		"v6_main_ip": "test",
 		"v6_network_size": "0",
-		"label": "",
-		"internal_ip": "",
-		"kvm_url": "https://my.vultr.com/subs/vps/novnc/api.php?data=KFEEG6SFGRJDGQSIGRRXE6LTKZVG24JVM53WGMZVPFETCS2RFNKWGRKGKQ2VM5ZRNU3UEMRXJJ3XMK32KBHHIY3VKJGE223YKZ2GG4ZQLBLEUN2TLBWHGNKRIJKVGVSTLBHUQ4JWIFXUQSZWHBUUG4DXLFFWK33SINEXC5KBNFYGKMKZIFVWSWKSK5SEO5SFKBFWYY3VJNDTQ4CCKRIW6R2ZNVUGOYRSINBWCRSJPBGFETSCNFAUKRDHIZJUGZSYMR4HQRLCKF5FMSS2OM6Q",
+		"label": "test",
+		"internal_ip": "test",
+		"kvm_url": "test",
 		"auto_backups": "no"
 	},
 	"1571200": {
