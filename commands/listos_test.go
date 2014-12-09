@@ -4,7 +4,7 @@ import . "github.com/stephan83/vultrapi/clients"
 
 func ExampleListOS() {
 	c := NewTestClient(200, _os)
-	NewListOS().Exec(c, []string{"listos"}, "")
+	NewListOS().Exec(c, []string{}, "")
 	// Output:
 	// FAMILY           | ARCH | NAME                                          | ID
 	// ------------------------------------------------------------------------------

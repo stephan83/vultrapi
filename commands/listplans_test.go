@@ -4,7 +4,7 @@ import . "github.com/stephan83/vultrapi/clients"
 
 func ExampleListPlans() {
 	c := NewTestClient(200, plans)
-	NewListPlans().Exec(c, []string{"listplans"}, "")
+	NewListPlans().Exec(c, []string{}, "")
 	// Output:
 	// NAME                                               | CPUS | PRICE/MONTH | ID
 	// ------------------------------------------------------------------------------
@@ -32,12 +32,12 @@ func ExampleListPlans() {
 	// 65536 MB RAM,800 GB SSD,9.00 TB BW                 | 24   | 599.95      | 81
 }
 
-func ExampleListPlansWithRegions() {
+func ExampleListPlansWithRegion() {
 	c := NewTestMultiClient(map[string]Client{
 		"^/regions/availability.*": NewTestClient(200, availability),
 		"^/plans/list.*":           NewTestClient(200, plans),
 	})
-	NewListPlans().Exec(c, []string{"listplans", "-region", "24"}, "")
+	NewListPlans().Exec(c, []string{"-region", "24"}, "")
 	// Output:
 	// NAME                                               | CPUS | PRICE/MONTH | ID
 	// ------------------------------------------------------------------------------

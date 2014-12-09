@@ -4,7 +4,7 @@ import . "github.com/stephan83/vultrapi/clients"
 
 func ExampleListRegions() {
 	c := NewTestClient(200, regions)
-	NewListRegions().Exec(c, []string{"listregions"}, "")
+	NewListRegions().Exec(c, []string{}, "")
 	// Output:
 	// CONTINENT            | COUNTRY | STATE | NAME                           | ID
 	// ------------------------------------------------------------------------------

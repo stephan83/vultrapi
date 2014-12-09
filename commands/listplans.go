@@ -43,7 +43,7 @@ func (lp *listPlans) PrintOptions() {
 }
 
 func (lp *listPlans) Exec(c Client, args []string, _ string) (err error) {
-	err = lp.flagSet.Parse(args[1:])
+	err = lp.flagSet.Parse(args)
 	if err != nil {
 		return ErrUsage{}
 	}

@@ -4,7 +4,7 @@ import . "github.com/stephan83/vultrapi/clients"
 
 func ExampleAccount() {
 	c := NewTestClient(200, acc)
-	NewAccount().Exec(c, []string{"account"}, "SECRET_KEY")
+	NewAccount().Exec(c, []string{}, "SECRET_KEY")
 	// Output:
 	//             BALANCE: -5
 	//     PENDING CHARGES: 0.26

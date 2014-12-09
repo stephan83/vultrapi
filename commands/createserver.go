@@ -70,28 +70,28 @@ func (cs *createServer) PrintOptions() {
 }
 
 func (s *createServer) Exec(c Client, args []string, key string) (err error) {
-	if len(args) < 4 {
+	if len(args) < 3 {
 		err = ErrUsage{}
 		return
 	}
 
-	regionId, err := strconv.Atoi(args[1])
+	regionId, err := strconv.Atoi(args[0])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
-	planId, err := strconv.Atoi(args[2])
+	planId, err := strconv.Atoi(args[1])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
-	OSId, err := strconv.Atoi(args[3])
+	OSId, err := strconv.Atoi(args[2])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
 
-	err = s.flagSet.Parse(args[4:])
+	err = s.flagSet.Parse(args[3:])
 	if err != nil {
 		err = ErrUsage{}
 		return

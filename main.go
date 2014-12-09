@@ -16,6 +16,7 @@ var cmdDict = CommandDict{
 	"listos":       NewListOS(),
 	"account":      NewAccount(),
 	"createserver": NewCreateServer(),
+	"listservers":  NewListServers(),
 }
 
 func init() {

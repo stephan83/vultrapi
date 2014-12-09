@@ -32,19 +32,19 @@ func (_ help) PrintOptions() {
 }
 
 func (h help) Exec(_ Client, args []string, _ string) (err error) {
-	if len(args) < 2 {
+	if len(args) < 1 {
 		err = ErrUsage{}
 		return
 	}
 
-	cmd, ok := h.cd[args[1]]
+	cmd, ok := h.cd[args[0]]
 	if !ok {
 		err = ErrUnknownCommand{}
 		return
 	}
 
 	fmt.Printf("%s\n\n", cmd.Desc())
-	h.cd.PrintCommandUsage(h.name, args[1])
+	h.cd.PrintCommandUsage(h.name, args[0])
 
 	if cmd.NeedsKey() {
 		fmt.Println("\nYou must set env variable VULTR_API_KEY to your API key.")
