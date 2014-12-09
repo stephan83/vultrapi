@@ -29,7 +29,7 @@ func (_ *listPlans) Args() string {
 }
 
 func (_ *listPlans) Desc() string {
-	return "List available plans."
+	return "List all available plans."
 }
 
 func (_ *listPlans) NeedsKey() bool {

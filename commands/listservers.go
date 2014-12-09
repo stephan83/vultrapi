@@ -1,18 +1,18 @@
 package commands
 
 import (
-	"fmt"
 	"flag"
+	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"os"
 )
 
-type listServers struct{
+type listServers struct {
 	flagSet  *flag.FlagSet
 	regionId int
-	planId int
+	planId   int
 }
 
 func NewListServers() Command {

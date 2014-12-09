@@ -11,13 +11,14 @@ import (
 const name = "vultrapi"
 
 var cmdDict = CommandDict{
-	"listregions":  NewListRegions(),
-	"listplans":    NewListPlans(),
-	"listos":       NewListOS(),
-	"account":      NewAccount(),
-	"createserver": NewCreateServer(),
-	"listservers":  NewListServers(),
-	"server":       NewServer(),
+	"listregions":   NewListRegions(),
+	"listplans":     NewListPlans(),
+	"listos":        NewListOS(),
+	"account":       NewAccount(),
+	"createserver":  NewCreateServer(),
+	"listservers":   NewListServers(),
+	"server":        NewServer(),
+	"destroyserver": NewDestroyServer(),
 }
 
 func init() {

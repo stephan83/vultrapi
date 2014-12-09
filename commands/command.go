@@ -62,7 +62,7 @@ func (cd CommandDict) PrintUsage(name string) {
 		for _, line := range desc {
 			fmt.Printf("  %s\n", line)
 		}
-		if i + 1 < len(cmds) {
+		if i+1 < len(cmds) {
 			fmt.Println("")
 		}
 	}

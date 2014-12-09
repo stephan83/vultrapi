@@ -8,7 +8,7 @@ import (
 
 type help struct {
 	name string
-	cd CommandDict
+	cd   CommandDict
 }
 
 func NewHelp(name string, cd CommandDict) Command {

@@ -8,32 +8,32 @@ import (
 )
 
 type Server struct {
-	Id                  int     `json:"SUBID,string"`
-	OS                  string  `json:"os"`
-	RAM                 string  `json:"ram"`
-	Disk                string  `json:"disk"`
-	IPV4	            string  `json:"main_ip"`
-	CPUs                int     `json:"vcpu_count,string"`
-	Location            string  `json:"location"`
-	RegionId            int     `json:"DCID,string"`
-	DefaultPassword     string  `json:"default_password"`
-	DateCreated         string  `json:"date_created"`
-	PendingCharges      float64 `json:"pending_charges"`
-	Status              string  `json:"status"`
-	PricePerMonth       string  `json:"cost_per_month"`
-	CurrentBandwidthGB  float64 `json:"current_bandwidth_gb"`
-	AllowedBandwidthGB  string  `json:"allowed_bandwidth_gb"`
-	IPV4Netmask         string  `json:"netmask_v4"`
-	IPV4Gateway         string  `json:"gateway_v4"`
-	PowerStatus         string  `json:"power_status"`
-	PlanId              int     `json:"VPSPLANID,string"`
-	IPV6Network         string  `json:"v6_network"`
-	IPV6                string  `json:"v6_main_ip"`
-	IPV6NetworkSize     int  `json:"v6_network_size,string"`
-	Label               string  `json:"label"`
-	PrivateIP           string  `json:"internal_ip"`
-	KVMURL              string  `json:"kvm_url"`
-	AutoBackups         bool    `json:"auto_backups,string"`
+	Id                 int     `json:"SUBID,string"`
+	OS                 string  `json:"os"`
+	RAM                string  `json:"ram"`
+	Disk               string  `json:"disk"`
+	IPV4               string  `json:"main_ip"`
+	CPUs               int     `json:"vcpu_count,string"`
+	Location           string  `json:"location"`
+	RegionId           int     `json:"DCID,string"`
+	DefaultPassword    string  `json:"default_password"`
+	DateCreated        string  `json:"date_created"`
+	PendingCharges     float64 `json:"pending_charges"`
+	Status             string  `json:"status"`
+	PricePerMonth      string  `json:"cost_per_month"`
+	CurrentBandwidthGB float64 `json:"current_bandwidth_gb"`
+	AllowedBandwidthGB string  `json:"allowed_bandwidth_gb"`
+	IPV4Netmask        string  `json:"netmask_v4"`
+	IPV4Gateway        string  `json:"gateway_v4"`
+	PowerStatus        string  `json:"power_status"`
+	PlanId             int     `json:"VPSPLANID,string"`
+	IPV6Network        string  `json:"v6_network"`
+	IPV6               string  `json:"v6_main_ip"`
+	IPV6NetworkSize    int     `json:"v6_network_size,string"`
+	Label              string  `json:"label"`
+	PrivateIP          string  `json:"internal_ip"`
+	KVMURL             string  `json:"kvm_url"`
+	AutoBackups        bool    `json:"auto_backups,string"`
 }
 
 const (

@@ -13,27 +13,41 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 
 		Usage: vultrapi command [options...]
 
-		You must set env variable VULTR_API_KEY to your API key for commands in bold.
+		You must set env variable VULTR_API_KEY to your API key for underlined commands.
 
 		Commands:
-
-		  account 
-		  Get account information.
 
 		  help command
 		  Get help for a command.
 
-		  createserver region_id plan_id os_id
-		  Creates a server.
-
-		  listos 
+		  listos
 		  List all available operating systems.
 
-		  listplans 
-		  List available plans.
+		  listplans
+		  List all available plans.
 
-		  listregions 
+		  listregions
 		  List all available regions.
+
+		  account
+		  *******
+		  Get account information.
+
+		  createserver region_id plan_id os_id
+		  ************
+		  Creates a server.
+
+		  destroyserver server_id
+		  *************
+		  Destroys a server.
+
+		  listservers
+		  ***********
+		  List all servers.
+
+		  server server_id
+		  ******
+		  Get server information.
 
 ## Example
 
@@ -58,15 +72,14 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 
 		* server                                                                  [ ]
 			* createserver                                                        [x]
-			* ALL THE OTHER SERVER STUFF                                          [ ]
+			* listservers                                                         [x]
+			* server                                                              [x]
+			* destroyserver                                                       [x]
+			* other server commands                                               [ ]
 
 		* snapshot                                                                [ ]
-
 		* sshkey                                                                  [ ]
-
 		* script                                                                  [ ]
-
-		* tests...                                                                [.]
 
 ## License
 

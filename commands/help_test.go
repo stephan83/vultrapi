@@ -19,7 +19,7 @@ func ExampleHelpListRegions() {
 func ExampleHelpListPlans() {
 	NewHelp("vultrapi", cmdDict).Exec(nil, []string{"listplans"}, "")
 	// Output:
-	// List available plans.
+	// List all available plans.
 	//
 	// Usage: vultrapi listplans  [options...]
 	//
