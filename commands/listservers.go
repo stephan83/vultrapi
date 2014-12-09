@@ -33,7 +33,7 @@ func (_ *listServers) Args() string {
 }
 
 func (_ *listServers) Desc() string {
-	return "Get servers."
+	return "List all servers."
 }
 
 func (ls *listServers) PrintOptions() {

@@ -86,6 +86,12 @@ func (c commandArray) Less(i, j int) bool {
 	if c[j].name == "help" {
 		return false
 	}
+	if c[i].NeedsKey() && !c[j].NeedsKey() {
+		return false
+	}
+	if !c[i].NeedsKey() && c[j].NeedsKey() {
+		return true
+	}
 
 	return c[i].name < c[j].name
 }

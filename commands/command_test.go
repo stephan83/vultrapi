@@ -18,10 +18,10 @@ func ExampleCommandPrintUsage() {
 	//   help command
 	//   Get help for a command.
 	// 
+	//   listregions
+	//   List all available regions.
+	// 
 	//   account
 	//   *******
 	//   Get account information.
-	// 
-	//   listregions
-	//   List all available regions.
 }
