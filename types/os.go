@@ -16,7 +16,7 @@ type OS struct {
 }
 
 const (
-	osFormat = "%-16s | %-4s | %-45s | %-4s"
+	osFormat = "%-16s | %-4s | %-45s | %s"
 )
 
 func (o OS) String() string {

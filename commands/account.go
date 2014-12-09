@@ -2,8 +2,8 @@ package commands
 
 import (
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
-	"os"
 )
 
 type account struct{}
@@ -28,14 +28,14 @@ func (_ account) PrintOptions() {
 	fmt.Println("None.")
 }
 
-func (_ account) Exec() (err error) {
-	OS, err := requests.GetAccount(os.Getenv("VULTR_API_KEY"))
+func (_ account) Exec(c Client, _ []string, key string) (err error) {
+	a, err := requests.GetAccount(c, key)
 
 	if err != nil {
 		return
 	}
 
-	fmt.Println(OS)
+	fmt.Println(a)
 
 	return
 }

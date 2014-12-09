@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
 )
 
@@ -27,8 +28,8 @@ func (_ listOS) PrintOptions() {
 	fmt.Println("None.")
 }
 
-func (_ listOS) Exec() (err error) {
-	OS, err := requests.GetOS()
+func (_ listOS) Exec(c Client, _ []string, _ string) (err error) {
+	OS, err := requests.GetOS(c)
 	if err != nil {
 		return
 	}

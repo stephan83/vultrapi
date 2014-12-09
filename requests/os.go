@@ -3,13 +3,13 @@ package requests
 import (
 	"encoding/json"
 	"errors"
+	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/types"
 	"io/ioutil"
-	"net/http"
 )
 
-func GetOS() (OS OSDict, err error) {
-	resp, err := http.Get("https://api.vultr.com/v1/os/list")
+func GetOS(c Client) (OS OSDict, err error) {
+	resp, err := c.Get("/os/list")
 	if err != nil {
 		return
 	}

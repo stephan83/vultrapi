@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/commands"
 	. "github.com/stephan83/vultrapi/errors"
 	"os"
@@ -30,20 +31,25 @@ func init() {
 }
 
 func main() {
-	if len(os.Args) < 2 {
+	c := NewVultrClient("https://api.vultr.com/v1")
+	run(c, os.Args, os.Getenv("VULTR_API_KEY"))
+}
+
+func run(c Client, args []string, key string) {
+	if len(args) < 2 {
 		printUsage()
 		os.Exit(1)
 	}
 
-	cmd, ok := cmdDict[os.Args[1]]
+	cmd, ok := cmdDict[args[1]]
 	if !ok {
 		printUsage()
 		os.Exit(1)
 	}
 
-	if err := cmd.Exec(); err != nil {
+	if err := cmd.Exec(c, args[1:], key); err != nil {
 		if _, ok = err.(ErrUsage); ok {
-			commands.PrintUsage(os.Args[1], cmd)
+			commands.PrintUsage(args[1], cmd)
 		} else {
 			fmt.Println(err.Error())
 		}
@@ -52,16 +58,14 @@ func main() {
 }
 
 func printUsage() {
-	fmt.Println("\033[1mUsage:\033[0m vultrapi command [options...]\n")
-	fmt.Println("You must set env variable \033[1mVULTR_API_KEY\033[0m to your API key for commands in bold.\n")
-	fmt.Println("\033[1mCommands:\033[0m\n")
+	fmt.Println("Usage: vultrapi command [options...]\n")
+	fmt.Println("You must set env variable VULTR_API_KEY to your API key for underlined commands.\n")
+	fmt.Println("Commands:\n")
 
 	for _, cmd := range cmds {
+		fmt.Printf("  %s %s\n", cmd.name, cmd.Args())
 		if cmd.NeedsKey() {
-			fmt.Printf("  \033[1m%s\033[0m %s\n", cmd.name,
-				cmd.Args())
-		} else {
-			fmt.Printf("  %s %s\n", cmd.name, cmd.Args())
+			fmt.Printf("  %s\n", strings.Repeat("*", len(cmd.name)))
 		}
 		desc := strings.Split(cmd.Desc(), "\n")
 		for _, line := range desc {

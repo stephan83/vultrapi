@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	"io/ioutil"
-	"net/http"
 	"net/url"
 	"strconv"
 )
@@ -22,7 +22,7 @@ type CreateServerOptions struct {
 	EnableAutoBackups    bool
 }
 
-func PostCreateServer(APIKey string, regionId, plandId, osId int,
+func PostCreateServer(c Client, APIKey string, regionId, plandId, osId int,
 	options CreateServerOptions) (serverId int, err error) {
 
 	values := url.Values{
@@ -59,8 +59,7 @@ func PostCreateServer(APIKey string, regionId, plandId, osId int,
 		values["auto_backups"] = []string{"yes"}
 	}
 
-	resp, err := http.PostForm(fmt.Sprintf(
-		"https://api.vultr.com/v1/server/create?api_key=%s",
+	resp, err := c.PostForm(fmt.Sprintf("/server/create?api_key=%s",
 		APIKey), values)
 	if err != nil {
 		return

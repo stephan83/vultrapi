@@ -2,8 +2,8 @@ package commands
 
 import (
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
-	"os"
 )
 
 type help struct {
@@ -30,26 +30,26 @@ func (_ help) PrintOptions() {
 	fmt.Println("None.")
 }
 
-func (h help) Exec() (err error) {
-	if len(os.Args) < 3 {
+func (h help) Exec(_ Client, args []string, _ string) (err error) {
+	if len(args) < 2 {
 		err = ErrUsage{}
 		return
 	}
 
-	cmd, ok := h.commands[os.Args[2]]
+	cmd, ok := h.commands[args[1]]
 	if !ok {
 		err = ErrUnknownCommand{}
 		return
 	}
 
-	fmt.Printf("\033[1m%s\033[0m\n\n", cmd.Desc())
-	PrintUsage(os.Args[2], cmd)
+	fmt.Printf("%s\n\n", cmd.Desc())
+	PrintUsage(args[1], cmd)
 
 	if cmd.NeedsKey() {
-		fmt.Println("\nYou must set env variable \033[1mVULTR_API_KEY\033[0m to your API key.")
+		fmt.Println("\nYou must set env variable VULTR_API_KEY to your API key.")
 	}
 
-	fmt.Println("\n\033[1mOptions:\033[0m")
+	fmt.Println("\nOptions:")
 	cmd.PrintOptions()
 
 	return

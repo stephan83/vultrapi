@@ -4,15 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/types"
 	"io/ioutil"
-	"net/http"
 )
 
-func GetAccount(APIKey string) (account Account, err error) {
-	resp, err := http.Get(fmt.Sprintf(
-		"https://api.vultr.com/v1/account/info?api_key=%s",
-		APIKey))
+func GetAccount(c Client, APIKey string) (account Account, err error) {
+	resp, err := c.Get(fmt.Sprintf("/account/info?api_key=%s", APIKey))
 	if err != nil {
 		return
 	}

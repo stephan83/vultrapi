@@ -4,13 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	"io/ioutil"
-	"net/http"
 )
 
-func GetRegionAvailability(regionId int) (plans []int, err error) {
-	resp, err := http.Get(fmt.Sprintf(
-		"https://api.vultr.com/v1/regions/availability?DCID=%d",
+func GetRegionAvailability(c Client, regionId int) (plans []int, err error) {
+	resp, err := c.Get(fmt.Sprintf("/regions/availability?DCID=%d",
 		regionId))
 	if err != nil {
 		return

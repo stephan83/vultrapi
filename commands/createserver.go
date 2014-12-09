@@ -3,6 +3,7 @@ package commands
 import (
 	"flag"
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"os"
@@ -16,7 +17,7 @@ type createServer struct {
 
 func NewCreateServer() Command {
 	cs := createServer{
-		flagSet: flag.NewFlagSet("createserver", flag.ExitOnError),
+		flagSet: flag.NewFlagSet("createserver", flag.ContinueOnError),
 	}
 
 	cs.flagSet.StringVar(&cs.options.IPXEChainURL,
@@ -63,38 +64,41 @@ func (_ *createServer) Desc() string {
 }
 
 func (cs *createServer) PrintOptions() {
+	cs.flagSet.SetOutput(os.Stdout)
 	cs.flagSet.PrintDefaults()
+	cs.flagSet.SetOutput(os.Stderr)
 }
 
-func (s *createServer) Exec() (err error) {
-	if len(os.Args) < 5 {
+func (s *createServer) Exec(c Client, args []string, key string) (err error) {
+	if len(args) < 4 {
 		err = ErrUsage{}
 		return
 	}
 
-	regionId, err := strconv.Atoi(os.Args[2])
+	regionId, err := strconv.Atoi(args[1])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
-	planId, err := strconv.Atoi(os.Args[3])
+	planId, err := strconv.Atoi(args[2])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
-	OSId, err := strconv.Atoi(os.Args[4])
+	OSId, err := strconv.Atoi(args[3])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
 
-	err = s.flagSet.Parse(os.Args[5:])
+	err = s.flagSet.Parse(args[4:])
 	if err != nil {
+		err = ErrUsage{}
 		return
 	}
 
-	id, err := requests.PostCreateServer(os.Getenv("VULTR_API_KEY"),
-		regionId, planId, OSId, s.options)
+	id, err := requests.PostCreateServer(c, key, regionId, planId, OSId,
+		s.options)
 
 	if err != nil {
 		return

@@ -16,7 +16,7 @@ type Region struct {
 }
 
 const (
-	regionFormat = "%-20s | %-7s | %-5s | %-30s | %-4s"
+	regionFormat = "%-20s | %-7s | %-5s | %-30s | %s"
 )
 
 func (r Region) String() string {

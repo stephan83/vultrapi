@@ -19,7 +19,7 @@ type Plan struct {
 }
 
 const (
-	planFormat = "%-50s | %-4s | %-11s | %-3s"
+	planFormat = "%-50s | %-4s | %-11s | %s"
 )
 
 func (r Plan) String() string {

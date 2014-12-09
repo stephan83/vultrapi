@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
 )
 
@@ -27,8 +28,8 @@ func (_ listRegions) PrintOptions() {
 	fmt.Println("None.")
 }
 
-func (_ listRegions) Exec() (err error) {
-	regions, err := requests.GetRegions()
+func (_ listRegions) Exec(c Client, args []string, key string) (err error) {
+	regions, err := requests.GetRegions(c)
 	if err != nil {
 		return
 	}

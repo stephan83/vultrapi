@@ -3,13 +3,13 @@ package requests
 import (
 	"encoding/json"
 	"errors"
+	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/types"
 	"io/ioutil"
-	"net/http"
 )
 
-func GetRegions() (regions RegionDict, err error) {
-	resp, err := http.Get("https://api.vultr.com/v1/regions/list")
+func GetRegions(c Client) (regions RegionDict, err error) {
+	resp, err := c.Get("/regions/list")
 	if err != nil {
 		return
 	}

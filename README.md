@@ -49,24 +49,24 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 
 ## TODO
 
-		* public                                                          [x]
-			* listregions                                                 [x]
-			* listplans                                                   [x]
-			* listos                                                      [x]
+		* public                                                                  [x]
+			* listregions                                                         [x]
+			* listplans                                                           [x]
+			* listos                                                              [x]
 
-		* account                                                         [x]
+		* account                                                                 [x]
 
-		* server                                                          [ ]
-			* createserver                                                [x]
-			* ALL THE OTHER SERVER STUFF                                  [ ]
+		* server                                                                  [ ]
+			* createserver                                                        [x]
+			* ALL THE OTHER SERVER STUFF                                          [ ]
 
-		* snapshot                                                        [ ]
+		* snapshot                                                                [ ]
 
-		* sshkey                                                          [ ]
+		* sshkey                                                                  [ ]
 
-		* script                                                          [ ]
+		* script                                                                  [ ]
 
-		* tests...                                                        [ ]
+		* tests...                                                                [ ]
 
 ## License
 

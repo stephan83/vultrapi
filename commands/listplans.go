@@ -3,6 +3,8 @@ package commands
 import (
 	"flag"
 	"fmt"
+	. "github.com/stephan83/vultrapi/clients"
+	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"github.com/stephan83/vultrapi/types"
 	"os"
@@ -16,7 +18,7 @@ type listPlans struct {
 
 func NewListPlans() Command {
 	lp := listPlans{
-		flagSet: flag.NewFlagSet("listplans", flag.ExitOnError),
+		flagSet: flag.NewFlagSet("listplans", flag.ContinueOnError),
 	}
 	lp.flagSet.IntVar(&lp.regionId, "region", 0, "limit to region id")
 	return &lp
@@ -35,26 +37,31 @@ func (_ *listPlans) NeedsKey() bool {
 }
 
 func (lp *listPlans) PrintOptions() {
+	lp.flagSet.SetOutput(os.Stdout)
 	lp.flagSet.PrintDefaults()
+	lp.flagSet.SetOutput(os.Stderr)
 }
 
-func (lp *listPlans) Exec() (err error) {
-	lp.flagSet.Parse(os.Args[2:])
+func (lp *listPlans) Exec(c Client, args []string, _ string) (err error) {
+	err = lp.flagSet.Parse(args[1:])
+	if err != nil {
+		return ErrUsage{}
+	}
 
-	plans, err := requests.GetPlans()
+	plans, err := requests.GetPlans(c)
 	if err != nil {
 		return
 	}
 
 	if lp.regionId > 0 {
-		avaibility, err := requests.GetRegionAvailability(lp.regionId)
+		a, err := requests.GetRegionAvailability(c, lp.regionId)
 		if err != nil {
 			return err
 		}
 
 		regionPlans := types.PlanDict{}
 
-		for _, plan := range avaibility {
+		for _, plan := range a {
 			key := strconv.Itoa(plan)
 			regionPlans[key] = plans[key]
 		}

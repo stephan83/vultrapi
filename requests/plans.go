@@ -3,13 +3,13 @@ package requests
 import (
 	"encoding/json"
 	"errors"
+	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/types"
 	"io/ioutil"
-	"net/http"
 )
 
-func GetPlans() (plans PlanDict, err error) {
-	resp, err := http.Get("https://api.vultr.com/v1/plans/list")
+func GetPlans(c Client) (plans PlanDict, err error) {
+	resp, err := c.Get("/plans/list")
 	if err != nil {
 		return
 	}
