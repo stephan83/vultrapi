@@ -8,19 +8,19 @@ func ExampleServer() {
 	// Output:
 	//                    ID: 1571183
 	//                    OS: CentOS 7 x64
-	//                   RAM: 1024 MB
+	//                   RAM: 1024
 	//                  DISK: Virtual 20 GB
 	//                  IPV4: 108.61.177.174
 	//                  CPUS: 1
 	//              LOCATION: France
 	//             REGION ID: 24
 	//      DEFAULT PASSWORD: pyetbuch!0
-	//          DATE CREATED: 2014-12-09 16:18:30
+	//          DATE CREATED: 2014-12-09 21:18:30 +0000
 	//       PENDING CHARGES: 0.02
 	//                STATUS: active
 	//           PRICE/MONTH: 7.00
 	//  CURRENT BANDWIDTH GB: 0.00
-	//  ALLOWED BANDWIDTH GB: 2000
+	//  ALLOWED BANDWIDTH GB: 2000.00
 	//          IPV4 NETMASK: 255.255.254.0
 	//          IPV4 GATEWAY: 108.61.176.1
 	//          POWER STATUS: running

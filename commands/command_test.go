@@ -1,11 +1,11 @@
 package commands
 
 func ExampleCommandPrintUsage() {
-	cd := CommandDict{
+	cd := CommandMap{
 		"listregions": NewListRegions(),
 		"account":     NewAccount(),
 	}
-	cd["help"] = NewHelp("vultrapi", cmdDict)
+	cd["help"] = NewHelp("vultrapi", cmdMap)
 
 	cd.PrintUsage("vultrapi")
 	// Output:

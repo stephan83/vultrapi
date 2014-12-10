@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 )
 
-func GetSSHKeys(c Client, APIKey string) (SSHKeys SSHKeyDict, err error) {
+func GetSSHKeys(c Client, APIKey string) (SSHKeys SSHKeyMap, err error) {
 	resp, err := c.Get(fmt.Sprintf("/sshkey/list?api_key=%s", APIKey))
 	if err != nil {
 		return
@@ -26,7 +26,7 @@ func GetSSHKeys(c Client, APIKey string) (SSHKeys SSHKeyDict, err error) {
 		return
 	}
 
-	SSHKeys = SSHKeyDict{}
+	SSHKeys = SSHKeyMap{}
 	err = json.Unmarshal(body, &SSHKeys)
 
 	return

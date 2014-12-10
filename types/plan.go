@@ -1,34 +1,34 @@
 package types
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strconv"
 	"strings"
-	"encoding/json"
 )
 
 const planFormat = "%-50s | %-4s | %-11s | %s"
 
 type Plan struct {
-	Id            int    `json:"VPSPLANID,string"`
-	Name          string `json:"name"`
-	CPUs          int    `json:"vcpu_count,string"`
-	RAM           int    `json:"ram,string"`
-	Disk          int    `json:"disk,string"`
-	Bandwidth     string `json:"bandwidth"`
-	PricePerMonth string `json:"price_per_month"`
-	Windows       bool   `json:"windows"`
+	Id            int     `json:"VPSPLANID,string"`
+	Name          string  `json:"name"`
+	CPUs          int     `json:"vcpu_count,string"`
+	RAM           int     `json:"ram,string"`
+	Disk          int     `json:"disk,string"`
+	Bandwidth     float64 `json:"bandwidth,string"`
+	PricePerMonth float64 `json:"price_per_month,string"`
+	Windows       bool    `json:"windows"`
 }
 
 func (o Plan) String() string {
 	return fmt.Sprintf(planFormat, o.Name, strconv.Itoa(o.CPUs),
-		o.PricePerMonth, strconv.Itoa(o.Id))
+		fmt.Sprintf("%.2f", o.PricePerMonth), strconv.Itoa(o.Id))
 }
 
-type PlanDict map[int]Plan
+type PlanMap map[int]Plan
 
-func (o PlanDict) MarshalJSON() ([]byte, error) {
+func (o PlanMap) MarshalJSON() ([]byte, error) {
 	m := map[string]Plan{}
 
 	for k, v := range o {
@@ -38,8 +38,8 @@ func (o PlanDict) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m)
 }
 
-func (o *PlanDict) UnmarshalJSON(d []byte) error {
-	*o = PlanDict{}
+func (o *PlanMap) UnmarshalJSON(d []byte) error {
+	*o = PlanMap{}
 
 	if string(d) == "[]" {
 		return nil
@@ -62,7 +62,7 @@ func (o *PlanDict) UnmarshalJSON(d []byte) error {
 	return nil
 }
 
-func (o PlanDict) Array() PlanArray {
+func (o PlanMap) Array() PlanArray {
 	a := []Plan{}
 
 	for _, v := range o {
@@ -72,7 +72,7 @@ func (o PlanDict) Array() PlanArray {
 	return a
 }
 
-func (o PlanDict) String() string {
+func (o PlanMap) String() string {
 	l := []string{}
 
 	l = append(l, fmt.Sprintf(planFormat, "NAME", "CPUS", "PRICE/MONTH",

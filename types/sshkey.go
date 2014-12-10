@@ -1,18 +1,19 @@
 package types
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
-	"encoding/json"
+	"time"
 )
 
-const keyFormat = "%-39s | %-19s | %s"
+const keyFormat = "%-33s | %-25s | %s"
 
 type SSHKey struct {
 	Id          string `json:"SSHKEYID"`
 	Name        string `json:"name"`
-	DateCreated string `json:"date_created"`
+	DateCreated Date   `json:"date_created"`
 	Key         string `json:"ssh_key"`
 }
 
@@ -29,11 +30,11 @@ func (o SSHKey) Details() string {
 	}, "\n")
 }
 
-type SSHKeyDict map[string]SSHKey
+type SSHKeyMap map[string]SSHKey
 
-func (o *SSHKeyDict) UnmarshalJSON(d []byte) error {
-	*o = SSHKeyDict{}
-	
+func (o *SSHKeyMap) UnmarshalJSON(d []byte) error {
+	*o = SSHKeyMap{}
+
 	if string(d) == "[]" {
 		return nil
 	}
@@ -51,7 +52,7 @@ func (o *SSHKeyDict) UnmarshalJSON(d []byte) error {
 	return nil
 }
 
-func (o SSHKeyDict) Array() SSHKeyArray {
+func (o SSHKeyMap) Array() SSHKeyArray {
 	keys := []SSHKey{}
 
 	for _, s := range o {
@@ -61,7 +62,7 @@ func (o SSHKeyDict) Array() SSHKeyArray {
 	return keys
 }
 
-func (o SSHKeyDict) String() string {
+func (o SSHKeyMap) String() string {
 	l := []string{}
 
 	l = append(l, fmt.Sprintf(keyFormat, "NAME", "DATE CREATED", "ID"))
@@ -91,9 +92,9 @@ func (a SSHKeyArray) Less(i, j int) bool {
 		return false
 	default:
 		switch {
-		case a[i].DateCreated < a[j].DateCreated:
+		case time.Time(a[i].DateCreated).Before(time.Time(a[j].DateCreated)):
 			return true
-		case a[i].DateCreated > a[j].DateCreated:
+		case time.Time(a[i].DateCreated).Before(time.Time(a[j].DateCreated)):
 			return false
 		default:
 			return a[i].Id < a[j].Id

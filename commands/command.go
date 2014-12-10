@@ -16,9 +16,9 @@ type Command interface {
 	Exec(client Client, args []string, key string) error
 }
 
-type CommandDict map[string]Command
+type CommandMap map[string]Command
 
-func (cd CommandDict) Exec(args []string, c Client, key string) error {
+func (cd CommandMap) Exec(args []string, c Client, key string) error {
 	if len(args) < 1 {
 		return ErrUsage{}
 	}
@@ -31,12 +31,12 @@ func (cd CommandDict) Exec(args []string, c Client, key string) error {
 	return cmd.Exec(c, args[1:], key)
 }
 
-func (cd CommandDict) PrintCommandUsage(name string, cmd string) {
+func (cd CommandMap) PrintCommandUsage(name string, cmd string) {
 	fmt.Printf("Usage: %s %s %s [options...]\n", name, cmd,
 		cd[cmd].Args())
 }
 
-func (cd CommandDict) PrintUsage(name string) {
+func (cd CommandMap) PrintUsage(name string) {
 	var cmds = commandArray{}
 
 	for name, cmd := range cd {

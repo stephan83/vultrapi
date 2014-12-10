@@ -1,11 +1,11 @@
 package types
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strconv"
 	"strings"
-	"encoding/json"
 )
 
 const osFormat = "%-16s | %-4s | %-45s | %s"
@@ -23,9 +23,9 @@ func (o OS) String() string {
 		strconv.Itoa(o.Id))
 }
 
-type OSDict map[int]OS
+type OSMap map[int]OS
 
-func (o OSDict) MarshalJSON() ([]byte, error) {
+func (o OSMap) MarshalJSON() ([]byte, error) {
 	m := map[string]OS{}
 
 	for k, v := range o {
@@ -35,8 +35,8 @@ func (o OSDict) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m)
 }
 
-func (o *OSDict) UnmarshalJSON(d []byte) error {
-	*o = OSDict{}
+func (o *OSMap) UnmarshalJSON(d []byte) error {
+	*o = OSMap{}
 
 	if string(d) == "[]" {
 		return nil
@@ -59,7 +59,7 @@ func (o *OSDict) UnmarshalJSON(d []byte) error {
 	return nil
 }
 
-func (o OSDict) Array() OSArray {
+func (o OSMap) Array() OSArray {
 	a := []OS{}
 
 	for _, v := range o {
@@ -69,7 +69,7 @@ func (o OSDict) Array() OSArray {
 	return a
 }
 
-func (o OSDict) String() string {
+func (o OSMap) String() string {
 	l := []string{}
 
 	l = append(l, fmt.Sprintf(osFormat, "FAMILY", "ARCH", "NAME", "ID"))

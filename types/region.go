@@ -1,11 +1,11 @@
 package types
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strconv"
 	"strings"
-	"encoding/json"
 )
 
 const regionFormat = "%-20s | %-7s | %-5s | %-30s | %s"
@@ -23,9 +23,9 @@ func (o Region) String() string {
 		o.Name, strconv.Itoa(o.Id))
 }
 
-type RegionDict map[int]Region
+type RegionMap map[int]Region
 
-func (o RegionDict) MarshalJSON() ([]byte, error) {
+func (o RegionMap) MarshalJSON() ([]byte, error) {
 	m := map[string]Region{}
 
 	for k, v := range o {
@@ -35,8 +35,8 @@ func (o RegionDict) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m)
 }
 
-func (o *RegionDict) UnmarshalJSON(d []byte) error {
-	*o = RegionDict{}
+func (o *RegionMap) UnmarshalJSON(d []byte) error {
+	*o = RegionMap{}
 
 	if string(d) == "[]" {
 		return nil
@@ -59,7 +59,7 @@ func (o *RegionDict) UnmarshalJSON(d []byte) error {
 	return nil
 }
 
-func (o RegionDict) Array() RegionArray {
+func (o RegionMap) Array() RegionArray {
 	a := []Region{}
 
 	for _, v := range o {
@@ -69,7 +69,7 @@ func (o RegionDict) Array() RegionArray {
 	return a
 }
 
-func (o RegionDict) String() string {
+func (o RegionMap) String() string {
 	l := []string{}
 
 	l = append(l, fmt.Sprintf(regionFormat, "CONTINENT", "COUNTRY",

@@ -3,14 +3,14 @@ package types
 import "fmt"
 
 type Account struct {
-	Balance           int     `json:"balance"`
+	Balance           float64 `json:"balance"`
 	PendingCharges    float64 `json:"pending_charges"`
-	LastPaymentDate   string  `json:"last_payment_date"`
-	LastPaymentAmount string  `json:"last_payment_amount"`
+	LastPaymentDate   Date    `json:"last_payment_date"`
+	LastPaymentAmount float64 `json:"last_payment_amount,string"`
 }
 
 func (o Account) String() string {
-	return fmt.Sprintf("%19s: %d\n%19s: %.2f\n%19s: %s\n%19s: %s",
+	return fmt.Sprintf("%19s: %.2f\n%19s: %.2f\n%19s: %s\n%19s: %.2f",
 		"BALANCE", o.Balance,
 		"PENDING CHARGES", o.PendingCharges,
 		"LAST PAYMENT DATE", o.LastPaymentDate,

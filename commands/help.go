@@ -8,10 +8,10 @@ import (
 
 type help struct {
 	name string
-	cd   CommandDict
+	cd   CommandMap
 }
 
-func NewHelp(name string, cd CommandDict) Command {
+func NewHelp(name string, cd CommandMap) Command {
 	return help{name, cd}
 }
 

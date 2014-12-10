@@ -58,7 +58,7 @@ func (lp *listPlans) Exec(c Client, args []string, _ string) (err error) {
 			return err
 		}
 
-		regionPlans := types.PlanDict{}
+		regionPlans := types.PlanMap{}
 
 		for _, plan := range a {
 			key := plan

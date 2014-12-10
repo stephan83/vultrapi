@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 )
 
-func GetPlans(c Client) (plans PlanDict, err error) {
+func GetPlans(c Client) (plans PlanMap, err error) {
 	resp, err := c.Get("/plans/list")
 	if err != nil {
 		return
@@ -25,7 +25,7 @@ func GetPlans(c Client) (plans PlanDict, err error) {
 		return
 	}
 
-	plans = PlanDict{}
+	plans = PlanMap{}
 	err = json.Unmarshal(body, &plans)
 
 	return

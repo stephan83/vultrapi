@@ -3,11 +3,11 @@ package main
 import "github.com/stephan83/vultrapi/commands"
 
 func ExampleRunNoCommand() {
-	cd := commands.CommandDict{
+	cd := commands.CommandMap{
 		"listregions": commands.NewListRegions(),
 		"account":     commands.NewAccount(),
 	}
-	cd["help"] = commands.NewHelp("vultrapi", cmdDict)
+	cd["help"] = commands.NewHelp("vultrapi", cmdMap)
 
 	run(cd, nil, []string{"vultrapi"}, "")
 	// Output:
@@ -29,11 +29,11 @@ func ExampleRunNoCommand() {
 }
 
 func ExampleRunUnknownCommand() {
-	cd := commands.CommandDict{
+	cd := commands.CommandMap{
 		"listregions": commands.NewListRegions(),
 		"account":     commands.NewAccount(),
 	}
-	cd["help"] = commands.NewHelp("vultrapi", cmdDict)
+	cd["help"] = commands.NewHelp("vultrapi", cmdMap)
 
 	run(cd, nil, []string{"vultrapi", "accountn"}, "")
 	// Output:
@@ -41,11 +41,11 @@ func ExampleRunUnknownCommand() {
 }
 
 func ExampleRunWrongUsage() {
-	cd := commands.CommandDict{
+	cd := commands.CommandMap{
 		"listregions": commands.NewListRegions(),
 		"account":     commands.NewAccount(),
 	}
-	cd["help"] = commands.NewHelp("vultrapi", cmdDict)
+	cd["help"] = commands.NewHelp("vultrapi", cmdMap)
 
 	run(cd, nil, []string{"vultrapi", "help"}, "")
 	// Output:

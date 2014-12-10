@@ -6,7 +6,7 @@ import (
 )
 
 func ExampleHelpListRegions() {
-	NewHelp("vultrapi", cmdDict).Exec(nil, []string{"listregions"}, "")
+	NewHelp("vultrapi", cmdMap).Exec(nil, []string{"listregions"}, "")
 	// Output:
 	// List all available regions.
 	//
@@ -17,7 +17,7 @@ func ExampleHelpListRegions() {
 }
 
 func ExampleHelpListPlans() {
-	NewHelp("vultrapi", cmdDict).Exec(nil, []string{"listplans"}, "")
+	NewHelp("vultrapi", cmdMap).Exec(nil, []string{"listplans"}, "")
 	// Output:
 	// List all available plans.
 	//
@@ -28,7 +28,7 @@ func ExampleHelpListPlans() {
 }
 
 func ExampleHelpCreateServer() {
-	NewHelp("vultrapi", cmdDict).Exec(nil, []string{"createserver"}, "")
+	NewHelp("vultrapi", cmdMap).Exec(nil, []string{"createserver"}, "")
 	// Output:
 	// Creates a server.
 	//
@@ -49,7 +49,7 @@ func ExampleHelpCreateServer() {
 }
 
 func TestHelpNotEnoughArgs(t *testing.T) {
-	err := NewHelp("vultrapi", cmdDict).Exec(nil, []string{}, "")
+	err := NewHelp("vultrapi", cmdMap).Exec(nil, []string{}, "")
 	if err == nil {
 		t.Error("No error returned.")
 	}
@@ -59,7 +59,7 @@ func TestHelpNotEnoughArgs(t *testing.T) {
 }
 
 func TestHelpUnknownCommand(t *testing.T) {
-	err := NewHelp("vultrapi", cmdDict).Exec(nil, []string{"listplasn"}, "")
+	err := NewHelp("vultrapi", cmdMap).Exec(nil, []string{"listplasn"}, "")
 	if err == nil {
 		t.Error("No error returned.")
 	}
@@ -68,7 +68,7 @@ func TestHelpUnknownCommand(t *testing.T) {
 	}
 }
 
-var cmdDict = map[string]Command{
+var cmdMap = map[string]Command{
 	"listregions":  NewListRegions(),
 	"listplans":    NewListPlans(),
 	"createserver": NewCreateServer(),

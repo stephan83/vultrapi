@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 )
 
-func GetRegions(c Client) (regions RegionDict, err error) {
+func GetRegions(c Client) (regions RegionMap, err error) {
 	resp, err := c.Get("/regions/list")
 	if err != nil {
 		return
@@ -25,7 +25,7 @@ func GetRegions(c Client) (regions RegionDict, err error) {
 		return
 	}
 
-	regions = RegionDict{}
+	regions = RegionMap{}
 	err = json.Unmarshal(body, &regions)
 
 	return

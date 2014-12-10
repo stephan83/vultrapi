@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 )
 
-func GetOS(c Client) (OS OSDict, err error) {
+func GetOS(c Client) (OS OSMap, err error) {
 	resp, err := c.Get("/os/list")
 	if err != nil {
 		return
@@ -25,7 +25,7 @@ func GetOS(c Client) (OS OSDict, err error) {
 		return
 	}
 
-	OS = OSDict{}
+	OS = OSMap{}
 	err = json.Unmarshal(body, &OS)
 
 	return

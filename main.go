@@ -10,7 +10,7 @@ import (
 
 const name = "vultrapi"
 
-var cmdDict = CommandDict{
+var cmdMap = CommandMap{
 	"listregions":   NewListRegions(),
 	"listplans":     NewListPlans(),
 	"listos":        NewListOS(),
@@ -26,15 +26,15 @@ var cmdDict = CommandDict{
 }
 
 func init() {
-	cmdDict["help"] = NewHelp("vultrapi", cmdDict)
+	cmdMap["help"] = NewHelp("vultrapi", cmdMap)
 }
 
 func main() {
 	c := NewVultrClient("https://api.vultr.com/v1")
-	os.Exit(run(cmdDict, c, os.Args, os.Getenv("VULTR_API_KEY")))
+	os.Exit(run(cmdMap, c, os.Args, os.Getenv("VULTR_API_KEY")))
 }
 
-func run(cd CommandDict, c Client, args []string, key string) int {
+func run(cd CommandMap, c Client, args []string, key string) int {
 	if len(args) < 2 {
 		cd.PrintUsage(name)
 		return 2

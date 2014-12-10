@@ -1,11 +1,11 @@
 package types
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strconv"
 	"strings"
-	"encoding/json"
 )
 
 const serverFormat = "%-15s | %-18s | %-15s | %-10s | %s"
@@ -13,19 +13,19 @@ const serverFormat = "%-15s | %-18s | %-15s | %-10s | %s"
 type Server struct {
 	Id                 int     `json:"SUBID,string"`
 	OS                 string  `json:"os"`
-	RAM                string  `json:"ram"`
+	RAM                RAM     `json:"ram"`
 	Disk               string  `json:"disk"`
 	IPV4               string  `json:"main_ip"`
 	CPUs               int     `json:"vcpu_count,string"`
 	Location           string  `json:"location"`
 	RegionId           int     `json:"DCID,string"`
 	DefaultPassword    string  `json:"default_password"`
-	DateCreated        string  `json:"date_created"`
+	DateCreated        Date    `json:"date_created"`
 	PendingCharges     float64 `json:"pending_charges"`
 	Status             string  `json:"status"`
 	PricePerMonth      string  `json:"cost_per_month"`
 	CurrentBandwidthGB float64 `json:"current_bandwidth_gb"`
-	AllowedBandwidthGB string  `json:"allowed_bandwidth_gb"`
+	AllowedBandwidthGB float64 `json:"allowed_bandwidth_gb,string"`
 	IPV4Netmask        string  `json:"netmask_v4"`
 	IPV4Gateway        string  `json:"gateway_v4"`
 	PowerStatus        string  `json:"power_status"`
@@ -48,7 +48,7 @@ func (o Server) Details() string {
 	return strings.Join([]string{
 		fmt.Sprintf("%21s: %d", "ID", o.Id),
 		fmt.Sprintf("%21s: %s", "OS", o.OS),
-		fmt.Sprintf("%21s: %s", "RAM", o.RAM),
+		fmt.Sprintf("%21s: %s", "RAM", strconv.Itoa(int(o.RAM))),
 		fmt.Sprintf("%21s: %s", "DISK", o.Disk),
 		fmt.Sprintf("%21s: %s", "IPV4", o.IPV4),
 		fmt.Sprintf("%21s: %d", "CPUS", o.CPUs),
@@ -60,7 +60,7 @@ func (o Server) Details() string {
 		fmt.Sprintf("%21s: %s", "STATUS", o.Status),
 		fmt.Sprintf("%21s: %s", "PRICE/MONTH", o.PricePerMonth),
 		fmt.Sprintf("%21s: %.2f", "CURRENT BANDWIDTH GB", o.CurrentBandwidthGB),
-		fmt.Sprintf("%21s: %s", "ALLOWED BANDWIDTH GB", o.AllowedBandwidthGB),
+		fmt.Sprintf("%21s: %s", "ALLOWED BANDWIDTH GB", fmt.Sprintf("%.2f", o.AllowedBandwidthGB)),
 		fmt.Sprintf("%21s: %s", "IPV4 NETMASK", o.IPV4Netmask),
 		fmt.Sprintf("%21s: %s", "IPV4 GATEWAY", o.IPV4Gateway),
 		fmt.Sprintf("%21s: %s", "POWER STATUS", o.PowerStatus),
@@ -75,9 +75,9 @@ func (o Server) Details() string {
 	}, "\n")
 }
 
-type ServerDict map[int]Server
+type ServerMap map[int]Server
 
-func (o ServerDict) MarshalJSON() ([]byte, error) {
+func (o ServerMap) MarshalJSON() ([]byte, error) {
 	m := map[string]Server{}
 
 	for k, v := range o {
@@ -87,9 +87,9 @@ func (o ServerDict) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m)
 }
 
-func (o *ServerDict) UnmarshalJSON(d []byte) error {
-	*o = ServerDict{}
-	
+func (o *ServerMap) UnmarshalJSON(d []byte) error {
+	*o = ServerMap{}
+
 	if string(d) == "[]" {
 		return nil
 	}
@@ -111,7 +111,7 @@ func (o *ServerDict) UnmarshalJSON(d []byte) error {
 	return nil
 }
 
-func (o ServerDict) Array() ServerArray {
+func (o ServerMap) Array() ServerArray {
 	a := []Server{}
 
 	for _, r := range o {
@@ -121,7 +121,7 @@ func (o ServerDict) Array() ServerArray {
 	return a
 }
 
-func (o ServerDict) String() string {
+func (o ServerMap) String() string {
 	l := []string{}
 
 	l = append(l, fmt.Sprintf(serverFormat, "LOCATION", "LABEL", "IPV4",

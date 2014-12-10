@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 )
 
-func GetServers(c Client, APIKey string) (servers ServerDict, err error) {
+func GetServers(c Client, APIKey string) (servers ServerMap, err error) {
 	resp, err := c.Get(fmt.Sprintf("/server/list?api_key=%s", APIKey))
 	if err != nil {
 		return
@@ -26,7 +26,7 @@ func GetServers(c Client, APIKey string) (servers ServerDict, err error) {
 		return
 	}
 
-	servers = ServerDict{}
+	servers = ServerMap{}
 	err = json.Unmarshal(body, &servers)
 
 	return
