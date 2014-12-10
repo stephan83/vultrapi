@@ -35,13 +35,13 @@ func PostCreateServer(c Client, APIKey string, regionId, plandId, osId int,
 		values["ipxe_chain_url"] = []string{options.IPXEChainURL}
 	}
 	if options.ISOId > 0 {
-		values["iso_id"] = []string{strconv.Itoa(options.ISOId)}
+		values["ISOID"] = []string{strconv.Itoa(options.ISOId)}
 	}
 	if options.ScriptId > 0 {
-		values["script_id"] = []string{strconv.Itoa(options.ScriptId)}
+		values["SCRIPTID"] = []string{strconv.Itoa(options.ScriptId)}
 	}
 	if options.SnapshotId > 0 {
-		values["snapshot_id"] = []string{strconv.Itoa(options.SnapshotId)}
+		values["SNAPSHOTID"] = []string{strconv.Itoa(options.SnapshotId)}
 	}
 	if options.EnableIPV6 {
 		values["enable_ipv6"] = []string{"yes"}
@@ -53,7 +53,7 @@ func PostCreateServer(c Client, APIKey string, regionId, plandId, osId int,
 		values["label"] = []string{options.Label}
 	}
 	if options.SSHKeyId != "" {
-		values["ssh_key_id"] = []string{options.SSHKeyId}
+		values["SSHKEYID"] = []string{options.SSHKeyId}
 	}
 	if options.EnableAutoBackups {
 		values["auto_backups"] = []string{"yes"}
