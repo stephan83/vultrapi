@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 )
 
+const serverFormat = "%-15s | %-18s | %-15s | %-10s | %s"
+
 type Server struct {
 	Id                 int     `json:"SUBID,string"`
 	OS                 string  `json:"os"`
@@ -37,142 +39,136 @@ type Server struct {
 	AutoBackups        bool    `json:"auto_backups,string"`
 }
 
-const (
-	// Location | Label | IP | Status | Id
-	serverFormat = "%-15s | %-18s | %-15s | %-10s | %s"
-)
-
-func (s Server) String() string {
-	return fmt.Sprintf(serverFormat, s.Location, s.Label, s.IPV4,
-		s.Status, strconv.Itoa(s.Id))
+func (o Server) String() string {
+	return fmt.Sprintf(serverFormat, o.Location, o.Label, o.IPV4,
+		o.Status, strconv.Itoa(o.Id))
 }
 
-func (s Server) Details() string {
+func (o Server) Details() string {
 	return strings.Join([]string{
-		fmt.Sprintf("%21s: %d", "ID", s.Id),
-		fmt.Sprintf("%21s: %s", "OS", s.OS),
-		fmt.Sprintf("%21s: %s", "RAM", s.RAM),
-		fmt.Sprintf("%21s: %s", "DISK", s.Disk),
-		fmt.Sprintf("%21s: %s", "IPV4", s.IPV4),
-		fmt.Sprintf("%21s: %d", "CPUS", s.CPUs),
-		fmt.Sprintf("%21s: %s", "LOCATION", s.Location),
-		fmt.Sprintf("%21s: %d", "REGION ID", s.RegionId),
-		fmt.Sprintf("%21s: %s", "DEFAULT PASSWORD", s.DefaultPassword),
-		fmt.Sprintf("%21s: %s", "DATE CREATED", s.DateCreated),
-		fmt.Sprintf("%21s: %.2f", "PENDING CHARGES", s.PendingCharges),
-		fmt.Sprintf("%21s: %s", "STATUS", s.Status),
-		fmt.Sprintf("%21s: %s", "PRICE/MONTH", s.PricePerMonth),
-		fmt.Sprintf("%21s: %.2f", "CURRENT BANDWIDTH GB", s.CurrentBandwidthGB),
-		fmt.Sprintf("%21s: %s", "ALLOWED BANDWIDTH GB", s.AllowedBandwidthGB),
-		fmt.Sprintf("%21s: %s", "IPV4 NETMASK", s.IPV4Netmask),
-		fmt.Sprintf("%21s: %s", "IPV4 GATEWAY", s.IPV4Gateway),
-		fmt.Sprintf("%21s: %s", "POWER STATUS", s.PowerStatus),
-		fmt.Sprintf("%21s: %d", "PLAN ID", s.PlanId),
-		fmt.Sprintf("%21s: %s", "IPV6 NETWORK", s.IPV6Network),
-		fmt.Sprintf("%21s: %s", "IPV6", s.IPV6),
-		fmt.Sprintf("%21s: %d", "IPV6 NETWORK SIZE", s.IPV6NetworkSize),
-		fmt.Sprintf("%21s: %s", "LABEL", s.Label),
-		fmt.Sprintf("%21s: %s", "PRIVATE IP", s.PrivateIP),
-		fmt.Sprintf("%21s: %s", "KVM URL", s.KVMURL),
-		fmt.Sprintf("%21s: %s", "AUTO BACKUPS", strconv.FormatBool(s.AutoBackups)),
+		fmt.Sprintf("%21s: %d", "ID", o.Id),
+		fmt.Sprintf("%21s: %s", "OS", o.OS),
+		fmt.Sprintf("%21s: %s", "RAM", o.RAM),
+		fmt.Sprintf("%21s: %s", "DISK", o.Disk),
+		fmt.Sprintf("%21s: %s", "IPV4", o.IPV4),
+		fmt.Sprintf("%21s: %d", "CPUS", o.CPUs),
+		fmt.Sprintf("%21s: %s", "LOCATION", o.Location),
+		fmt.Sprintf("%21s: %d", "REGION ID", o.RegionId),
+		fmt.Sprintf("%21s: %s", "DEFAULT PASSWORD", o.DefaultPassword),
+		fmt.Sprintf("%21s: %s", "DATE CREATED", o.DateCreated),
+		fmt.Sprintf("%21s: %.2f", "PENDING CHARGES", o.PendingCharges),
+		fmt.Sprintf("%21s: %s", "STATUS", o.Status),
+		fmt.Sprintf("%21s: %s", "PRICE/MONTH", o.PricePerMonth),
+		fmt.Sprintf("%21s: %.2f", "CURRENT BANDWIDTH GB", o.CurrentBandwidthGB),
+		fmt.Sprintf("%21s: %s", "ALLOWED BANDWIDTH GB", o.AllowedBandwidthGB),
+		fmt.Sprintf("%21s: %s", "IPV4 NETMASK", o.IPV4Netmask),
+		fmt.Sprintf("%21s: %s", "IPV4 GATEWAY", o.IPV4Gateway),
+		fmt.Sprintf("%21s: %s", "POWER STATUS", o.PowerStatus),
+		fmt.Sprintf("%21s: %d", "PLAN ID", o.PlanId),
+		fmt.Sprintf("%21s: %s", "IPV6 NETWORK", o.IPV6Network),
+		fmt.Sprintf("%21s: %s", "IPV6", o.IPV6),
+		fmt.Sprintf("%21s: %d", "IPV6 NETWORK SIZE", o.IPV6NetworkSize),
+		fmt.Sprintf("%21s: %s", "LABEL", o.Label),
+		fmt.Sprintf("%21s: %s", "PRIVATE IP", o.PrivateIP),
+		fmt.Sprintf("%21s: %s", "KVM URL", o.KVMURL),
+		fmt.Sprintf("%21s: %s", "AUTO BACKUPS", strconv.FormatBool(o.AutoBackups)),
 	}, "\n")
 }
 
 type ServerDict map[int]Server
 
-func (d ServerDict) MarshalJSON() ([]byte, error) {
+func (o ServerDict) MarshalJSON() ([]byte, error) {
 	m := map[string]Server{}
 
-	for i, v := range d {
-		m[strconv.Itoa(i)] = v
+	for k, v := range o {
+		m[strconv.Itoa(k)] = v
 	}
 
 	return json.Marshal(m)
 }
 
-func (d *ServerDict) UnmarshalJSON(data []byte) error {
-	*d = ServerDict{}
+func (o *ServerDict) UnmarshalJSON(d []byte) error {
+	*o = ServerDict{}
 	
-	if string(data) == "[]" {
+	if string(d) == "[]" {
 		return nil
 	}
 
 	m := map[string]Server{}
 
-	if err := json.Unmarshal(data, &m); err != nil {
+	if err := json.Unmarshal(d, &m); err != nil {
 		return err
 	}
 
-	for s, v := range m {
-		i, err := strconv.Atoi(s)
+	for k, v := range m {
+		i, err := strconv.Atoi(k)
 		if err != nil {
 			return err
 		}
-		(*d)[i] = v
+		(*o)[i] = v
 	}
 
 	return nil
 }
 
-func (sd ServerDict) Slice() ServerSlice {
-	servers := []Server{}
+func (o ServerDict) Array() ServerArray {
+	a := []Server{}
 
-	for _, r := range sd {
-		servers = append(servers, r)
+	for _, r := range o {
+		a = append(a, r)
 	}
 
-	return servers
+	return a
 }
 
-func (sd ServerDict) String() string {
-	lines := []string{}
+func (o ServerDict) String() string {
+	l := []string{}
 
-	lines = append(lines, fmt.Sprintf(serverFormat, "LOCATION",
-		"LABEL", "IPV4", "STATUS", "ID"))
+	l = append(l, fmt.Sprintf(serverFormat, "LOCATION", "LABEL", "IPV4",
+		"STATUS", "ID"))
+	l = append(l, strings.Repeat("-", 78))
 
-	lines = append(lines, strings.Repeat("-", 78))
+	a := o.Array()
+	sort.Sort(a)
 
-	ss := sd.Slice()
-	sort.Sort(ss)
-
-	for _, r := range ss {
-		lines = append(lines, r.String())
+	for _, r := range a {
+		l = append(l, r.String())
 	}
 
-	return strings.Join(lines, "\n")
+	return strings.Join(l, "\n")
 }
 
-type ServerSlice []Server
+type ServerArray []Server
 
-func (ss ServerSlice) Len() int {
-	return len(ss)
+func (a ServerArray) Len() int {
+	return len(a)
 }
 
-func (ss ServerSlice) Less(i, j int) bool {
+func (a ServerArray) Less(i, j int) bool {
 	switch {
-	case ss[i].Location < ss[j].Location:
+	case a[i].Location < a[j].Location:
 		return true
-	case ss[i].Location > ss[j].Location:
+	case a[i].Location > a[j].Location:
 		return false
 	default:
 		switch {
-		case ss[i].Status < ss[j].Status:
+		case a[i].Status < a[j].Status:
 			return true
-		case ss[i].Status > ss[j].Status:
+		case a[i].Status > a[j].Status:
 			return false
 		default:
 			switch {
-			case ss[i].Label < ss[j].Label:
+			case a[i].Label < a[j].Label:
 				return true
-			case ss[i].Label > ss[j].Label:
+			case a[i].Label > a[j].Label:
 				return false
 			default:
-				return ss[i].IPV4 < ss[j].IPV4
+				return a[i].IPV4 < a[j].IPV4
 			}
 		}
 	}
 }
 
-func (ss ServerSlice) Swap(i, j int) {
+func (ss ServerArray) Swap(i, j int) {
 	ss[i], ss[j] = ss[j], ss[i]
 }

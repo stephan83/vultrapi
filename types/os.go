@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 )
 
+const osFormat = "%-16s | %-4s | %-45s | %s"
+
 type OS struct {
 	Id      int    `json:"OSID"`
 	Name    string `json:"name"`
@@ -15,10 +17,6 @@ type OS struct {
 	Family  string `json:"family"`
 	Windows bool   `json:"windows"`
 }
-
-const (
-	osFormat = "%-16s | %-4s | %-45s | %s"
-)
 
 func (o OS) String() string {
 	return fmt.Sprintf(osFormat, o.Family, o.Arch, o.Name,
@@ -30,8 +28,8 @@ type OSDict map[int]OS
 func (o OSDict) MarshalJSON() ([]byte, error) {
 	m := map[string]OS{}
 
-	for i, v := range o {
-		m[strconv.Itoa(i)] = v
+	for k, v := range o {
+		m[strconv.Itoa(k)] = v
 	}
 
 	return json.Marshal(m)
@@ -50,8 +48,8 @@ func (o *OSDict) UnmarshalJSON(d []byte) error {
 		return err
 	}
 
-	for s, v := range m {
-		i, err := strconv.Atoi(s)
+	for k, v := range m {
+		i, err := strconv.Atoi(k)
 		if err != nil {
 			return err
 		}
@@ -61,7 +59,7 @@ func (o *OSDict) UnmarshalJSON(d []byte) error {
 	return nil
 }
 
-func (o OSDict) Slice() OSSlice {
+func (o OSDict) Array() OSArray {
 	a := []OS{}
 
 	for _, v := range o {
@@ -77,7 +75,7 @@ func (o OSDict) String() string {
 	l = append(l, fmt.Sprintf(osFormat, "FAMILY", "ARCH", "NAME", "ID"))
 	l = append(l, strings.Repeat("-", 78))
 
-	a := o.Slice()
+	a := o.Array()
 	sort.Sort(a)
 
 	for _, v := range a {
@@ -87,30 +85,30 @@ func (o OSDict) String() string {
 	return strings.Join(l, "\n")
 }
 
-type OSSlice []OS
+type OSArray []OS
 
-func (o OSSlice) Len() int {
-	return len(o)
+func (a OSArray) Len() int {
+	return len(a)
 }
 
-func (o OSSlice) Less(i, j int) bool {
+func (a OSArray) Less(i, j int) bool {
 	switch {
-	case o[i].Family < o[j].Family:
+	case a[i].Family < a[j].Family:
 		return true
-	case o[i].Family > o[j].Family:
+	case a[i].Family > a[j].Family:
 		return false
 	default:
 		switch {
-		case o[i].Arch < o[j].Arch:
+		case a[i].Arch < a[j].Arch:
 			return true
-		case o[i].Arch > o[j].Arch:
+		case a[i].Arch > a[j].Arch:
 			return false
 		default:
-			return o[i].Name < o[j].Name
+			return a[i].Name < a[j].Name
 		}
 	}
 }
 
-func (o OSSlice) Swap(i, j int) {
-	o[i], o[j] = o[j], o[i]
+func (a OSArray) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
 }

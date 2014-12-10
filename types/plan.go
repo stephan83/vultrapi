@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 )
 
+const planFormat = "%-50s | %-4s | %-11s | %s"
+
 type Plan struct {
 	Id            int    `json:"VPSPLANID,string"`
 	Name          string `json:"name"`
@@ -19,110 +21,105 @@ type Plan struct {
 	Windows       bool   `json:"windows"`
 }
 
-const (
-	planFormat = "%-50s | %-4s | %-11s | %s"
-)
-
-func (r Plan) String() string {
-	return fmt.Sprintf(planFormat, r.Name, strconv.Itoa(r.CPUs),
-		r.PricePerMonth, strconv.Itoa(r.Id))
+func (o Plan) String() string {
+	return fmt.Sprintf(planFormat, o.Name, strconv.Itoa(o.CPUs),
+		o.PricePerMonth, strconv.Itoa(o.Id))
 }
 
 type PlanDict map[int]Plan
 
-func (d PlanDict) MarshalJSON() ([]byte, error) {
+func (o PlanDict) MarshalJSON() ([]byte, error) {
 	m := map[string]Plan{}
 
-	for i, v := range d {
-		m[strconv.Itoa(i)] = v
+	for k, v := range o {
+		m[strconv.Itoa(k)] = v
 	}
 
 	return json.Marshal(m)
 }
 
-func (d *PlanDict) UnmarshalJSON(data []byte) error {
-	*d = PlanDict{}
+func (o *PlanDict) UnmarshalJSON(d []byte) error {
+	*o = PlanDict{}
 
-	if string(data) == "[]" {
+	if string(d) == "[]" {
 		return nil
 	}
 
 	m := map[string]Plan{}
 
-	if err := json.Unmarshal(data, &m); err != nil {
+	if err := json.Unmarshal(d, &m); err != nil {
 		return err
 	}
 
-	for s, v := range m {
-		i, err := strconv.Atoi(s)
+	for k, v := range m {
+		i, err := strconv.Atoi(k)
 		if err != nil {
 			return err
 		}
-		(*d)[i] = v
+		(*o)[i] = v
 	}
 
 	return nil
 }
 
-func (pd PlanDict) Slice() PlanSlice {
-	plans := []Plan{}
+func (o PlanDict) Array() PlanArray {
+	a := []Plan{}
 
-	for _, p := range pd {
-		plans = append(plans, p)
+	for _, v := range o {
+		a = append(a, v)
 	}
 
-	return plans
+	return a
 }
 
-func (pd PlanDict) String() string {
-	lines := []string{}
+func (o PlanDict) String() string {
+	l := []string{}
 
-	lines = append(lines, fmt.Sprintf(planFormat, "NAME",
-		"CPUS", "PRICE/MONTH", "ID"))
+	l = append(l, fmt.Sprintf(planFormat, "NAME", "CPUS", "PRICE/MONTH",
+		"ID"))
+	l = append(l, strings.Repeat("-", 78))
 
-	lines = append(lines, strings.Repeat("-", 78))
+	a := o.Array()
+	sort.Sort(a)
 
-	ps := pd.Slice()
-	sort.Sort(ps)
-
-	for _, r := range ps {
-		lines = append(lines, r.String())
+	for _, r := range a {
+		l = append(l, r.String())
 	}
 
-	return strings.Join(lines, "\n")
+	return strings.Join(l, "\n")
 }
 
-type PlanSlice []Plan
+type PlanArray []Plan
 
-func (ps PlanSlice) Len() int {
-	return len(ps)
+func (a PlanArray) Len() int {
+	return len(a)
 }
 
-func (ps PlanSlice) Less(i, j int) bool {
+func (a PlanArray) Less(i, j int) bool {
 	switch {
-	case ps[i].CPUs < ps[j].CPUs:
+	case a[i].CPUs < a[j].CPUs:
 		return true
-	case ps[i].CPUs > ps[j].CPUs:
+	case a[i].CPUs > a[j].CPUs:
 		return false
 	default:
 		switch {
-		case ps[i].RAM < ps[j].RAM:
+		case a[i].RAM < a[j].RAM:
 			return true
-		case ps[i].RAM > ps[j].RAM:
+		case a[i].RAM > a[j].RAM:
 			return false
 		default:
 			switch {
-			case ps[i].Disk < ps[j].Disk:
+			case a[i].Disk < a[j].Disk:
 				return true
-			case ps[i].Disk > ps[j].Disk:
+			case a[i].Disk > a[j].Disk:
 				return false
 			default:
-				return ps[i].Name < ps[j].Name
+				return a[i].Name < a[j].Name
 			}
 		}
 	}
 }
 
-func (ps PlanSlice) Swap(i, j int) {
-	ps[i], ps[j] = ps[j], ps[i]
+func (a PlanArray) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
 }

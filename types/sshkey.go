@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 )
 
+const keyFormat = "%-39s | %-19s | %s"
+
 type SSHKey struct {
 	Id          string `json:"SSHKEYID"`
 	Name        string `json:"name"`
@@ -14,97 +16,91 @@ type SSHKey struct {
 	Key         string `json:"ssh_key"`
 }
 
-const (
-	keyFormat = "%-39s | %-19s | %s"
-)
-
-func (s SSHKey) String() string {
-	return fmt.Sprintf(keyFormat, s.Name, s.DateCreated, s.Id)
+func (o SSHKey) String() string {
+	return fmt.Sprintf(keyFormat, o.Name, o.DateCreated, o.Id)
 }
 
-func (s SSHKey) Details() string {
+func (o SSHKey) Details() string {
 	return strings.Join([]string{
-		fmt.Sprintf("%12s: %s", "ID", s.Id),
-		fmt.Sprintf("%12s: %s", "NAME", s.Name),
-		fmt.Sprintf("%12s: %s", "DATE CREATED", s.DateCreated),
-		fmt.Sprintf("%12s: %s", "KEY", s.Key),
+		fmt.Sprintf("%12s: %s", "ID", o.Id),
+		fmt.Sprintf("%12s: %s", "NAME", o.Name),
+		fmt.Sprintf("%12s: %s", "DATE CREATED", o.DateCreated),
+		fmt.Sprintf("%12s: %s", "KEY", o.Key),
 	}, "\n")
 }
 
 type SSHKeyDict map[string]SSHKey
 
-func (d *SSHKeyDict) UnmarshalJSON(data []byte) error {
-	*d = SSHKeyDict{}
+func (o *SSHKeyDict) UnmarshalJSON(d []byte) error {
+	*o = SSHKeyDict{}
 	
-	if string(data) == "[]" {
+	if string(d) == "[]" {
 		return nil
 	}
 
 	m := map[string]SSHKey{}
 
-	if err := json.Unmarshal(data, &m); err != nil {
+	if err := json.Unmarshal(d, &m); err != nil {
 		return err
 	}
 
-	for s, v := range m {
-		(*d)[s] = v
+	for k, v := range m {
+		(*o)[k] = v
 	}
 
 	return nil
 }
 
-func (sd SSHKeyDict) Slice() SSHKeySlice {
+func (o SSHKeyDict) Array() SSHKeyArray {
 	keys := []SSHKey{}
 
-	for _, s := range sd {
+	for _, s := range o {
 		keys = append(keys, s)
 	}
 
 	return keys
 }
 
-func (sd SSHKeyDict) String() string {
-	lines := []string{}
+func (o SSHKeyDict) String() string {
+	l := []string{}
 
-	lines = append(lines, fmt.Sprintf(keyFormat, "NAME",
-		"DATE CREATED", "ID"))
+	l = append(l, fmt.Sprintf(keyFormat, "NAME", "DATE CREATED", "ID"))
+	l = append(l, strings.Repeat("-", 78))
 
-	lines = append(lines, strings.Repeat("-", 78))
+	a := o.Array()
+	sort.Sort(a)
 
-	ss := sd.Slice()
-	sort.Sort(ss)
-
-	for _, s := range ss {
-		lines = append(lines, s.String())
+	for _, s := range a {
+		l = append(l, s.String())
 	}
 
-	return strings.Join(lines, "\n")
+	return strings.Join(l, "\n")
 }
 
-type SSHKeySlice []SSHKey
+type SSHKeyArray []SSHKey
 
-func (ss SSHKeySlice) Len() int {
-	return len(ss)
+func (a SSHKeyArray) Len() int {
+	return len(a)
 }
 
-func (ss SSHKeySlice) Less(i, j int) bool {
+func (a SSHKeyArray) Less(i, j int) bool {
 	switch {
-	case ss[i].Name < ss[j].Name:
+	case a[i].Name < a[j].Name:
 		return true
-	case ss[i].Name > ss[j].Name:
+	case a[i].Name > a[j].Name:
 		return false
 	default:
 		switch {
-		case ss[i].DateCreated < ss[j].DateCreated:
+		case a[i].DateCreated < a[j].DateCreated:
 			return true
-		case ss[i].DateCreated > ss[j].DateCreated:
+		case a[i].DateCreated > a[j].DateCreated:
 			return false
 		default:
-			return ss[i].Id < ss[j].Id
+			return a[i].Id < a[j].Id
 		}
 	}
 }
 
-func (ss SSHKeySlice) Swap(i, j int) {
-	ss[i], ss[j] = ss[j], ss[i]
+func (a SSHKeyArray) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
 }

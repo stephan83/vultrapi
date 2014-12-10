@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 )
 
+const regionFormat = "%-20s | %-7s | %-5s | %-30s | %s"
+
 type Region struct {
 	Id        int    `json:"DCID,string"`
 	Name      string `json:"name"`
@@ -16,110 +18,105 @@ type Region struct {
 	State     string `json:"state"`
 }
 
-const (
-	regionFormat = "%-20s | %-7s | %-5s | %-30s | %s"
-)
-
-func (r Region) String() string {
-	return fmt.Sprintf(regionFormat, r.Continent, r.Country, r.State,
-		r.Name, strconv.Itoa(r.Id))
+func (o Region) String() string {
+	return fmt.Sprintf(regionFormat, o.Continent, o.Country, o.State,
+		o.Name, strconv.Itoa(o.Id))
 }
 
 type RegionDict map[int]Region
 
-func (d RegionDict) MarshalJSON() ([]byte, error) {
+func (o RegionDict) MarshalJSON() ([]byte, error) {
 	m := map[string]Region{}
 
-	for i, v := range d {
-		m[strconv.Itoa(i)] = v
+	for k, v := range o {
+		m[strconv.Itoa(k)] = v
 	}
 
 	return json.Marshal(m)
 }
 
-func (d *RegionDict) UnmarshalJSON(data []byte) error {
-	*d = RegionDict{}
+func (o *RegionDict) UnmarshalJSON(d []byte) error {
+	*o = RegionDict{}
 
-	if string(data) == "[]" {
+	if string(d) == "[]" {
 		return nil
 	}
 
 	m := map[string]Region{}
 
-	if err := json.Unmarshal(data, &m); err != nil {
+	if err := json.Unmarshal(d, &m); err != nil {
 		return err
 	}
 
-	for s, v := range m {
-		i, err := strconv.Atoi(s)
+	for k, v := range m {
+		i, err := strconv.Atoi(k)
 		if err != nil {
 			return err
 		}
-		(*d)[i] = v
+		(*o)[i] = v
 	}
 
 	return nil
 }
 
-func (rd RegionDict) Slice() RegionSlice {
-	regions := []Region{}
+func (o RegionDict) Array() RegionArray {
+	a := []Region{}
 
-	for _, r := range rd {
-		regions = append(regions, r)
+	for _, v := range o {
+		a = append(a, v)
 	}
 
-	return regions
+	return a
 }
 
-func (rd RegionDict) String() string {
-	lines := []string{}
+func (o RegionDict) String() string {
+	l := []string{}
 
-	lines = append(lines, fmt.Sprintf(regionFormat, "CONTINENT",
-		"COUNTRY", "STATE", "NAME", "ID"))
+	l = append(l, fmt.Sprintf(regionFormat, "CONTINENT", "COUNTRY",
+		"STATE", "NAME", "ID"))
+	l = append(l, strings.Repeat("-", 78))
 
-	lines = append(lines, strings.Repeat("-", 78))
+	a := o.Array()
+	sort.Sort(a)
 
-	rs := rd.Slice()
-	sort.Sort(rs)
-
-	for _, r := range rs {
-		lines = append(lines, r.String())
+	for _, r := range a {
+		l = append(l, r.String())
 	}
 
-	return strings.Join(lines, "\n")
+	return strings.Join(l, "\n")
 }
 
-type RegionSlice []Region
+type RegionArray []Region
 
-func (rs RegionSlice) Len() int {
-	return len(rs)
+func (a RegionArray) Len() int {
+	return len(a)
 }
 
-func (rs RegionSlice) Less(i, j int) bool {
+func (a RegionArray) Less(i, j int) bool {
 	switch {
-	case rs[i].Continent < rs[j].Continent:
+	case a[i].Continent < a[j].Continent:
 		return true
-	case rs[i].Continent > rs[j].Continent:
+	case a[i].Continent > a[j].Continent:
 		return false
 	default:
 		switch {
-		case rs[i].Country < rs[j].Country:
+		case a[i].Country < a[j].Country:
 			return true
-		case rs[i].Country > rs[j].Country:
+		case a[i].Country > a[j].Country:
 			return false
 		default:
 			switch {
-			case rs[i].State < rs[j].State:
+			case a[i].State < a[j].State:
 				return true
-			case rs[i].State > rs[j].State:
+			case a[i].State > a[j].State:
 				return false
 			default:
-				return rs[i].Name < rs[j].Name
+				return a[i].Name < a[j].Name
 			}
 		}
 	}
 }
 
-func (rs RegionSlice) Swap(i, j int) {
-	rs[i], rs[j] = rs[j], rs[i]
+func (a RegionArray) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
 }

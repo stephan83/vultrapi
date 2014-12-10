@@ -1,8 +1,6 @@
 package types
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type Account struct {
 	Balance           int     `json:"balance"`
@@ -11,10 +9,10 @@ type Account struct {
 	LastPaymentAmount string  `json:"last_payment_amount"`
 }
 
-func (a Account) String() string {
-	return fmt.Sprintf("%20s %d\n%20s %.2f\n%20s %s\n%20s %s",
-		"BALANCE:", a.Balance,
-		"PENDING CHARGES:", a.PendingCharges,
-		"LAST PAYMENT DATE:", a.LastPaymentDate,
-		"LAST PAYMENT AMOUNT:", a.LastPaymentAmount)
+func (o Account) String() string {
+	return fmt.Sprintf("%19s: %d\n%19s: %.2f\n%19s: %s\n%19s: %s",
+		"BALANCE", o.Balance,
+		"PENDING CHARGES", o.PendingCharges,
+		"LAST PAYMENT DATE", o.LastPaymentDate,
+		"LAST PAYMENT AMOUNT", o.LastPaymentAmount)
 }
