@@ -45,7 +45,7 @@ func ExampleHelpCreateServer() {
 	//   -label="": Label
 	//   -script_id=0: Script ID
 	//   -snapshot_id=0: Snapshot ID
-	//   -ssh_key_id=0: SSH key ID
+	//   -ssh_key_id="": SSH key ID
 }
 
 func TestHelpNotEnoughArgs(t *testing.T) {

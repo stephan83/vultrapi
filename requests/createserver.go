@@ -18,7 +18,7 @@ type CreateServerOptions struct {
 	EnableIPV6           bool
 	EnablePrivateNetwork bool
 	Label                string
-	SSHKeyId             int
+	SSHKeyId             string
 	EnableAutoBackups    bool
 }
 
@@ -52,8 +52,8 @@ func PostCreateServer(c Client, APIKey string, regionId, plandId, osId int,
 	if options.Label != "" {
 		values["label"] = []string{options.Label}
 	}
-	if options.SSHKeyId > 0 {
-		values["ssh_key_id"] = []string{strconv.Itoa(options.SSHKeyId)}
+	if options.SSHKeyId != "" {
+		values["ssh_key_id"] = []string{options.SSHKeyId}
 	}
 	if options.EnableAutoBackups {
 		values["auto_backups"] = []string{"yes"}

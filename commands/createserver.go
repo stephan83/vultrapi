@@ -41,8 +41,8 @@ func NewCreateServer() Command {
 	cs.flagSet.StringVar(&cs.options.Label,
 		"label", "",
 		"Label")
-	cs.flagSet.IntVar(&cs.options.SSHKeyId,
-		"ssh_key_id", 0,
+	cs.flagSet.StringVar(&cs.options.SSHKeyId,
+		"ssh_key_id", "",
 		"SSH key ID")
 	cs.flagSet.BoolVar(&cs.options.EnableAutoBackups,
 		"enable_auto_backups", false,
