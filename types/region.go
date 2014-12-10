@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"encoding/json"
 )
 
 type Region struct {
@@ -24,7 +25,41 @@ func (r Region) String() string {
 		r.Name, strconv.Itoa(r.Id))
 }
 
-type RegionDict map[string]Region
+type RegionDict map[int]Region
+
+func (d RegionDict) MarshalJSON() ([]byte, error) {
+	m := map[string]Region{}
+
+	for i, v := range d {
+		m[strconv.Itoa(i)] = v
+	}
+
+	return json.Marshal(m)
+}
+
+func (d *RegionDict) UnmarshalJSON(data []byte) error {
+	*d = RegionDict{}
+
+	if string(data) == "[]" {
+		return nil
+	}
+
+	m := map[string]Region{}
+
+	if err := json.Unmarshal(data, &m); err != nil {
+		return err
+	}
+
+	for s, v := range m {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			return err
+		}
+		(*d)[i] = v
+	}
+
+	return nil
+}
 
 func (rd RegionDict) Slice() RegionSlice {
 	regions := []Region{}

@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"encoding/json"
 )
 
 type OS struct {
@@ -24,7 +25,41 @@ func (o OS) String() string {
 		strconv.Itoa(o.Id))
 }
 
-type OSDict map[string]OS
+type OSDict map[int]OS
+
+func (d OSDict) MarshalJSON() ([]byte, error) {
+	m := map[string]OS{}
+
+	for i, v := range d {
+		m[strconv.Itoa(i)] = v
+	}
+
+	return json.Marshal(m)
+}
+
+func (d *OSDict) UnmarshalJSON(data []byte) error {
+	*d = OSDict{}
+
+	if string(data) == "[]" {
+		return nil
+	}
+
+	m := map[string]OS{}
+
+	if err := json.Unmarshal(data, &m); err != nil {
+		return err
+	}
+
+	for s, v := range m {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			return err
+		}
+		(*d)[i] = v
+	}
+
+	return nil
+}
 
 func (od OSDict) Slice() OSSlice {
 	OSs := []OS{}
@@ -39,8 +74,8 @@ func (od OSDict) Slice() OSSlice {
 func (od OSDict) String() string {
 	lines := []string{}
 
-	lines = append(lines, fmt.Sprintf(osFormat, "FAMILY",
-		"ARCH", "NAME", "ID"))
+	lines = append(lines, fmt.Sprintf(osFormat, "FAMILY", "ARCH", "NAME",
+		"ID"))
 
 	lines = append(lines, strings.Repeat("-", 78))
 

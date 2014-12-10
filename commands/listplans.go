@@ -8,7 +8,6 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 	"github.com/stephan83/vultrapi/types"
 	"os"
-	"strconv"
 )
 
 type listPlans struct {
@@ -62,7 +61,7 @@ func (lp *listPlans) Exec(c Client, args []string, _ string) (err error) {
 		regionPlans := types.PlanDict{}
 
 		for _, plan := range a {
-			key := strconv.Itoa(plan)
+			key := plan
 			regionPlans[key] = plans[key]
 		}
 

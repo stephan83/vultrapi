@@ -5,6 +5,7 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
+	"strconv"
 )
 
 type server struct{}
@@ -39,7 +40,13 @@ func (_ server) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	s, ok := sd[args[0]]
+	id, err := strconv.Atoi(args[0])
+	if err != nil {
+		err = ErrUsage{}
+		return
+	}
+
+	s, ok := sd[id]
 	if !ok {
 		err = ErrNotFound{}
 		return

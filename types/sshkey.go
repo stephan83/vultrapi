@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"encoding/json"
 )
 
 type SSHKey struct {
@@ -31,6 +32,26 @@ func (s SSHKey) Details() string {
 }
 
 type SSHKeyDict map[string]SSHKey
+
+func (d *SSHKeyDict) UnmarshalJSON(data []byte) error {
+	*d = SSHKeyDict{}
+	
+	if string(data) == "[]" {
+		return nil
+	}
+
+	m := map[string]SSHKey{}
+
+	if err := json.Unmarshal(data, &m); err != nil {
+		return err
+	}
+
+	for s, v := range m {
+		(*d)[s] = v
+	}
+
+	return nil
+}
 
 func (sd SSHKeyDict) Slice() SSHKeySlice {
 	keys := []SSHKey{}

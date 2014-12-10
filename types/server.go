@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"encoding/json"
 )
 
 type Server struct {
@@ -77,7 +78,41 @@ func (s Server) Details() string {
 	}, "\n")
 }
 
-type ServerDict map[string]Server
+type ServerDict map[int]Server
+
+func (d ServerDict) MarshalJSON() ([]byte, error) {
+	m := map[string]Server{}
+
+	for i, v := range d {
+		m[strconv.Itoa(i)] = v
+	}
+
+	return json.Marshal(m)
+}
+
+func (d *ServerDict) UnmarshalJSON(data []byte) error {
+	*d = ServerDict{}
+	
+	if string(data) == "[]" {
+		return nil
+	}
+
+	m := map[string]Server{}
+
+	if err := json.Unmarshal(data, &m); err != nil {
+		return err
+	}
+
+	for s, v := range m {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			return err
+		}
+		(*d)[i] = v
+	}
+
+	return nil
+}
 
 func (sd ServerDict) Slice() ServerSlice {
 	servers := []Server{}

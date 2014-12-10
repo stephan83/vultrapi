@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"encoding/json"
 )
 
 type Plan struct {
@@ -27,7 +28,41 @@ func (r Plan) String() string {
 		r.PricePerMonth, strconv.Itoa(r.Id))
 }
 
-type PlanDict map[string]Plan
+type PlanDict map[int]Plan
+
+func (d PlanDict) MarshalJSON() ([]byte, error) {
+	m := map[string]Plan{}
+
+	for i, v := range d {
+		m[strconv.Itoa(i)] = v
+	}
+
+	return json.Marshal(m)
+}
+
+func (d *PlanDict) UnmarshalJSON(data []byte) error {
+	*d = PlanDict{}
+
+	if string(data) == "[]" {
+		return nil
+	}
+
+	m := map[string]Plan{}
+
+	if err := json.Unmarshal(data, &m); err != nil {
+		return err
+	}
+
+	for s, v := range m {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			return err
+		}
+		(*d)[i] = v
+	}
+
+	return nil
+}
 
 func (pd PlanDict) Slice() PlanSlice {
 	plans := []Plan{}
