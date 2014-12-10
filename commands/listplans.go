@@ -8,6 +8,8 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 	"github.com/stephan83/vultrapi/types"
 	"os"
+	"sort"
+	"text/tabwriter"
 )
 
 type listPlans struct {
@@ -16,11 +18,11 @@ type listPlans struct {
 }
 
 func NewListPlans() Command {
-	lp := listPlans{
+	o := listPlans{
 		flagSet: flag.NewFlagSet("listplans", flag.ContinueOnError),
 	}
-	lp.flagSet.IntVar(&lp.regionId, "region", 0, "limit to region id")
-	return &lp
+	o.flagSet.IntVar(&o.regionId, "region", 0, "limit to region id")
+	return &o
 }
 
 func (_ *listPlans) Args() string {
@@ -35,40 +37,52 @@ func (_ *listPlans) NeedsKey() bool {
 	return false
 }
 
-func (lp *listPlans) PrintOptions() {
-	lp.flagSet.SetOutput(os.Stdout)
-	lp.flagSet.PrintDefaults()
-	lp.flagSet.SetOutput(os.Stderr)
+func (o *listPlans) PrintOptions() {
+	o.flagSet.SetOutput(os.Stdout)
+	o.flagSet.PrintDefaults()
+	o.flagSet.SetOutput(os.Stderr)
 }
 
-func (lp *listPlans) Exec(c Client, args []string, _ string) (err error) {
-	err = lp.flagSet.Parse(args)
+func (o *listPlans) Exec(c Client, args []string, _ string) (err error) {
+	err = o.flagSet.Parse(args)
 	if err != nil {
 		return ErrUsage{}
 	}
 
-	plans, err := requests.GetPlans(c)
+	r, err := requests.GetPlans(c)
 	if err != nil {
 		return
 	}
 
-	if lp.regionId > 0 {
-		a, err := requests.GetRegionAvailability(c, lp.regionId)
+	if o.regionId > 0 {
+		a, err := requests.GetRegionAvailability(c, o.regionId)
 		if err != nil {
 			return err
 		}
 
-		regionPlans := types.PlanMap{}
+		filtered := types.PlanMap{}
 
 		for _, plan := range a {
 			key := plan
-			regionPlans[key] = plans[key]
+			filtered[key] = r[key]
 		}
 
-		plans = regionPlans
+		r = filtered
 	}
 
-	fmt.Println(plans)
+	a := r.Array()
+	sort.Sort(a)
+
+	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+
+	fmt.Fprintln(w, "ID\tNAME\tCPUS\tPRICE/MONTH")
+
+	for _, v := range a {
+		fmt.Fprintf(w, "%d\t%s\t%d\t%.2f\n", v.Id, v.Name, v.CPUs,
+			v.PricePerMonth)
+	}
+
+	w.Flush()
 
 	return
 }

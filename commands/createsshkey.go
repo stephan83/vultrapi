@@ -26,30 +26,30 @@ func (_ createSSHKey) Desc() string {
 	return "Creates an SSH key."
 }
 
-func (cs createSSHKey) PrintOptions() {
+func (_ createSSHKey) PrintOptions() {
 	fmt.Println("None.")
 }
 
-func (s createSSHKey) Exec(c Client, args []string, key string) (err error) {
+func (_ createSSHKey) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 2 {
 		err = ErrUsage{}
 		return
 	}
 
 	name := args[0]
-	keyPath := args[1]
+	path := args[1]
 
-	sshkey, err := ioutil.ReadFile(keyPath)
+	d, err := ioutil.ReadFile(path)
 	if err != nil {
 		return
 	}
 
-	id, err := requests.PostCreateSSHKey(c, key, name, string(sshkey))
+	id, err := requests.PostCreateSSHKey(c, key, name, string(d))
 	if err != nil {
 		return
 	}
 
-	fmt.Printf("SSH KEY ID: %s\n", id)
+	fmt.Printf("SSH KEY ID:\t%s\n", id)
 
 	return
 }

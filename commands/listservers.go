@@ -7,6 +7,8 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"os"
+	"sort"
+	"text/tabwriter"
 )
 
 type listServers struct {
@@ -16,12 +18,12 @@ type listServers struct {
 }
 
 func NewListServers() Command {
-	ls := listServers{
+	o := listServers{
 		flagSet: flag.NewFlagSet("listservers", flag.ContinueOnError),
 	}
-	ls.flagSet.IntVar(&ls.regionId, "region", 0, "limit to region id")
-	ls.flagSet.IntVar(&ls.planId, "plan", 0, "limit to plan id")
-	return &ls
+	o.flagSet.IntVar(&o.regionId, "region", 0, "limit to region id")
+	o.flagSet.IntVar(&o.planId, "plan", 0, "limit to plan id")
+	return &o
 }
 
 func (_ *listServers) NeedsKey() bool {
@@ -36,44 +38,56 @@ func (_ *listServers) Desc() string {
 	return "List all servers."
 }
 
-func (ls *listServers) PrintOptions() {
-	ls.flagSet.SetOutput(os.Stdout)
-	ls.flagSet.PrintDefaults()
-	ls.flagSet.SetOutput(os.Stderr)
+func (o *listServers) PrintOptions() {
+	o.flagSet.SetOutput(os.Stdout)
+	o.flagSet.PrintDefaults()
+	o.flagSet.SetOutput(os.Stderr)
 }
 
-func (ls *listServers) Exec(c Client, args []string, key string) (err error) {
-	err = ls.flagSet.Parse(args)
+func (o *listServers) Exec(c Client, args []string, key string) (err error) {
+	err = o.flagSet.Parse(args)
 	if err != nil {
 		return ErrUsage{}
 	}
 
-	s, err := requests.GetServers(c, key)
+	r, err := requests.GetServers(c, key)
 	if err != nil {
 		return
 	}
 
-	if ls.regionId > 0 && ls.planId > 0 {
-		for id, v := range s {
-			if v.RegionId != ls.regionId || v.PlanId != ls.planId {
-				delete(s, id)
+	if o.regionId > 0 && o.planId > 0 {
+		for id, v := range r {
+			if v.RegionId != o.regionId || v.PlanId != o.planId {
+				delete(r, id)
 			}
 		}
-	} else if ls.regionId > 0 {
-		for id, v := range s {
-			if v.RegionId != ls.regionId {
-				delete(s, id)
+	} else if o.regionId > 0 {
+		for id, v := range r {
+			if v.RegionId != o.regionId {
+				delete(r, id)
 			}
 		}
-	} else if ls.planId > 0 {
-		for id, v := range s {
-			if v.PlanId != ls.planId {
-				delete(s, id)
+	} else if o.planId > 0 {
+		for id, v := range r {
+			if v.PlanId != o.planId {
+				delete(r, id)
 			}
 		}
 	}
 
-	fmt.Println(s)
+	a := r.Array()
+	sort.Sort(a)
+
+	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+
+	fmt.Fprintln(w, "ID\tLOCATION\tOS\tIPV4\tSTATUS\tLABEL")
+
+	for _, v := range a {
+		fmt.Fprintf(w, "%d\t%s\t%s\t%s\t%s\t%s\n", v.Id, v.Location,
+			v.OS, v.IPV4, v.Status, v.Label)
+	}
+
+	w.Flush()
 
 	return
 }

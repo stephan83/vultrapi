@@ -6,27 +6,26 @@ func ExampleListOS() {
 	c := NewTestClient(200, _os)
 	NewListOS().Exec(c, []string{}, "")
 	// Output:
-	// FAMILY           | ARCH | NAME                                          | ID
-	// ------------------------------------------------------------------------------
-	// backup           | x64  | Backup                                        | 180
-	// centos           | i386 | CentOS 5 i386                                 | 163
-	// centos           | i386 | CentOS 6 i386                                 | 147
-	// centos           | x64  | CentOS 5 x64                                  | 162
-	// centos           | x64  | CentOS 6 x64                                  | 127
-	// centos           | x64  | CentOS 7 x64                                  | 167
-	// coreos           | x64  | CoreOS Stable                                 | 179
-	// debian           | i386 | Debian 7 i386 (wheezy)                        | 152
-	// debian           | x64  | Debian 7 x64 (wheezy)                         | 139
-	// freebsd          | x64  | FreeBSD 10 x64                                | 140
-	// iso              | x64  | Custom                                        | 159
-	// snapshot         | x64  | Snapshot                                      | 164
-	// ubuntu           | i386 | Ubuntu 12.04 i386                             | 148
-	// ubuntu           | i386 | Ubuntu 14.04 i386                             | 161
-	// ubuntu           | i386 | Ubuntu 14.10 i386                             | 182
-	// ubuntu           | x64  | Ubuntu 12.04 x64                              | 128
-	// ubuntu           | x64  | Ubuntu 14.04 x64                              | 160
-	// ubuntu           | x64  | Ubuntu 14.10 x64                              | 181
-	// windows          | x64  | Windows 2012 R2 x64                           | 124
+	// ID	NAME			FAMILY		ARCH	WINDOWS
+	// 180	Backup			backup		x64	false
+	// 163	CentOS 5 i386		centos		i386	false
+	// 147	CentOS 6 i386		centos		i386	false
+	// 162	CentOS 5 x64		centos		x64	false
+	// 127	CentOS 6 x64		centos		x64	false
+	// 167	CentOS 7 x64		centos		x64	false
+	// 179	CoreOS Stable		coreos		x64	false
+	// 152	Debian 7 i386 (wheezy)	debian		i386	false
+	// 139	Debian 7 x64 (wheezy)	debian		x64	false
+	// 140	FreeBSD 10 x64		freebsd		x64	false
+	// 159	Custom			iso		x64	false
+	// 164	Snapshot		snapshot	x64	false
+	// 148	Ubuntu 12.04 i386	ubuntu		i386	false
+	// 161	Ubuntu 14.04 i386	ubuntu		i386	false
+	// 182	Ubuntu 14.10 i386	ubuntu		i386	false
+	// 128	Ubuntu 12.04 x64	ubuntu		x64	false
+	// 160	Ubuntu 14.04 x64	ubuntu		x64	false
+	// 181	Ubuntu 14.10 x64	ubuntu		x64	false
+	// 124	Windows 2012 R2 x64	windows		x64	true
 }
 
 var _os = []byte(`{

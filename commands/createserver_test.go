@@ -9,7 +9,7 @@ import (
 func ExampleCreateServer() {
 	c := NewTestClient(200, []byte(`{"SUBID": "123456"}`))
 	NewCreateServer().Exec(c, []string{"1", "2", "3"}, "SECRET_KEY")
-	// Output: SERVER ID: 123456
+	// Output: SERVER ID:	123456
 }
 
 func TestCreateServerNotEnoughArgs(t *testing.T) {

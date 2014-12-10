@@ -2,13 +2,8 @@ package types
 
 import (
 	"encoding/json"
-	"fmt"
-	"sort"
 	"strconv"
-	"strings"
 )
-
-const planFormat = "%-50s | %-4s | %-11s | %s"
 
 type Plan struct {
 	Id            int     `json:"VPSPLANID,string"`
@@ -19,11 +14,6 @@ type Plan struct {
 	Bandwidth     float64 `json:"bandwidth,string"`
 	PricePerMonth float64 `json:"price_per_month,string"`
 	Windows       bool    `json:"windows"`
-}
-
-func (o Plan) String() string {
-	return fmt.Sprintf(planFormat, o.Name, strconv.Itoa(o.CPUs),
-		fmt.Sprintf("%.2f", o.PricePerMonth), strconv.Itoa(o.Id))
 }
 
 type PlanMap map[int]Plan
@@ -70,23 +60,6 @@ func (o PlanMap) Array() PlanArray {
 	}
 
 	return a
-}
-
-func (o PlanMap) String() string {
-	l := []string{}
-
-	l = append(l, fmt.Sprintf(planFormat, "NAME", "CPUS", "PRICE/MONTH",
-		"ID"))
-	l = append(l, strings.Repeat("-", 78))
-
-	a := o.Array()
-	sort.Sort(a)
-
-	for _, r := range a {
-		l = append(l, r.String())
-	}
-
-	return strings.Join(l, "\n")
 }
 
 type PlanArray []Plan

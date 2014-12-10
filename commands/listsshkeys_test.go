@@ -6,10 +6,9 @@ func ExampleListSSHKeys() {
 	c := NewTestClient(200, keys)
 	NewListSSHKeys().Exec(c, []string{}, "")
 	// Output:
-	// NAME                              | DATE CREATED              | ID
-	// ------------------------------------------------------------------------------
-	// test1                             | 2014-12-09 23:29:48 +0000 | 548785eca773d
-	// test2                             | 2014-12-09 23:30:34 +0000 | 5487861ad6c8a
+	// ID		NAME	DATE CREATED
+	// 548785eca773d	test1	2014-12-09 23:29:48 +0000
+	// 5487861ad6c8a	test2	2014-12-09 23:30:34 +0000
 }
 
 var keys = []byte(`{

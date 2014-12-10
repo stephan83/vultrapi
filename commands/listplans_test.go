@@ -6,30 +6,29 @@ func ExampleListPlans() {
 	c := NewTestClient(200, plans)
 	NewListPlans().Exec(c, []string{}, "")
 	// Output:
-	// NAME                                               | CPUS | PRICE/MONTH | ID
-	// ------------------------------------------------------------------------------
-	// 512 MB RAM,160 GB SATA,1.00 TB BW                  | 1    | 5.00        | 11
-	// 768 MB RAM,15 GB SSD,0.20 TB BW                    | 1    | 5.00        | 31
-	// 768 MB RAM,15 GB SSD,1.00 TB BW                    | 1    | 5.00        | 29
-	// 1024 MB RAM,20 GB SSD,0.40 TB BW                   | 1    | 7.00        | 32
-	// 1024 MB RAM,20 GB SSD,2.00 TB BW                   | 1    | 7.00        | 30
-	// 1024 MB RAM,320 GB SATA,2.00 TB BW                 | 1    | 8.00        | 12
-	// 1024 MB RAM,320 GB SATAPERF,1.00 TB BW, 10GigE     | 1    | 15.00       | 62
-	// 2048 MB RAM,640 GB SATA,3.00 TB BW                 | 1    | 15.00       | 13
-	// 2048 MB RAM,640 GB SATAPERF,2.00 TB BW, 10GigE     | 1    | 25.00       | 63
-	// 2048 MB RAM,40 GB SSD,0.60 TB BW                   | 2    | 15.00       | 8
-	// 2048 MB RAM,40 GB SSD,3.00 TB BW                   | 2    | 15.00       | 3
-	// 4096 MB RAM,65 GB SSD,0.80 TB BW                   | 2    | 35.00       | 33
-	// 4096 MB RAM,65 GB SSD,4.00 TB BW                   | 2    | 35.00       | 27
-	// 4096 MB RAM,1280 GB SATAPERF,3.00 TB BW, 10GigE    | 2    | 50.00       | 64
-	// 8192 MB RAM,120 GB SSD,1.00 TB BW                  | 4    | 70.00       | 34
-	// 8192 MB RAM,120 GB SSD,5.00 TB BW                  | 4    | 70.00       | 28
-	// 16384 MB RAM,250 GB SSD,1.60 TB BW                 | 4    | 125.00      | 68
-	// 16384 MB RAM,250 GB SSD,8.00 TB BW                 | 4    | 125.00      | 71
-	// 16384 MB RAM,250 GB SSD,6.00 TB BW                 | 8    | 149.95      | 78
-	// 32768 MB RAM,400 GB SSD,7.00 TB BW                 | 12   | 299.95      | 79
-	// 49152 MB RAM,600 GB SSD,8.00 TB BW                 | 16   | 429.95      | 80
-	// 65536 MB RAM,800 GB SSD,9.00 TB BW                 | 24   | 599.95      | 81
+	// ID	NAME						CPUS	PRICE/MONTH
+	// 11	512 MB RAM,160 GB SATA,1.00 TB BW		1	5.00
+	// 31	768 MB RAM,15 GB SSD,0.20 TB BW			1	5.00
+	// 29	768 MB RAM,15 GB SSD,1.00 TB BW			1	5.00
+	// 32	1024 MB RAM,20 GB SSD,0.40 TB BW		1	7.00
+	// 30	1024 MB RAM,20 GB SSD,2.00 TB BW		1	7.00
+	// 12	1024 MB RAM,320 GB SATA,2.00 TB BW		1	8.00
+	// 62	1024 MB RAM,320 GB SATAPERF,1.00 TB BW, 10GigE	1	15.00
+	// 13	2048 MB RAM,640 GB SATA,3.00 TB BW		1	15.00
+	// 63	2048 MB RAM,640 GB SATAPERF,2.00 TB BW, 10GigE	1	25.00
+	// 8	2048 MB RAM,40 GB SSD,0.60 TB BW		2	15.00
+	// 3	2048 MB RAM,40 GB SSD,3.00 TB BW		2	15.00
+	// 33	4096 MB RAM,65 GB SSD,0.80 TB BW		2	35.00
+	// 27	4096 MB RAM,65 GB SSD,4.00 TB BW		2	35.00
+	// 64	4096 MB RAM,1280 GB SATAPERF,3.00 TB BW, 10GigE	2	50.00
+	// 34	8192 MB RAM,120 GB SSD,1.00 TB BW		4	70.00
+	// 28	8192 MB RAM,120 GB SSD,5.00 TB BW		4	70.00
+	// 68	16384 MB RAM,250 GB SSD,1.60 TB BW		4	125.00
+	// 71	16384 MB RAM,250 GB SSD,8.00 TB BW		4	125.00
+	// 78	16384 MB RAM,250 GB SSD,6.00 TB BW		8	149.95
+	// 79	32768 MB RAM,400 GB SSD,7.00 TB BW		12	299.95
+	// 80	49152 MB RAM,600 GB SSD,8.00 TB BW		16	429.95
+	// 81	65536 MB RAM,800 GB SSD,9.00 TB BW		24	599.95
 }
 
 func ExampleListPlansWithRegion() {
@@ -39,14 +38,13 @@ func ExampleListPlansWithRegion() {
 	})
 	NewListPlans().Exec(c, []string{"-region", "24"}, "")
 	// Output:
-	// NAME                                               | CPUS | PRICE/MONTH | ID
-	// ------------------------------------------------------------------------------
-	// 768 MB RAM,15 GB SSD,1.00 TB BW                    | 1    | 5.00        | 29
-	// 1024 MB RAM,20 GB SSD,2.00 TB BW                   | 1    | 7.00        | 30
-	// 2048 MB RAM,40 GB SSD,3.00 TB BW                   | 2    | 15.00       | 3
-	// 4096 MB RAM,65 GB SSD,4.00 TB BW                   | 2    | 35.00       | 27
-	// 8192 MB RAM,120 GB SSD,5.00 TB BW                  | 4    | 70.00       | 28
-	// 16384 MB RAM,250 GB SSD,8.00 TB BW                 | 4    | 125.00      | 71
+	// ID	NAME					CPUS	PRICE/MONTH
+	// 29	768 MB RAM,15 GB SSD,1.00 TB BW		1	5.00
+	// 30	1024 MB RAM,20 GB SSD,2.00 TB BW	1	7.00
+	// 3	2048 MB RAM,40 GB SSD,3.00 TB BW	2	15.00
+	// 27	4096 MB RAM,65 GB SSD,4.00 TB BW	2	35.00
+	// 28	8192 MB RAM,120 GB SSD,5.00 TB BW	4	70.00
+	// 71	16384 MB RAM,250 GB SSD,8.00 TB BW	4	125.00
 }
 
 var plans = []byte(`{

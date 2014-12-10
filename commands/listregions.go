@@ -4,6 +4,9 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
+	"os"
+	"sort"
+	"text/tabwriter"
 )
 
 type listRegions struct{}
@@ -29,12 +32,24 @@ func (_ listRegions) PrintOptions() {
 }
 
 func (_ listRegions) Exec(c Client, args []string, key string) (err error) {
-	regions, err := requests.GetRegions(c)
+	r, err := requests.GetRegions(c)
 	if err != nil {
 		return
 	}
 
-	fmt.Println(regions)
+	a := r.Array()
+	sort.Sort(a)
+
+	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+
+	fmt.Fprintln(w, "ID\tNAME\tCONTINENT\tCOUNTRY\tSTATE")
+
+	for _, v := range a {
+		fmt.Fprintf(w, "%d\t%s\t%s\t%s\t%s\n", v.Id, v.Name,
+			v.Continent, v.Country, v.State)
+	}
+
+	w.Flush()
 
 	return
 }

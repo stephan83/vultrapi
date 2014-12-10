@@ -16,39 +16,39 @@ type createServer struct {
 }
 
 func NewCreateServer() Command {
-	cs := createServer{
+	o := createServer{
 		flagSet: flag.NewFlagSet("createserver", flag.ContinueOnError),
 	}
 
-	cs.flagSet.StringVar(&cs.options.IPXEChainURL,
+	o.flagSet.StringVar(&o.options.IPXEChainURL,
 		"ipxe_chain_url", "",
 		"IPXE chain url")
-	cs.flagSet.IntVar(&cs.options.ISOId,
+	o.flagSet.IntVar(&o.options.ISOId,
 		"iso_id", 0,
 		"ISO ID")
-	cs.flagSet.IntVar(&cs.options.ScriptId,
+	o.flagSet.IntVar(&o.options.ScriptId,
 		"script_id", 0,
 		"Script ID")
-	cs.flagSet.IntVar(&cs.options.SnapshotId,
+	o.flagSet.IntVar(&o.options.SnapshotId,
 		"snapshot_id", 0,
 		"Snapshot ID")
-	cs.flagSet.BoolVar(&cs.options.EnableIPV6,
+	o.flagSet.BoolVar(&o.options.EnableIPV6,
 		"enable_ipv6", false,
 		"Enable IPV6")
-	cs.flagSet.BoolVar(&cs.options.EnablePrivateNetwork,
+	o.flagSet.BoolVar(&o.options.EnablePrivateNetwork,
 		"enable_private_network", false,
 		"Enable private network")
-	cs.flagSet.StringVar(&cs.options.Label,
+	o.flagSet.StringVar(&o.options.Label,
 		"label", "",
 		"Label")
-	cs.flagSet.StringVar(&cs.options.SSHKeyId,
+	o.flagSet.StringVar(&o.options.SSHKeyId,
 		"ssh_key_id", "",
 		"SSH key ID")
-	cs.flagSet.BoolVar(&cs.options.EnableAutoBackups,
+	o.flagSet.BoolVar(&o.options.EnableAutoBackups,
 		"enable_auto_backups", false,
 		"Enable auto auto backups")
 
-	return &cs
+	return &o
 }
 
 func (_ *createServer) NeedsKey() bool {
@@ -63,48 +63,48 @@ func (_ *createServer) Desc() string {
 	return "Creates a server."
 }
 
-func (cs *createServer) PrintOptions() {
-	cs.flagSet.SetOutput(os.Stdout)
-	cs.flagSet.PrintDefaults()
-	cs.flagSet.SetOutput(os.Stderr)
+func (o *createServer) PrintOptions() {
+	o.flagSet.SetOutput(os.Stdout)
+	o.flagSet.PrintDefaults()
+	o.flagSet.SetOutput(os.Stderr)
 }
 
-func (s *createServer) Exec(c Client, args []string, key string) (err error) {
+func (o *createServer) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 3 {
 		err = ErrUsage{}
 		return
 	}
 
-	regionId, err := strconv.Atoi(args[0])
+	region, err := strconv.Atoi(args[0])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
-	planId, err := strconv.Atoi(args[1])
+	plan, err := strconv.Atoi(args[1])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
-	OSId, err := strconv.Atoi(args[2])
-	if err != nil {
-		err = ErrUsage{}
-		return
-	}
-
-	err = s.flagSet.Parse(args[3:])
+	os, err := strconv.Atoi(args[2])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
 
-	id, err := requests.PostCreateServer(c, key, regionId, planId, OSId,
-		s.options)
+	err = o.flagSet.Parse(args[3:])
+	if err != nil {
+		err = ErrUsage{}
+		return
+	}
+
+	id, err := requests.PostCreateServer(c, key, region, plan, os,
+		o.options)
 
 	if err != nil {
 		return
 	}
 
-	fmt.Printf("SERVER ID: %d\n", id)
+	fmt.Printf("SERVER ID:\t%d\n", id)
 
 	return
 }

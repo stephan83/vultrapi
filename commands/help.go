@@ -31,20 +31,20 @@ func (_ help) PrintOptions() {
 	fmt.Println("None.")
 }
 
-func (h help) Exec(_ Client, args []string, _ string) (err error) {
+func (o help) Exec(_ Client, args []string, _ string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
 	}
 
-	cmd, ok := h.cd[args[0]]
+	cmd, ok := o.cd[args[0]]
 	if !ok {
 		err = ErrUnknownCommand{}
 		return
 	}
 
 	fmt.Printf("%s\n\n", cmd.Desc())
-	h.cd.PrintCommandUsage(h.name, args[0])
+	o.cd.PrintCommandUsage(o.name, args[0])
 
 	if cmd.NeedsKey() {
 		fmt.Println("\nYou must set env variable VULTR_API_KEY to your API key.")

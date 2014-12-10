@@ -2,32 +2,14 @@ package types
 
 import (
 	"encoding/json"
-	"fmt"
-	"sort"
-	"strings"
 	"time"
 )
-
-const keyFormat = "%-33s | %-25s | %s"
 
 type SSHKey struct {
 	Id          string `json:"SSHKEYID"`
 	Name        string `json:"name"`
 	DateCreated Date   `json:"date_created"`
 	Key         string `json:"ssh_key"`
-}
-
-func (o SSHKey) String() string {
-	return fmt.Sprintf(keyFormat, o.Name, o.DateCreated, o.Id)
-}
-
-func (o SSHKey) Details() string {
-	return strings.Join([]string{
-		fmt.Sprintf("%12s: %s", "ID", o.Id),
-		fmt.Sprintf("%12s: %s", "NAME", o.Name),
-		fmt.Sprintf("%12s: %s", "DATE CREATED", o.DateCreated),
-		fmt.Sprintf("%12s: %s", "KEY", o.Key),
-	}, "\n")
 }
 
 type SSHKeyMap map[string]SSHKey
@@ -60,22 +42,6 @@ func (o SSHKeyMap) Array() SSHKeyArray {
 	}
 
 	return keys
-}
-
-func (o SSHKeyMap) String() string {
-	l := []string{}
-
-	l = append(l, fmt.Sprintf(keyFormat, "NAME", "DATE CREATED", "ID"))
-	l = append(l, strings.Repeat("-", 78))
-
-	a := o.Array()
-	sort.Sort(a)
-
-	for _, s := range a {
-		l = append(l, s.String())
-	}
-
-	return strings.Join(l, "\n")
 }
 
 type SSHKeyArray []SSHKey

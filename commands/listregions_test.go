@@ -6,22 +6,21 @@ func ExampleListRegions() {
 	c := NewTestClient(200, regions)
 	NewListRegions().Exec(c, []string{}, "")
 	// Output:
-	// CONTINENT            | COUNTRY | STATE | NAME                           | ID
-	// ------------------------------------------------------------------------------
-	//                      | US      | FL    | Miami                          | 39
-	// Asia                 | JP      |       | Tokyo                          | 25
-	// Australia            | AU      |       | Australia                      | 19
-	// Europe               | DE      |       | Frankfurt                      | 9
-	// Europe               | FR      |       | France                         | 24
-	// Europe               | GB      |       | London                         | 8
-	// Europe               | NL      |       | Amsterdam                      | 7
-	// North America        | US      | CA    | Los Angeles                    | 5
-	// North America        | US      | CA    | Silicon Valley                 | 12
-	// North America        | US      | GA    | Atlanta                        | 6
-	// North America        | US      | IL    | Chicago                        | 2
-	// North America        | US      | NJ    | New Jersey                     | 1
-	// North America        | US      | TX    | Dallas                         | 3
-	// North America        | US      | WA    | Seattle                        | 4
+	// ID	NAME		CONTINENT	COUNTRY	STATE
+	// 39	Miami				US	FL
+	// 25	Tokyo		Asia		JP	-
+	// 19	Australia	Australia	AU	-
+	// 9	Frankfurt	Europe		DE	-
+	// 24	France		Europe		FR	-
+	// 8	London		Europe		GB	-
+	// 7	Amsterdam	Europe		NL	-
+	// 5	Los Angeles	North America	US	CA
+	// 12	Silicon Valley	North America	US	CA
+	// 6	Atlanta		North America	US	GA
+	// 2	Chicago		North America	US	IL
+	// 1	New Jersey	North America	US	NJ
+	// 3	Dallas		North America	US	TX
+	// 4	Seattle		North America	US	WA
 }
 
 var regions = []byte(`{
@@ -86,41 +85,41 @@ var regions = []byte(`{
 		"name": "Amsterdam",
 		"country": "NL",
 		"continent": "Europe",
-		"state": ""
+		"state": "-"
 	},
 	"25": {
 		"DCID": "25",
 		"name": "Tokyo",
 		"country": "JP",
 		"continent": "Asia",
-		"state": ""
+		"state": "-"
 	},
 	"8": {
 		"DCID": "8",
 		"name": "London",
 		"country": "GB",
 		"continent": "Europe",
-		"state": ""
+		"state": "-"
 	},
 	"24": {
 		"DCID": "24",
 		"name": "France",
 		"country": "FR",
 		"continent": "Europe",
-		"state": ""
+		"state": "-"
 	},
 	"9": {
 		"DCID": "9",
 		"name": "Frankfurt",
 		"country": "DE",
 		"continent": "Europe",
-		"state": ""
+		"state": "-"
 	},
 	"19": {
 		"DCID": "19",
 		"name": "Australia",
 		"country": "AU",
 		"continent": "Australia",
-		"state": ""
+		"state": "-"
 	}
 }`)

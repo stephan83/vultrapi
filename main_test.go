@@ -13,7 +13,7 @@ func ExampleRunNoCommand() {
 	// Output:
 	// Usage: vultrapi command [options...]
 	//
-	// You must set env variable VULTR_API_KEY to your API key for underlined commands.
+	// You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.
 	//
 	// Commands:
 	//
@@ -23,8 +23,7 @@ func ExampleRunNoCommand() {
 	//   listregions
 	//   List all available regions.
 	//
-	//   account
-	//   *******
+	// * account
 	//   Get account information.
 }
 

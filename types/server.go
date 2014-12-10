@@ -2,13 +2,8 @@ package types
 
 import (
 	"encoding/json"
-	"fmt"
-	"sort"
 	"strconv"
-	"strings"
 )
-
-const serverFormat = "%-15s | %-18s | %-15s | %-10s | %s"
 
 type Server struct {
 	Id                 int     `json:"SUBID,string"`
@@ -23,7 +18,7 @@ type Server struct {
 	DateCreated        Date    `json:"date_created"`
 	PendingCharges     float64 `json:"pending_charges"`
 	Status             string  `json:"status"`
-	PricePerMonth      string  `json:"cost_per_month"`
+	PricePerMonth      float64 `json:"cost_per_month,string"`
 	CurrentBandwidthGB float64 `json:"current_bandwidth_gb"`
 	AllowedBandwidthGB float64 `json:"allowed_bandwidth_gb,string"`
 	IPV4Netmask        string  `json:"netmask_v4"`
@@ -37,42 +32,6 @@ type Server struct {
 	PrivateIP          string  `json:"internal_ip"`
 	KVMURL             string  `json:"kvm_url"`
 	AutoBackups        bool    `json:"auto_backups,string"`
-}
-
-func (o Server) String() string {
-	return fmt.Sprintf(serverFormat, o.Location, o.Label, o.IPV4,
-		o.Status, strconv.Itoa(o.Id))
-}
-
-func (o Server) Details() string {
-	return strings.Join([]string{
-		fmt.Sprintf("%21s: %d", "ID", o.Id),
-		fmt.Sprintf("%21s: %s", "OS", o.OS),
-		fmt.Sprintf("%21s: %s", "RAM", strconv.Itoa(int(o.RAM))),
-		fmt.Sprintf("%21s: %s", "DISK", o.Disk),
-		fmt.Sprintf("%21s: %s", "IPV4", o.IPV4),
-		fmt.Sprintf("%21s: %d", "CPUS", o.CPUs),
-		fmt.Sprintf("%21s: %s", "LOCATION", o.Location),
-		fmt.Sprintf("%21s: %d", "REGION ID", o.RegionId),
-		fmt.Sprintf("%21s: %s", "DEFAULT PASSWORD", o.DefaultPassword),
-		fmt.Sprintf("%21s: %s", "DATE CREATED", o.DateCreated),
-		fmt.Sprintf("%21s: %.2f", "PENDING CHARGES", o.PendingCharges),
-		fmt.Sprintf("%21s: %s", "STATUS", o.Status),
-		fmt.Sprintf("%21s: %s", "PRICE/MONTH", o.PricePerMonth),
-		fmt.Sprintf("%21s: %.2f", "CURRENT BANDWIDTH GB", o.CurrentBandwidthGB),
-		fmt.Sprintf("%21s: %s", "ALLOWED BANDWIDTH GB", fmt.Sprintf("%.2f", o.AllowedBandwidthGB)),
-		fmt.Sprintf("%21s: %s", "IPV4 NETMASK", o.IPV4Netmask),
-		fmt.Sprintf("%21s: %s", "IPV4 GATEWAY", o.IPV4Gateway),
-		fmt.Sprintf("%21s: %s", "POWER STATUS", o.PowerStatus),
-		fmt.Sprintf("%21s: %d", "PLAN ID", o.PlanId),
-		fmt.Sprintf("%21s: %s", "IPV6 NETWORK", o.IPV6Network),
-		fmt.Sprintf("%21s: %s", "IPV6", o.IPV6),
-		fmt.Sprintf("%21s: %d", "IPV6 NETWORK SIZE", o.IPV6NetworkSize),
-		fmt.Sprintf("%21s: %s", "LABEL", o.Label),
-		fmt.Sprintf("%21s: %s", "PRIVATE IP", o.PrivateIP),
-		fmt.Sprintf("%21s: %s", "KVM URL", o.KVMURL),
-		fmt.Sprintf("%21s: %s", "AUTO BACKUPS", strconv.FormatBool(o.AutoBackups)),
-	}, "\n")
 }
 
 type ServerMap map[int]Server
@@ -119,23 +78,6 @@ func (o ServerMap) Array() ServerArray {
 	}
 
 	return a
-}
-
-func (o ServerMap) String() string {
-	l := []string{}
-
-	l = append(l, fmt.Sprintf(serverFormat, "LOCATION", "LABEL", "IPV4",
-		"STATUS", "ID"))
-	l = append(l, strings.Repeat("-", 78))
-
-	a := o.Array()
-	sort.Sort(a)
-
-	for _, r := range a {
-		l = append(l, r.String())
-	}
-
-	return strings.Join(l, "\n")
 }
 
 type ServerArray []Server

@@ -36,13 +36,13 @@ func (_ destroyServer) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	serverId, err := strconv.Atoi(args[0])
+	id, err := strconv.Atoi(args[0])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
 
-	err = requests.PostDestroyServer(c, key, serverId)
+	err = requests.PostDestroyServer(c, key, id)
 	if err != nil {
 		return
 	}

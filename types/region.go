@@ -2,13 +2,8 @@ package types
 
 import (
 	"encoding/json"
-	"fmt"
-	"sort"
 	"strconv"
-	"strings"
 )
-
-const regionFormat = "%-20s | %-7s | %-5s | %-30s | %s"
 
 type Region struct {
 	Id        int    `json:"DCID,string"`
@@ -16,11 +11,6 @@ type Region struct {
 	Country   string `json:"country"`
 	Continent string `json:"continent"`
 	State     string `json:"state"`
-}
-
-func (o Region) String() string {
-	return fmt.Sprintf(regionFormat, o.Continent, o.Country, o.State,
-		o.Name, strconv.Itoa(o.Id))
 }
 
 type RegionMap map[int]Region
@@ -67,23 +57,6 @@ func (o RegionMap) Array() RegionArray {
 	}
 
 	return a
-}
-
-func (o RegionMap) String() string {
-	l := []string{}
-
-	l = append(l, fmt.Sprintf(regionFormat, "CONTINENT", "COUNTRY",
-		"STATE", "NAME", "ID"))
-	l = append(l, strings.Repeat("-", 78))
-
-	a := o.Array()
-	sort.Sort(a)
-
-	for _, r := range a {
-		l = append(l, r.String())
-	}
-
-	return strings.Join(l, "\n")
 }
 
 type RegionArray []Region

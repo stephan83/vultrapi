@@ -1,10 +1,8 @@
 package commands
 
 import (
-	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
-	"os"
 	"path"
 	"runtime"
 	"testing"
@@ -17,10 +15,9 @@ func getCurrentDir() string {
 
 func ExampleCreateSSHKey() {
 	keyPath := path.Join(getCurrentDir(), "..", "test_rsa.pub")
-	fmt.Fprintln(os.Stderr, keyPath)
 	c := NewTestClient(200, []byte(`{"SSHKEYID": "123456"}`))
 	NewCreateSSHKey().Exec(c, []string{"test", keyPath}, "SECRET_KEY")
-	// Output: SSH KEY ID: 123456
+	// Output: SSH KEY ID:	123456
 }
 
 func TestCreateSSHKeyNotEnoughArgs(t *testing.T) {

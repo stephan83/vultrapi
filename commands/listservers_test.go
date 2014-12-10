@@ -6,40 +6,36 @@ func ExampleListServers() {
 	c := NewTestClient(200, servers)
 	NewListServers().Exec(c, []string{}, "")
 	// Output:
-	// LOCATION        | LABEL              | IPV4            | STATUS     | ID
-	// ------------------------------------------------------------------------------
-	// France          | test               | 108.61.177.174  | active     | 1571183
-	// France          |                    | 0               | pending    | 1571200
-	// Japan           |                    | 0               | pending    | 1571201
+	// ID	LOCATION	OS			IPV4		STATUS	LABEL
+	// 1571183	France		CentOS 7 x64		108.61.177.174	active	test
+	// 1571200	France		Ubuntu 14.10 x64	0		pending	-
+	// 1571201	Japan		Ubuntu 14.10 x64	0		pending	-
 }
 
 func ExampleListServersWithRegion() {
 	c := NewTestClient(200, servers)
 	NewListServers().Exec(c, []string{"-region", "24"}, "")
 	// Output:
-	// LOCATION        | LABEL              | IPV4            | STATUS     | ID
-	// ------------------------------------------------------------------------------
-	// France          | test               | 108.61.177.174  | active     | 1571183
-	// France          |                    | 0               | pending    | 1571200
+	// ID	LOCATION	OS			IPV4		STATUS	LABEL
+	// 1571183	France		CentOS 7 x64		108.61.177.174	active	test
+	// 1571200	France		Ubuntu 14.10 x64	0		pending	-
 }
 
 func ExampleListServersWithPlan() {
 	c := NewTestClient(200, servers)
 	NewListServers().Exec(c, []string{"-plan", "3"}, "")
 	// Output:
-	// LOCATION        | LABEL              | IPV4            | STATUS     | ID
-	// ------------------------------------------------------------------------------
-	// France          |                    | 0               | pending    | 1571200
-	// Japan           |                    | 0               | pending    | 1571201
+	// ID	LOCATION	OS			IPV4	STATUS	LABEL
+	// 1571200	France		Ubuntu 14.10 x64	0	pending	-
+	// 1571201	Japan		Ubuntu 14.10 x64	0	pending	-
 }
 
 func ExampleListServersWithRegionAndPlan() {
 	c := NewTestClient(200, servers)
 	NewListServers().Exec(c, []string{"-plan", "3", "-region", "24"}, "")
 	// Output:
-	// LOCATION        | LABEL              | IPV4            | STATUS     | ID
-	// ------------------------------------------------------------------------------
-	// France          |                    | 0               | pending    | 1571200
+	// ID	LOCATION	OS			IPV4	STATUS	LABEL
+	// 1571200	France		Ubuntu 14.10 x64	0	pending	-
 }
 
 var servers = []byte(`{
@@ -94,7 +90,7 @@ var servers = []byte(`{
 		"v6_network": "::",
 		"v6_main_ip": "",
 		"v6_network_size": "0",
-		"label": "",
+		"label": "-",
 		"internal_ip": "",
 		"kvm_url": "",
 		"auto_backups": "no"
@@ -122,7 +118,7 @@ var servers = []byte(`{
 		"v6_network": "::",
 		"v6_main_ip": "",
 		"v6_network_size": "0",
-		"label": "",
+		"label": "-",
 		"internal_ip": "",
 		"kvm_url": "",
 		"auto_backups": "no"

@@ -2,8 +2,6 @@
 
 Client/Library for [Vultr API](https://vultr.com) written in go.
 
-**WORK IN PROGRESS**
-
 ## Installation
 
 1. Install go
@@ -13,7 +11,7 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 		
 		Usage: vultrapi command [options...]
 
-		You must set env variable VULTR_API_KEY to your API key for underlined commands.
+		You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.
 
 		Commands:
 
@@ -29,53 +27,43 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 		  listregions
 		  List all available regions.
 
-		  account
-		  *******
+		* account
 		  Get account information.
 
-		  createserver region_id plan_id os_id
-		  ************
+		* createserver region_id plan_id os_id
 		  Creates a server.
 
-		  createsshkey name path_to_public_ssh_key
-		  ************
+		* createsshkey name path_to_public_ssh_key
 		  Creates an SSH key.
 
-		  destroyserver server_id
-		  *************
+		* destroyserver server_id
 		  Destroys a server.
 
-		  destroysshkey ssh_key_id
-		  *************
+		* destroysshkey ssh_key_id
 		  Destroys an SSH key.
 
-		  listservers
-		  ***********
+		* listservers
 		  List all servers.
 
-		  listsshkeys
-		  ***********
+		* listsshkeys
 		  List all SSH keys.
 
-		  server server_id
-		  ******
+		* server server_id
 		  Get server information.
 
-		  sshkey ssh_key_id
-		  ******
+		* sshkey ssh_key_id
 		  Get SSH key information.
 
 ## Example
 
 		$ vultrapi listplans -region 24
-		NAME                                               | CPUS | PRICE/MONTH | ID 
-		------------------------------------------------------------------------------
-		768 MB RAM,15 GB SSD,1.00 TB BW                    | 1    | 5.00        | 29 
-		1024 MB RAM,20 GB SSD,2.00 TB BW                   | 1    | 7.00        | 30 
-		2048 MB RAM,40 GB SSD,3.00 TB BW                   | 2    | 15.00       | 3  
-		4096 MB RAM,65 GB SSD,4.00 TB BW                   | 2    | 35.00       | 27 
-		8192 MB RAM,120 GB SSD,5.00 TB BW                  | 4    | 70.00       | 28 
-		16384 MB RAM,250 GB SSD,8.00 TB BW                 | 4    | 125.00      | 71 
+		ID  NAME                               CPUS PRICE/MONTH
+		29  768 MB RAM,15 GB SSD,1.00 TB BW    1    5.00
+		30  1024 MB RAM,20 GB SSD,2.00 TB BW   1    7.00
+		3   2048 MB RAM,40 GB SSD,3.00 TB BW   2    15.00
+		27  4096 MB RAM,65 GB SSD,4.00 TB BW   2    35.00
+		28  8192 MB RAM,120 GB SSD,5.00 TB BW  4    70.00
+		71  16384 MB RAM,250 GB SSD,8.00 TB BW 4    125.00
 
 ## Progress
 
