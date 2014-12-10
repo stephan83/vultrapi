@@ -27,26 +27,26 @@ func (o OS) String() string {
 
 type OSDict map[int]OS
 
-func (d OSDict) MarshalJSON() ([]byte, error) {
+func (o OSDict) MarshalJSON() ([]byte, error) {
 	m := map[string]OS{}
 
-	for i, v := range d {
+	for i, v := range o {
 		m[strconv.Itoa(i)] = v
 	}
 
 	return json.Marshal(m)
 }
 
-func (d *OSDict) UnmarshalJSON(data []byte) error {
-	*d = OSDict{}
+func (o *OSDict) UnmarshalJSON(d []byte) error {
+	*o = OSDict{}
 
-	if string(data) == "[]" {
+	if string(d) == "[]" {
 		return nil
 	}
 
 	m := map[string]OS{}
 
-	if err := json.Unmarshal(data, &m); err != nil {
+	if err := json.Unmarshal(d, &m); err != nil {
 		return err
 	}
 
@@ -55,64 +55,62 @@ func (d *OSDict) UnmarshalJSON(data []byte) error {
 		if err != nil {
 			return err
 		}
-		(*d)[i] = v
+		(*o)[i] = v
 	}
 
 	return nil
 }
 
-func (od OSDict) Slice() OSSlice {
-	OSs := []OS{}
+func (o OSDict) Slice() OSSlice {
+	a := []OS{}
 
-	for _, o := range od {
-		OSs = append(OSs, o)
+	for _, v := range o {
+		a = append(a, v)
 	}
 
-	return OSs
+	return a
 }
 
-func (od OSDict) String() string {
-	lines := []string{}
+func (o OSDict) String() string {
+	l := []string{}
 
-	lines = append(lines, fmt.Sprintf(osFormat, "FAMILY", "ARCH", "NAME",
-		"ID"))
+	l = append(l, fmt.Sprintf(osFormat, "FAMILY", "ARCH", "NAME", "ID"))
+	l = append(l, strings.Repeat("-", 78))
 
-	lines = append(lines, strings.Repeat("-", 78))
+	a := o.Slice()
+	sort.Sort(a)
 
-	os := od.Slice()
-	sort.Sort(os)
-
-	for _, o := range os {
-		lines = append(lines, o.String())
+	for _, v := range a {
+		l = append(l, v.String())
 	}
 
-	return strings.Join(lines, "\n")
+	return strings.Join(l, "\n")
 }
 
 type OSSlice []OS
 
-func (os OSSlice) Len() int {
-	return len(os)
+func (o OSSlice) Len() int {
+	return len(o)
 }
 
-func (os OSSlice) Less(i, j int) bool {
+func (o OSSlice) Less(i, j int) bool {
 	switch {
-	case os[i].Family < os[j].Family:
+	case o[i].Family < o[j].Family:
 		return true
-	case os[i].Family > os[j].Family:
+	case o[i].Family > o[j].Family:
 		return false
 	default:
 		switch {
-		case os[i].Arch < os[j].Arch:
+		case o[i].Arch < o[j].Arch:
 			return true
-		case os[i].Arch > os[j].Arch:
+		case o[i].Arch > o[j].Arch:
 			return false
 		default:
-			return os[i].Name < os[j].Name
+			return o[i].Name < o[j].Name
 		}
 	}
 }
 
-func (os OSSlice) Swap(i, j int) {
-	os[i], os[j] = os[j], os[i]
+func (o OSSlice) Swap(i, j int) {
+	o[i], o[j] = o[j], o[i]
 }
