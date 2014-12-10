@@ -7,10 +7,10 @@ import (
 )
 
 type SSHKey struct {
-	Id            string `json:"SSHKEYID"`
-	Name          string `json:"name"`
-	DateCreated   string `json:"date_created"`
-	Key           string `json:"ssh_key"`
+	Id          string `json:"SSHKEYID"`
+	Name        string `json:"name"`
+	DateCreated string `json:"date_created"`
+	Key         string `json:"ssh_key"`
 }
 
 const (

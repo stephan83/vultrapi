@@ -22,6 +22,7 @@ var cmdDict = CommandDict{
 	"createsshkey":  NewCreateSSHKey(),
 	"listsshkeys":   NewListSSHKeys(),
 	"sshkey":        NewSSHKey(),
+	"destroysshkey": NewDestroySSHKey(),
 }
 
 func init() {

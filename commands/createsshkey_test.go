@@ -1,13 +1,13 @@
 package commands
 
 import (
+	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
-	"testing"
-	"runtime"
-	"path"
-	"fmt"
 	"os"
+	"path"
+	"runtime"
+	"testing"
 )
 
 func getCurrentDir() string {

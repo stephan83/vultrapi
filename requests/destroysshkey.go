@@ -1,16 +1,22 @@
 package requests
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
-	. "github.com/stephan83/vultrapi/types"
 	"io/ioutil"
+	"net/url"
 )
 
-func GetSSHKeys(c Client, APIKey string) (SSHKeys SSHKeyDict, err error) {
-	resp, err := c.Get(fmt.Sprintf("/sshkey/list?api_key=%s", APIKey))
+func PostDestroySSHKey(c Client, APIKey string,
+	SSHKeyId string) (err error) {
+
+	values := url.Values{
+		"SSHKEYID": {SSHKeyId},
+	}
+
+	resp, err := c.PostForm(fmt.Sprintf("/sshkey/destroy?api_key=%s",
+		APIKey), values)
 	if err != nil {
 		return
 	}
@@ -25,9 +31,6 @@ func GetSSHKeys(c Client, APIKey string) (SSHKeys SSHKeyDict, err error) {
 		err = errors.New(string(body))
 		return
 	}
-
-	SSHKeys = SSHKeyDict{}
-	err = json.Unmarshal(body, &SSHKeys)
 
 	return
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 )
 
-type listSSHKeys struct {}
+type listSSHKeys struct{}
 
 func NewListSSHKeys() Command {
 	return listSSHKeys{}

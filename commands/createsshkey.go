@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 )
 
-type createSSHKey struct {}
+type createSSHKey struct{}
 
 func NewCreateSSHKey() Command {
 	return createSSHKey{}
