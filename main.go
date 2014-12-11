@@ -1,3 +1,4 @@
+// Client and library for Vultr API.
 package main
 
 import (
