@@ -7,9 +7,9 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"github.com/stephan83/vultrapi/types"
-	"os"
 	"sort"
 	"text/tabwriter"
+	"io"
 )
 
 type listPlans struct {
@@ -39,7 +39,9 @@ func NewListPlans() Command {
 	return &o
 }
 
-func (o *listPlans) Exec(c Client, args []string, _ string) (err error) {
+func (o *listPlans) Fexec(w io.Writer, c Client, args []string, _ string) (err error) {
+	o.FlagSet.SetOutput(w)
+
 	err = o.FlagSet.Parse(args)
 	if err != nil {
 		return ErrUsage{}
@@ -69,16 +71,16 @@ func (o *listPlans) Exec(c Client, args []string, _ string) (err error) {
 	a := r.Array()
 	sort.Sort(a)
 
-	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+	t := tabwriter.NewWriter(w, 0, 8, 1, '\t', 0)
 
-	fmt.Fprintln(w, "ID\tNAME\tCPUS\tPRICE/MONTH")
+	fmt.Fprintln(t, "ID\tNAME\tCPUS\tPRICE/MONTH")
 
 	for _, v := range a {
-		fmt.Fprintf(w, "%d\t%s\t%d\t%.2f\n", v.Id, v.Name, v.CPUs,
+		fmt.Fprintf(t, "%d\t%s\t%d\t%.2f\n", v.Id, v.Name, v.CPUs,
 			v.PricePerMonth)
 	}
 
-	w.Flush()
+	t.Flush()
 
 	return
 }

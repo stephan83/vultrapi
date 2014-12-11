@@ -5,8 +5,8 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
-	"os"
 	"text/tabwriter"
+	"io"
 )
 
 type sshKey struct{ BasicCommand }
@@ -22,7 +22,7 @@ func NewSSHKey() Command {
 	}
 }
 
-func (_ *sshKey) Exec(c Client, args []string, key string) (err error) {
+func (_ *sshKey) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
@@ -38,14 +38,14 @@ func (_ *sshKey) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+	t := tabwriter.NewWriter(w, 0, 8, 1, '\t', 0)
 
-	fmt.Fprintf(w, "ID\t%s\n", s.Id)
-	fmt.Fprintf(w, "NAME\t%s\n", s.Name)
-	fmt.Fprintf(w, "DATE CREATED\t%s\n", s.DateCreated)
-	fmt.Fprintf(w, "KEY\t%s\n", s.Key)
+	fmt.Fprintf(t, "ID\t%s\n", s.Id)
+	fmt.Fprintf(t, "NAME\t%s\n", s.Name)
+	fmt.Fprintf(t, "DATE CREATED\t%s\n", s.DateCreated)
+	fmt.Fprintf(t, "KEY\t%s\n", s.Key)
 
-	w.Flush()
+	t.Flush()
 
 	return
 }

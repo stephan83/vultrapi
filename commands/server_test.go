@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleServer() {
 	c := NewTestClient(200, servers)
-	NewServer().Exec(c, []string{"1571183"}, "API_KEY")
+	NewServer().Fexec(os.Stdout, c, []string{"1571183"}, "API_KEY")
 	// Output:
 	// ID			1571183
 	// OS			CentOS 7 x64

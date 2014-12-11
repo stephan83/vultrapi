@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleListOS() {
 	c := NewTestClient(200, _os)
-	NewListOS().Exec(c, []string{}, "")
+	NewListOS().Fexec(os.Stdout, c, []string{}, "")
 	// Output:
 	// ID	NAME			FAMILY		ARCH	WINDOWS
 	// 180	Backup			backup		x64	false

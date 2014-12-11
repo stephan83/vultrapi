@@ -3,10 +3,11 @@ package commands
 import (
 	. "github.com/stephan83/vultrapi/errors"
 	"testing"
+	"os"
 )
 
 func ExampleHelpListRegions() {
-	NewHelp("vultrapi", cmdMap).Exec(nil, []string{"listregions"}, "")
+	NewHelp("vultrapi", cmdMap).Fexec(os.Stdout, nil, []string{"listregions"}, "")
 	// Output:
 	// List all available regions.
 	//
@@ -14,7 +15,7 @@ func ExampleHelpListRegions() {
 }
 
 func ExampleHelpListPlans() {
-	NewHelp("vultrapi", cmdMap).Exec(nil, []string{"listplans"}, "")
+	NewHelp("vultrapi", cmdMap).Fexec(os.Stdout, nil, []string{"listplans"}, "")
 	// Output:
 	// List all available plans.
 	//
@@ -25,7 +26,7 @@ func ExampleHelpListPlans() {
 }
 
 func ExampleHelpCreateServer() {
-	NewHelp("vultrapi", cmdMap).Exec(nil, []string{"createserver"}, "")
+	NewHelp("vultrapi", cmdMap).Fexec(os.Stdout, nil, []string{"createserver"}, "")
 	// Output:
 	// Creates a server.
 	//
@@ -46,7 +47,7 @@ func ExampleHelpCreateServer() {
 }
 
 func TestHelpNotEnoughArgs(t *testing.T) {
-	err := NewHelp("vultrapi", cmdMap).Exec(nil, []string{}, "")
+	err := NewHelp("vultrapi", cmdMap).Fexec(os.Stdout, nil, []string{}, "")
 	if err == nil {
 		t.Error("No error returned.")
 	}
@@ -56,7 +57,7 @@ func TestHelpNotEnoughArgs(t *testing.T) {
 }
 
 func TestHelpUnknownBasicCommand(t *testing.T) {
-	err := NewHelp("vultrapi", cmdMap).Exec(nil, []string{"listplasn"}, "")
+	err := NewHelp("vultrapi", cmdMap).Fexec(os.Stdout, nil, []string{"listplasn"}, "")
 	if err == nil {
 		t.Error("No error returned.")
 	}

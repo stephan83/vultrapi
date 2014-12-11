@@ -6,9 +6,10 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
-	"os"
 	"sort"
 	"strings"
+	"io"
+	"os"
 )
 
 type Command interface {
@@ -16,7 +17,7 @@ type Command interface {
 	GetNeedsKey() bool
 	GetArgsDesc() string
 	GetOptionsDesc() string
-	Exec(c Client, args []string, key string) error
+	Fexec(w io.Writer, c Client, args []string, key string) error
 }
 
 type BasicCommand struct {
@@ -42,8 +43,8 @@ func (o *BasicCommand) GetOptionsDesc() string {
 	return o.OptionsDesc
 }
 
-func (_ *BasicCommand) Exec(c Client, args []string, key string) error {
-	fmt.Println("Not implemented.")
+func (_ *BasicCommand) Fexec(w io.Writer, c Client, args []string, key string) error {
+	panic("Not implemented.")
 	return nil
 }
 
@@ -56,13 +57,13 @@ func (o *BasicCommandWithOptions) Initialize() {
 	var buffer bytes.Buffer
 	o.FlagSet.SetOutput(&buffer)
 	o.FlagSet.PrintDefaults()
-	o.FlagSet.SetOutput(os.Stderr)
+	o.FlagSet.SetOutput(nil)
 	o.OptionsDesc = buffer.String()
 }
 
 type CommandMap map[string]Command
 
-func (o CommandMap) Exec(args []string, c Client, key string) error {
+func (o CommandMap) Fexec(w io.Writer, args []string, c Client, key string) error {
 	if len(args) < 1 {
 		return ErrUsage{}
 	}
@@ -72,14 +73,22 @@ func (o CommandMap) Exec(args []string, c Client, key string) error {
 		return ErrUnknownCommand{}
 	}
 
-	return cmd.Exec(c, args[1:], key)
+	return cmd.Fexec(w, c, args[1:], key)
+}
+
+func (o CommandMap) Exec(args[]string, c Client, key string) error {
+	return o.Fexec(os.Stdout, args, c, key)
+}
+
+func (o CommandMap) FprintCommandUsage(w io.Writer, name string, cmd string) {
+	fmt.Fprintf(w, "Usage: %s %s %s [options...]\n", name, cmd, o[cmd].GetArgsDesc())
 }
 
 func (o CommandMap) PrintCommandUsage(name string, cmd string) {
-	fmt.Printf("Usage: %s %s %s [options...]\n", name, cmd, o[cmd].GetArgsDesc())
+	o.FprintCommandUsage(os.Stdout, name, cmd)
 }
 
-func (o CommandMap) PrintUsage(name string) {
+func (o CommandMap) FprintUsage(w io.Writer, name string) {
 	var cmds = commandArray{}
 
 	for name, cmd := range o {
@@ -88,28 +97,32 @@ func (o CommandMap) PrintUsage(name string) {
 
 	sort.Sort(cmds)
 
-	fmt.Printf("Usage: %s command [arguments...] [options...]\n\n", name)
-	fmt.Print("You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.\n\n")
-	fmt.Print("Commands:\n\n")
+	fmt.Fprintf(w, "Usage: %s command [arguments...] [options...]\n\n", name)
+	fmt.Fprint(w, "You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.\n\n")
+	fmt.Fprint(w, "Commands:\n\n")
 
 	for i, c := range cmds {
 		if c.GetNeedsKey() {
-			fmt.Printf("* %s", c.name)
+			fmt.Fprintf(w, "* %s", c.name)
 		} else {
-			fmt.Printf("  %s", c.name)
+			fmt.Fprintf(w, "  %s", c.name)
 		}
 		if args := c.GetArgsDesc(); args != "" {
-			fmt.Printf(" %s", args)
+			fmt.Fprintf(w, " %s", args)
 		}
-		fmt.Println()
+		fmt.Fprintln(w)
 		desc := strings.Split(c.GetDesc(), "\n")
 		for _, line := range desc {
-			fmt.Printf("  %s\n", line)
+			fmt.Fprintf(w, "  %s\n", line)
 		}
 		if i+1 < len(cmds) {
-			fmt.Println("")
+			fmt.Fprintln(w, "")
 		}
 	}
+}
+
+func (o CommandMap) PrintUsage(name string) {
+	o.FprintUsage(os.Stdout, name)
 }
 
 type commandWithName struct {

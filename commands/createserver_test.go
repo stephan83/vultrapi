@@ -4,16 +4,17 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"testing"
+	"os"
 )
 
 func ExampleCreateServer() {
 	c := NewTestClient(200, []byte(`{"SUBID": "123456"}`))
-	NewCreateServer().Exec(c, []string{"1", "2", "3"}, "SECRET_KEY")
+	NewCreateServer().Fexec(os.Stdout, c, []string{"1", "2", "3"}, "SECRET_KEY")
 	// Output: SERVER ID:	123456
 }
 
 func TestCreateServerNotEnoughArgs(t *testing.T) {
-	err := NewCreateServer().Exec(nil, []string{"1", "2"}, "SECRET_KEY")
+	err := NewCreateServer().Fexec(os.Stdout, nil, []string{"1", "2"}, "SECRET_KEY")
 	if err == nil {
 		t.Error("No error returned.")
 	}
@@ -23,7 +24,7 @@ func TestCreateServerNotEnoughArgs(t *testing.T) {
 }
 
 func TestCreateServerInvalidFirstArg(t *testing.T) {
-	err := NewCreateServer().Exec(nil, []string{"a", "2", "3"}, "SECRET_KEY")
+	err := NewCreateServer().Fexec(os.Stdout, nil, []string{"a", "2", "3"}, "SECRET_KEY")
 	if err == nil {
 		t.Error("No error returned.")
 	}
@@ -33,7 +34,7 @@ func TestCreateServerInvalidFirstArg(t *testing.T) {
 }
 
 func TestCreateServerInvalidSecondArg(t *testing.T) {
-	err := NewCreateServer().Exec(nil, []string{"1", "b", "3"}, "SECRET_KEY")
+	err := NewCreateServer().Fexec(os.Stdout, nil, []string{"1", "b", "3"}, "SECRET_KEY")
 	if err == nil {
 		t.Error("No error returned.")
 	}
@@ -43,7 +44,7 @@ func TestCreateServerInvalidSecondArg(t *testing.T) {
 }
 
 func TestCreateServerInvalidThirdArg(t *testing.T) {
-	err := NewCreateServer().Exec(nil, []string{"1", "2", "false"}, "SECRET_KEY")
+	err := NewCreateServer().Fexec(os.Stdout, nil, []string{"1", "2", "false"}, "SECRET_KEY")
 	if err == nil {
 		t.Error("No error returned.")
 	}
@@ -53,7 +54,7 @@ func TestCreateServerInvalidThirdArg(t *testing.T) {
 }
 
 func TestCreateServerInvalidFlag(t *testing.T) {
-	err := NewCreateServer().Exec(nil, []string{"1", "2", "3", "-enabel_private_network"}, "SECRET_KEY")
+	err := NewCreateServer().Fexec(os.Stdout, nil, []string{"1", "2", "3", "-enabel_private_network"}, "SECRET_KEY")
 	if err == nil {
 		t.Error("No error returned.")
 	}

@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleListServers() {
 	c := NewTestClient(200, servers)
-	NewListServers().Exec(c, []string{}, "")
+	NewListServers().Fexec(os.Stdout, c, []string{}, "")
 	// Output:
 	// ID	LOCATION	OS			IPV4		STATUS	LABEL
 	// 1571183	France		CentOS 7 x64		108.61.177.174	active	test
@@ -14,7 +17,7 @@ func ExampleListServers() {
 
 func ExampleListServersWithRegion() {
 	c := NewTestClient(200, servers)
-	NewListServers().Exec(c, []string{"-region", "24"}, "")
+	NewListServers().Fexec(os.Stdout, c, []string{"-region", "24"}, "")
 	// Output:
 	// ID	LOCATION	OS			IPV4		STATUS	LABEL
 	// 1571183	France		CentOS 7 x64		108.61.177.174	active	test
@@ -23,7 +26,7 @@ func ExampleListServersWithRegion() {
 
 func ExampleListServersWithPlan() {
 	c := NewTestClient(200, servers)
-	NewListServers().Exec(c, []string{"-plan", "3"}, "")
+	NewListServers().Fexec(os.Stdout, c, []string{"-plan", "3"}, "")
 	// Output:
 	// ID	LOCATION	OS			IPV4	STATUS	LABEL
 	// 1571200	France		Ubuntu 14.10 x64	0	pending	-
@@ -32,7 +35,7 @@ func ExampleListServersWithPlan() {
 
 func ExampleListServersWithRegionAndPlan() {
 	c := NewTestClient(200, servers)
-	NewListServers().Exec(c, []string{"-plan", "3", "-region", "24"}, "")
+	NewListServers().Fexec(os.Stdout, c, []string{"-plan", "3", "-region", "24"}, "")
 	// Output:
 	// ID	LOCATION	OS			IPV4	STATUS	LABEL
 	// 1571200	France		Ubuntu 14.10 x64	0	pending	-

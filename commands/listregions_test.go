@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleListRegions() {
 	c := NewTestClient(200, regions)
-	NewListRegions().Exec(c, []string{}, "")
+	NewListRegions().Fexec(os.Stdout, c, []string{}, "")
 	// Output:
 	// ID	NAME		CONTINENT	COUNTRY	STATE
 	// 39	Miami				US	FL

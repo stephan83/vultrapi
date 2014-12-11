@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import (
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleAccount() {
 	c := NewTestClient(200, acc)
-	NewAccount().Exec(c, []string{}, "SECRET_KEY")
+	NewAccount().Fexec(os.Stdout, c, []string{}, "SECRET_KEY")
 	// Output:
 	// BALANCE			-5.00
 	// PENDING CHARGES		0.26

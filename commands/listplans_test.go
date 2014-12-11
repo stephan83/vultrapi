@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleListPlans() {
 	c := NewTestClient(200, plans)
-	NewListPlans().Exec(c, []string{}, "")
+	NewListPlans().Fexec(os.Stdout, c, []string{}, "")
 	// Output:
 	// ID	NAME						CPUS	PRICE/MONTH
 	// 11	512 MB RAM,160 GB SATA,1.00 TB BW		1	5.00
@@ -36,7 +39,7 @@ func ExampleListPlansWithRegion() {
 		"^/regions/availability.*": NewTestClient(200, availability),
 		"^/plans/list.*":           NewTestClient(200, plans),
 	})
-	NewListPlans().Exec(c, []string{"-region", "24"}, "")
+	NewListPlans().Fexec(os.Stdout, c, []string{"-region", "24"}, "")
 	// Output:
 	// ID	NAME					CPUS	PRICE/MONTH
 	// 29	768 MB RAM,15 GB SSD,1.00 TB BW		1	5.00

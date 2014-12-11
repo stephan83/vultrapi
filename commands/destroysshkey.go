@@ -5,6 +5,7 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
+	"io"
 )
 
 type destroySSHKey struct{ BasicCommand }
@@ -20,7 +21,7 @@ func NewDestroySSHKey() Command {
 	}
 }
 
-func (_ *destroySSHKey) Exec(c Client, args []string, key string) (err error) {
+func (_ *destroySSHKey) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
@@ -36,7 +37,7 @@ func (_ *destroySSHKey) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	fmt.Println("OK")
+	fmt.Fprintln(w, "OK")
 
 	return
 }

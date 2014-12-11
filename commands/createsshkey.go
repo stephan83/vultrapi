@@ -6,6 +6,7 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"io/ioutil"
+	"io"
 )
 
 type createSSHKey struct{ BasicCommand }
@@ -21,7 +22,7 @@ func NewCreateSSHKey() Command {
 	}
 }
 
-func (_ *createSSHKey) Exec(c Client, args []string, key string) (err error) {
+func (_ *createSSHKey) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	if len(args) < 2 {
 		err = ErrUsage{}
 		return
@@ -40,7 +41,7 @@ func (_ *createSSHKey) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	fmt.Printf("SSH KEY ID:\t%s\n", id)
+	fmt.Fprintf(w, "SSH KEY ID:\t%s\n", id)
 
 	return
 }

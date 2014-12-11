@@ -6,6 +6,7 @@ import (
 	"path"
 	"runtime"
 	"testing"
+	"os"
 )
 
 func getCurrentDir() string {
@@ -16,12 +17,12 @@ func getCurrentDir() string {
 func ExampleCreateSSHKey() {
 	keyPath := path.Join(getCurrentDir(), "..", "test_rsa.pub")
 	c := NewTestClient(200, []byte(`{"SSHKEYID": "123456"}`))
-	NewCreateSSHKey().Exec(c, []string{"test", keyPath}, "SECRET_KEY")
+	NewCreateSSHKey().Fexec(os.Stdout, c, []string{"test", keyPath}, "SECRET_KEY")
 	// Output: SSH KEY ID:	123456
 }
 
 func TestCreateSSHKeyNotEnoughArgs(t *testing.T) {
-	err := NewCreateSSHKey().Exec(nil, []string{"test"}, "SECRET_KEY")
+	err := NewCreateSSHKey().Fexec(os.Stdout, nil, []string{"test"}, "SECRET_KEY")
 	if err == nil {
 		t.Error("No error returned.")
 	}

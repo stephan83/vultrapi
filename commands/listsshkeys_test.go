@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleListSSHKeys() {
 	c := NewTestClient(200, keys)
-	NewListSSHKeys().Exec(c, []string{}, "")
+	NewListSSHKeys().Fexec(os.Stdout, c, []string{}, "")
 	// Output:
 	// ID		NAME	DATE CREATED
 	// 548785eca773d	test1	2014-12-09 23:29:48 +0000

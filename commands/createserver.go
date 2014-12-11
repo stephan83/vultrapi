@@ -7,6 +7,7 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"strconv"
+	"io"
 )
 
 type createServer struct {
@@ -44,7 +45,7 @@ func NewCreateServer() Command {
 	return &o
 }
 
-func (o *createServer) Exec(c Client, args []string, key string) (err error) {
+func (o *createServer) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	if len(args) < 3 {
 		err = ErrUsage{}
 		return
@@ -66,6 +67,8 @@ func (o *createServer) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
+	o.FlagSet.SetOutput(w)
+
 	err = o.FlagSet.Parse(args[3:])
 	if err != nil {
 		err = ErrUsage{}
@@ -77,7 +80,7 @@ func (o *createServer) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	fmt.Printf("SERVER ID:\t%d\n", id)
+	fmt.Fprintf(w, "SERVER ID:\t%d\n", id)
 
 	return
 }

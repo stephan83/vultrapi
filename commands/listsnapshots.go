@@ -4,9 +4,9 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
-	"os"
 	"sort"
 	"text/tabwriter"
+	"io"
 )
 
 type listSnapshots struct{ BasicCommand }
@@ -22,7 +22,7 @@ func NewListSnapshots() Command {
 	}
 }
 
-func (_ *listSnapshots) Exec(c Client, args []string, key string) (err error) {
+func (_ *listSnapshots) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	r, err := requests.GetSnapshots(c, key)
 	if err != nil {
 		return
@@ -31,16 +31,16 @@ func (_ *listSnapshots) Exec(c Client, args []string, key string) (err error) {
 	a := r.Array()
 	sort.Sort(a)
 
-	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+	t := tabwriter.NewWriter(w, 0, 8, 1, '\t', 0)
 
-	fmt.Fprintln(w, "ID\tDESCRIPTION\tDATE CREATED\tSIZE\tSTATUS")
+	fmt.Fprintln(t, "ID\tDESCRIPTION\tDATE CREATED\tSIZE\tSTATUS")
 
 	for _, v := range a {
-		fmt.Fprintf(w, "%s\t%s\t%s\t%d\t%s\n", v.Id, v.Description,
+		fmt.Fprintf(t, "%s\t%s\t%s\t%d\t%s\n", v.Id, v.Description,
 			v.DateCreated, v.Size, v.Status)
 	}
 
-	w.Flush()
+	t.Flush()
 
 	return
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
+	"io"
 )
 
 type help struct {
@@ -25,7 +26,7 @@ func NewHelp(name string, cd CommandMap) Command {
 	}
 }
 
-func (o *help) Exec(_ Client, args []string, _ string) (err error) {
+func (o *help) Fexec(w io.Writer, _ Client, args []string, _ string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
@@ -37,16 +38,16 @@ func (o *help) Exec(_ Client, args []string, _ string) (err error) {
 		return
 	}
 
-	fmt.Printf("%s\n\n", cmd.GetDesc())
-	o.cd.PrintCommandUsage(o.name, args[0])
+	fmt.Fprintf(w, "%s\n\n", cmd.GetDesc())
+	o.cd.FprintCommandUsage(w, o.name, args[0])
 
 	if cmd.GetNeedsKey() {
-		fmt.Println("\nYou must set env variable VULTR_API_KEY to your API key.")
+		fmt.Fprintln(w, "\nYou must set env variable VULTR_API_KEY to your API key.")
 	}
 
 	if opt := cmd.GetOptionsDesc(); opt != "" {
-		fmt.Println("\nOptions:")
-		fmt.Println(cmd.GetOptionsDesc())
+		fmt.Fprintln(w, "\nOptions:")
+		fmt.Fprintln(w, cmd.GetOptionsDesc())
 	}
 
 	return

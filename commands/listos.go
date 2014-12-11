@@ -4,10 +4,10 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
-	"os"
 	"sort"
 	"strconv"
 	"text/tabwriter"
+	"io"
 )
 
 type listOS struct{ BasicCommand }
@@ -23,7 +23,7 @@ func NewListOS() Command {
 	}
 }
 
-func (_ *listOS) Exec(c Client, _ []string, _ string) (err error) {
+func (_ *listOS) Fexec(w io.Writer, c Client, _ []string, _ string) (err error) {
 	r, err := requests.GetOS(c)
 	if err != nil {
 		return
@@ -32,16 +32,16 @@ func (_ *listOS) Exec(c Client, _ []string, _ string) (err error) {
 	a := r.Array()
 	sort.Sort(a)
 
-	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+	t := tabwriter.NewWriter(w, 0, 8, 1, '\t', 0)
 
-	fmt.Fprintln(w, "ID\tNAME\tFAMILY\tARCH\tWINDOWS")
+	fmt.Fprintln(t, "ID\tNAME\tFAMILY\tARCH\tWINDOWS")
 
 	for _, v := range a {
-		fmt.Fprintf(w, "%d\t%s\t%s\t%s\t%s\n", v.Id, v.Name, v.Family,
+		fmt.Fprintf(t, "%d\t%s\t%s\t%s\t%s\n", v.Id, v.Name, v.Family,
 			v.Arch, strconv.FormatBool(v.Windows))
 	}
 
-	w.Flush()
+	t.Flush()
 
 	return
 }

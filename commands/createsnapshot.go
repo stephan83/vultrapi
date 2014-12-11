@@ -7,6 +7,7 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"strconv"
+	"io"
 )
 
 type createSnapshot struct {
@@ -36,7 +37,7 @@ func NewCreateSnapshot() Command {
 	return &o
 }
 
-func (o *createSnapshot) Exec(c Client, args []string, key string) (err error) {
+func (o *createSnapshot) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
@@ -47,6 +48,8 @@ func (o *createSnapshot) Exec(c Client, args []string, key string) (err error) {
 		err = ErrUsage{}
 		return
 	}
+
+	o.FlagSet.SetOutput(w)
 
 	err = o.FlagSet.Parse(args[1:])
 	if err != nil {
@@ -59,7 +62,7 @@ func (o *createSnapshot) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	fmt.Printf("SNAPSHOT ID:\t%s\n", id)
+	fmt.Fprintf(w, "SNAPSHOT ID:\t%s\n", id)
 
 	return
 }

@@ -6,6 +6,7 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"strconv"
+	"io"
 )
 
 type destroyServer struct{ BasicCommand }
@@ -21,7 +22,7 @@ func NewDestroyServer() Command {
 	}
 }
 
-func (_ *destroyServer) Exec(c Client, args []string, key string) (err error) {
+func (_ *destroyServer) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
@@ -38,7 +39,7 @@ func (_ *destroyServer) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	fmt.Println("OK")
+	fmt.Fprintln(w, "OK")
 
 	return
 }

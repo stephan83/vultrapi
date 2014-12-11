@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleDestroySSHKey() {
 	c := NewTestClient(200, []byte("ok"))
-	NewDestroySSHKey().Exec(c, []string{"123"}, "")
+	NewDestroySSHKey().Fexec(os.Stdout, c, []string{"123"}, "")
 	// Output:
 	// OK
 }

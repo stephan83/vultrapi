@@ -4,9 +4,9 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
-	"os"
 	"sort"
 	"text/tabwriter"
+	"io"
 )
 
 type listSSHKeys struct{ BasicCommand }
@@ -22,7 +22,7 @@ func NewListSSHKeys() Command {
 	}
 }
 
-func (_ *listSSHKeys) Exec(c Client, args []string, key string) (err error) {
+func (_ *listSSHKeys) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	r, err := requests.GetSSHKeys(c, key)
 	if err != nil {
 		return
@@ -31,15 +31,15 @@ func (_ *listSSHKeys) Exec(c Client, args []string, key string) (err error) {
 	a := r.Array()
 	sort.Sort(a)
 
-	w := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
+	t := tabwriter.NewWriter(w, 0, 8, 1, '\t', 0)
 
-	fmt.Fprintln(w, "ID\tNAME\tDATE CREATED")
+	fmt.Fprintln(t, "ID\tNAME\tDATE CREATED")
 
 	for _, v := range a {
-		fmt.Fprintf(w, "%s\t%s\t%s\n", v.Id, v.Name, v.DateCreated)
+		fmt.Fprintf(t, "%s\t%s\t%s\n", v.Id, v.Name, v.DateCreated)
 	}
 
-	w.Flush()
+	t.Flush()
 
 	return
 }

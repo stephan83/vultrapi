@@ -1,10 +1,13 @@
 package commands
 
-import . "github.com/stephan83/vultrapi/clients"
+import(
+	. "github.com/stephan83/vultrapi/clients"
+	"os"
+)
 
 func ExampleListSnapshots() {
 	c := NewTestClient(200, snapshots)
-	NewListSnapshots().Exec(c, []string{}, "")
+	NewListSnapshots().Fexec(os.Stdout, c, []string{}, "")
 	// ID		DESCRIPTION		DATE CREATED			SIZE		STATUS
 	// 5488d7f7e521e				2014-12-10 23:32:07 +0000	21474836480	complete
 	// 5488da65095a6				2014-12-10 23:42:29 +0000	21474836480	complete
