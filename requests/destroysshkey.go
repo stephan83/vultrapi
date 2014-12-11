@@ -8,8 +8,7 @@ import (
 	"net/url"
 )
 
-func PostDestroySSHKey(c Client, APIKey string,
-	SSHKeyId string) (err error) {
+func PostDestroySSHKey(c Client, APIKey string, SSHKeyId string) (err error) {
 
 	values := url.Values{
 		"SSHKEYID": {SSHKeyId},

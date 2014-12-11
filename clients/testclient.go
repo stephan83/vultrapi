@@ -56,8 +56,7 @@ func (c testMultiClient) Get(url string) (resp *http.Response, err error) {
 	return nil, errors.New("Not found.")
 }
 
-func (c testMultiClient) PostForm(url string,
-	data url.Values) (resp *http.Response, err error) {
+func (c testMultiClient) PostForm(url string, data url.Values) (resp *http.Response, err error) {
 	for r, c := range c.router {
 		if regexp.MustCompile(r).MatchString(url) {
 			return c.PostForm(url, data)

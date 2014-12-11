@@ -10,8 +10,7 @@ import (
 	"strconv"
 )
 
-func PostCreateSnapshot(c Client, APIKey string,
-	serverId int, description string) (snapshotId string, err error) {
+func PostCreateSnapshot(c Client, APIKey string, serverId int, description string) (snapshotId string, err error) {
 
 	values := url.Values{
 		"SUBID": {strconv.Itoa(serverId)},

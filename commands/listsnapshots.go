@@ -36,8 +36,7 @@ func (_ *listSnapshots) Fexec(w io.Writer, c Client, args []string, key string) 
 	fmt.Fprintln(t, "ID\tDESCRIPTION\tDATE CREATED\tSIZE\tSTATUS")
 
 	for _, v := range a {
-		fmt.Fprintf(t, "%s\t%s\t%s\t%d\t%s\n", v.Id, v.Description,
-			v.DateCreated, v.Size, v.Status)
+		fmt.Fprintf(t, "%s\t%s\t%s\t%d\t%s\n", v.Id, v.Description, v.DateCreated, v.Size, v.Status)
 	}
 
 	t.Flush()

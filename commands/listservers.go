@@ -82,8 +82,7 @@ func (o *listServers) Fexec(w io.Writer, c Client, args []string, key string) (e
 	fmt.Fprintln(t, "ID\tLOCATION\tOS\tIPV4\tSTATUS\tLABEL")
 
 	for _, v := range a {
-		fmt.Fprintf(t, "%d\t%s\t%s\t%s\t%s\t%s\n", v.Id, v.Location,
-			v.OS, v.IPV4, v.Status, v.Label)
+		fmt.Fprintf(t, "%d\t%s\t%s\t%s\t%s\t%s\n", v.Id, v.Location, v.OS, v.IPV4, v.Status, v.Label)
 	}
 
 	t.Flush()

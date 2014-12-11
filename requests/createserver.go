@@ -22,8 +22,7 @@ type CreateServerOptions struct {
 	EnableAutoBackups    bool
 }
 
-func PostCreateServer(c Client, APIKey string, regionId, plandId, osId int,
-	options CreateServerOptions) (serverId int, err error) {
+func PostCreateServer(c Client, APIKey string, regionId, plandId, osId int, options CreateServerOptions) (serverId int, err error) {
 
 	values := url.Values{
 		"DCID":      {strconv.Itoa(regionId)},

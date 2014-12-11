@@ -9,8 +9,7 @@ import (
 	"net/url"
 )
 
-func PostCreateSSHKey(c Client, APIKey, name,
-	sshKey string) (SSHKeyId string, err error) {
+func PostCreateSSHKey(c Client, APIKey, name, sshKey string) (SSHKeyId string, err error) {
 
 	values := url.Values{
 		"name":    {name},

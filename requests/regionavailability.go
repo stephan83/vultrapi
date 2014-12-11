@@ -9,8 +9,7 @@ import (
 )
 
 func GetRegionAvailability(c Client, regionId int) (plans []int, err error) {
-	resp, err := c.Get(fmt.Sprintf("/regions/availability?DCID=%d",
-		regionId))
+	resp, err := c.Get(fmt.Sprintf("/regions/availability?DCID=%d", regionId))
 	if err != nil {
 		return
 	}

@@ -8,8 +8,7 @@ import (
 	"net/url"
 )
 
-func PostDestroySnapshot(c Client, APIKey string,
-	snapshotId string) (err error) {
+func PostDestroySnapshot(c Client, APIKey string, snapshotId string) (err error) {
 
 	values := url.Values{
 		"SNAPSHOTID": {snapshotId},

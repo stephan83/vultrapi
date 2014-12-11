@@ -37,8 +37,7 @@ func (_ *listOS) Fexec(w io.Writer, c Client, _ []string, _ string) (err error) 
 	fmt.Fprintln(t, "ID\tNAME\tFAMILY\tARCH\tWINDOWS")
 
 	for _, v := range a {
-		fmt.Fprintf(t, "%d\t%s\t%s\t%s\t%s\n", v.Id, v.Name, v.Family,
-			v.Arch, strconv.FormatBool(v.Windows))
+		fmt.Fprintf(t, "%d\t%s\t%s\t%s\t%s\n", v.Id, v.Name, v.Family, v.Arch, strconv.FormatBool(v.Windows))
 	}
 
 	t.Flush()

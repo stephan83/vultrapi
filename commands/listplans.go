@@ -76,8 +76,7 @@ func (o *listPlans) Fexec(w io.Writer, c Client, args []string, _ string) (err e
 	fmt.Fprintln(t, "ID\tNAME\tCPUS\tPRICE/MONTH")
 
 	for _, v := range a {
-		fmt.Fprintf(t, "%d\t%s\t%d\t%.2f\n", v.Id, v.Name, v.CPUs,
-			v.PricePerMonth)
+		fmt.Fprintf(t, "%d\t%s\t%d\t%.2f\n", v.Id, v.Name, v.CPUs, v.PricePerMonth)
 	}
 
 	t.Flush()

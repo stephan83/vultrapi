@@ -9,8 +9,7 @@ import (
 	"strconv"
 )
 
-func PostDestroyServer(c Client, APIKey string,
-	serverId int) (err error) {
+func PostDestroyServer(c Client, APIKey string, serverId int) (err error) {
 
 	values := url.Values{
 		"SUBID": {strconv.Itoa(serverId)},
