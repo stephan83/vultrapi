@@ -14,7 +14,7 @@ type destroyServer struct{ BasicCommand }
 func NewDestroyServer() Command {
 	return &destroyServer{
 		BasicCommand{
-			Desc:        "Destroys a server.",
+			Desc:        "Destroy a server.",
 			NeedsKey:    true,
 			ArgsDesc:    "server_id",
 			OptionsDesc: "",

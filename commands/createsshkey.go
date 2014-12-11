@@ -14,7 +14,7 @@ type createSSHKey struct{ BasicCommand }
 func NewCreateSSHKey() Command {
 	return &createSSHKey{
 		BasicCommand{
-			Desc:        "Creates an SSH key.",
+			Desc:        "Create an SSH key.",
 			NeedsKey:    true,
 			ArgsDesc:    "name path_to_public_ssh_key",
 			OptionsDesc: "",

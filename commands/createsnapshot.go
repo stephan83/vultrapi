@@ -21,7 +21,7 @@ func NewCreateSnapshot() Command {
 	o := createSnapshot{
 		BasicCommandWithOptions{
 			BasicCommand{
-				Desc:     "Creates a snapshot.",
+				Desc:     "Create a snapshot.",
 				NeedsKey: true,
 				ArgsDesc: "server_id",
 			},

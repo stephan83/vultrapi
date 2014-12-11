@@ -8,7 +8,7 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 2. `$ go get github.com/stephan83/vultrapi`
 
 ## Usage
-				
+
 		Usage: vultrapi command [arguments...] [options...]
 
 		You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.
@@ -31,22 +31,22 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 		  Get account information.
 
 		* createserver region_id plan_id os_id
-		  Creates a server.
+		  Create a server.
 
 		* createsnapshot server_id
-		  Creates a snapshot.
+		  Create a snapshot.
 
 		* createsshkey name path_to_public_ssh_key
-		  Creates an SSH key.
+		  Create an SSH key.
 
 		* destroyserver server_id
-		  Destroys a server.
+		  Destroy a server.
 
 		* destroysnapshot snapshot_id
-		  Destroys a snapshot.
+		  Destroy a snapshot.
 
 		* destroysshkey ssh_key_id
-		  Destroys an SSH key.
+		  Destroy an SSH key.
 
 		* listservers
 		  List all servers.
@@ -61,7 +61,7 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 		  Get server information.
 
 		* sshkey ssh_key_id
-		  Get SSH key information.
+		  Get server information.
 
 ## Example
 

@@ -21,7 +21,7 @@ func NewCreateServer() Command {
 	o := createServer{
 		BasicCommandWithOptions{
 			BasicCommand{
-				Desc:     "Creates a server.",
+				Desc:     "Create a server.",
 				NeedsKey: true,
 				ArgsDesc: "region_id plan_id os_id",
 			},

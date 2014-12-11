@@ -13,7 +13,7 @@ type destroySSHKey struct{ BasicCommand }
 func NewDestroySSHKey() Command {
 	return &destroySSHKey{
 		BasicCommand{
-			Desc:        "Destroys an SSH key.",
+			Desc:        "Destroy an SSH key.",
 			NeedsKey:    true,
 			ArgsDesc:    "ssh_key_id",
 			OptionsDesc: "",

@@ -28,7 +28,7 @@ func ExampleHelpListPlans() {
 func ExampleHelpCreateServer() {
 	NewHelp("vultrapi", cmdMap).Fexec(os.Stdout, nil, []string{"createserver"}, "")
 	// Output:
-	// Creates a server.
+	// Create a server.
 	//
 	// Usage: vultrapi createserver region_id plan_id os_id [options...]
 	//

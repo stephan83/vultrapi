@@ -13,7 +13,7 @@ type destroySnapshot struct{ BasicCommand }
 func NewDestroySnapshot() Command {
 	return &destroySnapshot{
 		BasicCommand{
-			Desc:        "Destroys a snapshot.",
+			Desc:        "Destroy a snapshot.",
 			NeedsKey:    true,
 			ArgsDesc:    "snapshot_id",
 			OptionsDesc: "",
