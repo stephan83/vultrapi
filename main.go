@@ -11,18 +11,21 @@ import (
 const name = "vultrapi"
 
 var cmdMap = CommandMap{
-	"listregions":   NewListRegions(),
-	"listplans":     NewListPlans(),
-	"listos":        NewListOS(),
-	"account":       NewAccount(),
-	"createserver":  NewCreateServer(),
-	"listservers":   NewListServers(),
-	"server":        NewServer(),
-	"destroyserver": NewDestroyServer(),
-	"createsshkey":  NewCreateSSHKey(),
-	"listsshkeys":   NewListSSHKeys(),
-	"sshkey":        NewSSHKey(),
-	"destroysshkey": NewDestroySSHKey(),
+	"listregions":     NewListRegions(),
+	"listplans":       NewListPlans(),
+	"listos":          NewListOS(),
+	"account":         NewAccount(),
+	"createserver":    NewCreateServer(),
+	"listservers":     NewListServers(),
+	"server":          NewServer(),
+	"destroyserver":   NewDestroyServer(),
+	"createsshkey":    NewCreateSSHKey(),
+	"listsshkeys":     NewListSSHKeys(),
+	"sshkey":          NewSSHKey(),
+	"destroysshkey":   NewDestroySSHKey(),
+	"createsnapshot":  NewCreateSnapshot(),
+	"listsnapshots":   NewListSnapshots(),
+	"destroysnapshot": NewDestroySnapshot(),
 }
 
 func init() {
