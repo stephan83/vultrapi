@@ -4,8 +4,8 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 
 ## Installation
 
-		1. Install go
-		2. `$ go get github.com/stephan83/vultrapi`
+1. Install go
+2. `$ go get github.com/stephan83/vultrapi`
 
 ## Usage
 				
