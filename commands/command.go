@@ -45,7 +45,7 @@ func (o CommandMap) PrintUsage(name string) {
 
 	sort.Sort(cmds)
 
-	fmt.Printf("Usage: %s command [options...]\n\n", name)
+	fmt.Printf("Usage: %s command [arguments...] [options...]\n\n", name)
 	fmt.Println("You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.\n")
 	fmt.Println("Commands:\n")
 

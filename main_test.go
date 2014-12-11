@@ -11,7 +11,7 @@ func ExampleRunNoCommand() {
 
 	run(cd, nil, []string{"vultrapi"}, "")
 	// Output:
-	// Usage: vultrapi command [options...]
+	// Usage: vultrapi command [arguments...] [options...]
 	//
 	// You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.
 	//
