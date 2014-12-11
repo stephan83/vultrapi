@@ -13,38 +13,34 @@ import (
 )
 
 type listPlans struct {
-	flagSet  *flag.FlagSet
+	CommandWithOptions
 	regionId int
 }
 
-func NewListPlans() Command {
+func NewListPlans() *listPlans {
+	f := flag.NewFlagSet("listplans", flag.ContinueOnError)
+
 	o := listPlans{
-		flagSet: flag.NewFlagSet("listplans", flag.ContinueOnError),
+		CommandWithOptions{
+			Command{
+				Desc: "List all available plans.",
+				NeedsKey: false,
+				ArgsDesc: "",
+			},
+			f,
+		},
+		0,
 	}
-	o.flagSet.IntVar(&o.regionId, "region", 0, "limit to region id")
+
+	f.IntVar(&o.regionId, "region", 0, "limit to region id")
+
+	o.Initialize()
+
 	return &o
 }
 
-func (_ *listPlans) Args() string {
-	return ""
-}
-
-func (_ *listPlans) Desc() string {
-	return "List all available plans."
-}
-
-func (_ *listPlans) NeedsKey() bool {
-	return false
-}
-
-func (o *listPlans) PrintOptions() {
-	o.flagSet.SetOutput(os.Stdout)
-	o.flagSet.PrintDefaults()
-	o.flagSet.SetOutput(os.Stderr)
-}
-
 func (o *listPlans) Exec(c Client, args []string, _ string) (err error) {
-	err = o.flagSet.Parse(args)
+	err = o.FlagSet.Parse(args)
 	if err != nil {
 		return ErrUsage{}
 	}

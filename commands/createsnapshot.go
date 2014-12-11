@@ -6,43 +6,34 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
-	"os"
 	"strconv"
 )
 
 type createSnapshot struct {
-	flagSet *flag.FlagSet
-	desc    string
+	CommandWithOptions
+	description    string
 }
 
-func NewCreateSnapshot() Command {
+func NewCreateSnapshot() *createSnapshot {
+	f := flag.NewFlagSet("createsnapshot", flag.ContinueOnError)
+
 	o := createSnapshot{
-		flagSet: flag.NewFlagSet("createsnapshot", flag.ContinueOnError),
+		CommandWithOptions{
+			Command{
+				Desc: "Creates a snapshot.",
+				NeedsKey: true,
+				ArgsDesc: "server_id",
+			},
+			f,
+		},
+		"",
 	}
 
-	o.flagSet.StringVar(&o.desc,
-		"description", "",
-		"Description")
+	f.StringVar(&o.description, "description", "", "Description")
+
+	o.Initialize()
 
 	return &o
-}
-
-func (_ *createSnapshot) NeedsKey() bool {
-	return true
-}
-
-func (_ *createSnapshot) Args() string {
-	return "server_id"
-}
-
-func (_ *createSnapshot) Desc() string {
-	return "Creates a snapshot."
-}
-
-func (o *createSnapshot) PrintOptions() {
-	o.flagSet.SetOutput(os.Stdout)
-	o.flagSet.PrintDefaults()
-	o.flagSet.SetOutput(os.Stderr)
 }
 
 func (o *createSnapshot) Exec(c Client, args []string, key string) (err error) {
@@ -57,13 +48,13 @@ func (o *createSnapshot) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	err = o.flagSet.Parse(args[1:])
+	err = o.FlagSet.Parse(args[1:])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
 
-	id, err := requests.PostCreateSnapshot(c, key, sid, o.desc)
+	id, err := requests.PostCreateSnapshot(c, key, sid, o.description)
 	if err != nil {
 		return
 	}

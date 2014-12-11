@@ -6,67 +6,42 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
-	"os"
 	"strconv"
 )
 
 type createServer struct {
-	flagSet *flag.FlagSet
+	CommandWithOptions
 	options requests.CreateServerOptions
 }
 
-func NewCreateServer() Command {
+func NewCreateServer() *createServer {
+	f := flag.NewFlagSet("createserver", flag.ContinueOnError)
+
 	o := createServer{
-		flagSet: flag.NewFlagSet("createserver", flag.ContinueOnError),
+		CommandWithOptions{
+			Command{
+				Desc: "Creates a server.",
+				NeedsKey: true,
+				ArgsDesc: "region_id plan_id os_id",
+			},
+			f,
+		},
+		requests.CreateServerOptions{},
 	}
 
-	o.flagSet.StringVar(&o.options.IPXEChainURL,
-		"ipxe_chain_url", "",
-		"IPXE chain url")
-	o.flagSet.IntVar(&o.options.ISOId,
-		"iso_id", 0,
-		"ISO ID")
-	o.flagSet.IntVar(&o.options.ScriptId,
-		"script_id", 0,
-		"Script ID")
-	o.flagSet.IntVar(&o.options.SnapshotId,
-		"snapshot_id", 0,
-		"Snapshot ID")
-	o.flagSet.BoolVar(&o.options.EnableIPV6,
-		"enable_ipv6", false,
-		"Enable IPV6")
-	o.flagSet.BoolVar(&o.options.EnablePrivateNetwork,
-		"enable_private_network", false,
-		"Enable private network")
-	o.flagSet.StringVar(&o.options.Label,
-		"label", "",
-		"Label")
-	o.flagSet.StringVar(&o.options.SSHKeyId,
-		"ssh_key_id", "",
-		"SSH key ID")
-	o.flagSet.BoolVar(&o.options.EnableAutoBackups,
-		"enable_auto_backups", false,
-		"Enable auto auto backups")
+	f.StringVar(&o.options.IPXEChainURL, "ipxe_chain_url", "", "IPXE chain url")
+	f.IntVar(&o.options.ISOId, "iso_id", 0, "ISO ID")
+	f.IntVar(&o.options.ScriptId, "script_id", 0, "Script ID")
+	f.IntVar(&o.options.SnapshotId, "snapshot_id", 0, "Snapshot ID")
+	f.BoolVar(&o.options.EnableIPV6, "enable_ipv6", false, "Enable IPV6")
+	f.BoolVar(&o.options.EnablePrivateNetwork, "enable_private_network", false, "Enable private network")
+	f.StringVar(&o.options.Label, "label", "", "Label")
+	f.StringVar(&o.options.SSHKeyId, "ssh_key_id", "", "SSH key ID")
+	f.BoolVar(&o.options.EnableAutoBackups, "enable_auto_backups", false, "Enable auto auto backups")
+
+	o.Initialize()
 
 	return &o
-}
-
-func (_ *createServer) NeedsKey() bool {
-	return true
-}
-
-func (_ *createServer) Args() string {
-	return "region_id plan_id os_id"
-}
-
-func (_ *createServer) Desc() string {
-	return "Creates a server."
-}
-
-func (o *createServer) PrintOptions() {
-	o.flagSet.SetOutput(os.Stdout)
-	o.flagSet.PrintDefaults()
-	o.flagSet.SetOutput(os.Stderr)
 }
 
 func (o *createServer) Exec(c Client, args []string, key string) (err error) {
@@ -91,15 +66,13 @@ func (o *createServer) Exec(c Client, args []string, key string) (err error) {
 		return
 	}
 
-	err = o.flagSet.Parse(args[3:])
+	err = o.FlagSet.Parse(args[3:])
 	if err != nil {
 		err = ErrUsage{}
 		return
 	}
 
-	id, err := requests.PostCreateServer(c, key, region, plan, os,
-		o.options)
-
+	id, err := requests.PostCreateServer(c, key, region, plan, os, o.options)
 	if err != nil {
 		return
 	}

@@ -8,29 +8,20 @@ import (
 	"strconv"
 )
 
-type destroyServer struct{}
+type destroyServer struct{Command}
 
-func NewDestroyServer() Command {
-	return destroyServer{}
+func NewDestroyServer() *destroyServer {
+	return &destroyServer{
+		Command {
+			Desc: "Destroys a server.",
+			NeedsKey: true,
+			ArgsDesc: "server_id",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ destroyServer) NeedsKey() bool {
-	return true
-}
-
-func (_ destroyServer) Args() string {
-	return "server_id"
-}
-
-func (_ destroyServer) Desc() string {
-	return "Destroys a server."
-}
-
-func (_ destroyServer) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ destroyServer) Exec(c Client, args []string, key string) (err error) {
+func (_ *destroyServer) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return

@@ -6,17 +6,37 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"sort"
 	"strings"
+	"flag"
+	"os"
+	"bytes"
 )
 
-type Command interface {
-	Desc() string
-	NeedsKey() bool
-	Args() string
-	PrintOptions()
-	Exec(client Client, args []string, key string) error
+type Command struct {
+	Desc string
+	NeedsKey bool
+	ArgsDesc string
+	OptionsDesc string
 }
 
-type CommandMap map[string]Command
+func (_ *Command) Exec(c Client, args []string, key string) error {
+	fmt.Println("Not implemented.")
+	return nil
+}
+
+type CommandWithOptions struct {
+	Command
+	FlagSet *flag.FlagSet
+}
+
+func (o *CommandWithOptions) Initialize() {
+	var buffer bytes.Buffer
+	o.FlagSet.SetOutput(&buffer)
+	o.FlagSet.PrintDefaults()
+	o.FlagSet.SetOutput(os.Stderr)
+	o.OptionsDesc = buffer.String()
+}
+
+type CommandMap map[string]*Command
 
 func (o CommandMap) Exec(args []string, c Client, key string) error {
 	if len(args) < 1 {
@@ -32,8 +52,7 @@ func (o CommandMap) Exec(args []string, c Client, key string) error {
 }
 
 func (o CommandMap) PrintCommandUsage(name string, cmd string) {
-	fmt.Printf("Usage: %s %s %s [options...]\n", name, cmd,
-		o[cmd].Args())
+	fmt.Printf("Usage: %s %s %s [options...]\n", name, cmd, o[cmd].ArgsDesc)
 }
 
 func (o CommandMap) PrintUsage(name string) {
@@ -46,20 +65,20 @@ func (o CommandMap) PrintUsage(name string) {
 	sort.Sort(cmds)
 
 	fmt.Printf("Usage: %s command [arguments...] [options...]\n\n", name)
-	fmt.Println("You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.\n")
-	fmt.Println("Commands:\n")
+	fmt.Print("You must set env variable VULTR_API_KEY to your API key for commands prefixed with *.\n\n")
+	fmt.Print("Commands:\n\n")
 
 	for i, c := range cmds {
-		if c.NeedsKey() {
+		if c.NeedsKey {
 			fmt.Printf("* %s", c.name)
 		} else {
 			fmt.Printf("  %s", c.name)
 		}
-		if args := c.Args(); args != "" {
+		if args := c.ArgsDesc; args != "" {
 			fmt.Printf(" %s", args)
 		}
 		fmt.Println()
-		desc := strings.Split(c.Desc(), "\n")
+		desc := strings.Split(c.Desc, "\n")
 		for _, line := range desc {
 			fmt.Printf("  %s\n", line)
 		}
@@ -70,7 +89,7 @@ func (o CommandMap) PrintUsage(name string) {
 }
 
 type commandWithName struct {
-	Command
+	*Command
 	name string
 }
 
@@ -87,10 +106,10 @@ func (a commandArray) Less(i, j int) bool {
 	if a[j].name == "help" {
 		return false
 	}
-	if a[i].NeedsKey() && !a[j].NeedsKey() {
+	if a[i].NeedsKey && !a[j].NeedsKey {
 		return false
 	}
-	if !a[i].NeedsKey() && a[j].NeedsKey() {
+	if !a[i].NeedsKey && a[j].NeedsKey {
 		return true
 	}
 

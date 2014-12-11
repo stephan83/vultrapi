@@ -10,29 +10,20 @@ import (
 	"text/tabwriter"
 )
 
-type listOS struct{}
+type listOS struct{Command}
 
-func NewListOS() Command {
-	return listOS{}
+func NewListOS() *listOS {
+	return &listOS{
+		Command {
+			Desc: "List all available operating systems.",
+			NeedsKey: false,
+			ArgsDesc: "",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ listOS) NeedsKey() bool {
-	return false
-}
-
-func (_ listOS) Args() string {
-	return ""
-}
-
-func (_ listOS) Desc() string {
-	return "List all available operating systems."
-}
-
-func (_ listOS) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ listOS) Exec(c Client, _ []string, _ string) (err error) {
+func (_ *listOS) Exec(c Client, _ []string, _ string) (err error) {
 	r, err := requests.GetOS(c)
 	if err != nil {
 		return

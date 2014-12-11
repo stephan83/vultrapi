@@ -7,29 +7,20 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 )
 
-type destroySnapshot struct{}
+type destroySnapshot struct{Command}
 
-func NewDestroySnapshot() Command {
-	return destroySnapshot{}
+func NewDestroySnapshot() *destroySnapshot {
+	return &destroySnapshot{
+		Command {
+			Desc: "Destroys a snapshot.",
+			NeedsKey: true,
+			ArgsDesc: "snapshot_id",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ destroySnapshot) NeedsKey() bool {
-	return true
-}
-
-func (_ destroySnapshot) Args() string {
-	return "snapshot_id"
-}
-
-func (_ destroySnapshot) Desc() string {
-	return "Destroys a snapshot."
-}
-
-func (_ destroySnapshot) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ destroySnapshot) Exec(c Client, args []string, key string) (err error) {
+func (_ *destroySnapshot) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return

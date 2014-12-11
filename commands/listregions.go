@@ -9,29 +9,20 @@ import (
 	"text/tabwriter"
 )
 
-type listRegions struct{}
+type listRegions struct{Command}
 
-func NewListRegions() Command {
-	return listRegions{}
+func NewListRegions() *listRegions {
+	return &listRegions{
+		Command {
+			Desc: "List all available regions.",
+			NeedsKey: true,
+			ArgsDesc: "",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ listRegions) Desc() string {
-	return "List all available regions."
-}
-
-func (_ listRegions) Args() string {
-	return ""
-}
-
-func (_ listRegions) NeedsKey() bool {
-	return false
-}
-
-func (_ listRegions) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ listRegions) Exec(c Client, args []string, key string) (err error) {
+func (_ *listRegions) Exec(c Client, args []string, key string) (err error) {
 	r, err := requests.GetRegions(c)
 	if err != nil {
 		return
@@ -45,8 +36,7 @@ func (_ listRegions) Exec(c Client, args []string, key string) (err error) {
 	fmt.Fprintln(w, "ID\tNAME\tCONTINENT\tCOUNTRY\tSTATE")
 
 	for _, v := range a {
-		fmt.Fprintf(w, "%d\t%s\t%s\t%s\t%s\n", v.Id, v.Name,
-			v.Continent, v.Country, v.State)
+		fmt.Fprintf(w, "%d\t%s\t%s\t%s\t%s\n", v.Id, v.Name, v.Continent, v.Country, v.State)
 	}
 
 	w.Flush()

@@ -9,29 +9,20 @@ import (
 	"text/tabwriter"
 )
 
-type sshKey struct{}
+type sshKey struct{Command}
 
-func NewSSHKey() Command {
-	return sshKey{}
+func NewSSHKey() *sshKey {
+	return &sshKey{
+		Command {
+			Desc: "Get server information.",
+			NeedsKey: true,
+			ArgsDesc: "ssh_key_id",
+			OptionsDesc: "Get SSH key information.",
+		},
+	}
 }
 
-func (_ sshKey) NeedsKey() bool {
-	return true
-}
-
-func (_ sshKey) Args() string {
-	return "ssh_key_id"
-}
-
-func (_ sshKey) Desc() string {
-	return "Get SSH key information."
-}
-
-func (_ sshKey) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ sshKey) Exec(c Client, args []string, key string) (err error) {
+func (_ *sshKey) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return

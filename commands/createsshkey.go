@@ -8,29 +8,20 @@ import (
 	"io/ioutil"
 )
 
-type createSSHKey struct{}
+type createSSHKey struct{Command}
 
-func NewCreateSSHKey() Command {
-	return createSSHKey{}
+func NewCreateSSHKey() *createSSHKey {
+	return &createSSHKey{
+		Command {
+			Desc: "Creates an SSH key.",
+			NeedsKey: true,
+			ArgsDesc: "name path_to_public_ssh_key",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ createSSHKey) NeedsKey() bool {
-	return true
-}
-
-func (_ createSSHKey) Args() string {
-	return "name path_to_public_ssh_key"
-}
-
-func (_ createSSHKey) Desc() string {
-	return "Creates an SSH key."
-}
-
-func (_ createSSHKey) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ createSSHKey) Exec(c Client, args []string, key string) (err error) {
+func (_ *createSSHKey) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 2 {
 		err = ErrUsage{}
 		return

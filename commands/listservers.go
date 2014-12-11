@@ -12,40 +12,37 @@ import (
 )
 
 type listServers struct {
-	flagSet  *flag.FlagSet
+	CommandWithOptions
 	regionId int
 	planId   int
 }
 
-func NewListServers() Command {
+func NewListServers() *listServers {
+	f := flag.NewFlagSet("listservers", flag.ContinueOnError)
+
 	o := listServers{
-		flagSet: flag.NewFlagSet("listservers", flag.ContinueOnError),
+		CommandWithOptions{
+			Command{
+				Desc: "List all servers.",
+				NeedsKey: true,
+				ArgsDesc: "",
+			},
+			f,
+		},
+		0,
+		0,
 	}
-	o.flagSet.IntVar(&o.regionId, "region", 0, "limit to region id")
-	o.flagSet.IntVar(&o.planId, "plan", 0, "limit to plan id")
+
+	f.IntVar(&o.regionId, "region", 0, "limit to region id")
+	f.IntVar(&o.planId, "plan", 0, "limit to plan id")
+
+	o.Initialize()
+
 	return &o
 }
 
-func (_ *listServers) NeedsKey() bool {
-	return true
-}
-
-func (_ *listServers) Args() string {
-	return ""
-}
-
-func (_ *listServers) Desc() string {
-	return "List all servers."
-}
-
-func (o *listServers) PrintOptions() {
-	o.flagSet.SetOutput(os.Stdout)
-	o.flagSet.PrintDefaults()
-	o.flagSet.SetOutput(os.Stderr)
-}
-
 func (o *listServers) Exec(c Client, args []string, key string) (err error) {
-	err = o.flagSet.Parse(args)
+	err = o.FlagSet.Parse(args)
 	if err != nil {
 		return ErrUsage{}
 	}

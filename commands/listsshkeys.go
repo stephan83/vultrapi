@@ -9,29 +9,20 @@ import (
 	"text/tabwriter"
 )
 
-type listSSHKeys struct{}
+type listSSHKeys struct{Command}
 
-func NewListSSHKeys() Command {
-	return listSSHKeys{}
+func NewListSSHKeys() *listSSHKeys {
+	return &listSSHKeys{
+		Command {
+			Desc: "List all SSH keys.",
+			NeedsKey: true,
+			ArgsDesc: "",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ listSSHKeys) NeedsKey() bool {
-	return true
-}
-
-func (_ listSSHKeys) Args() string {
-	return ""
-}
-
-func (_ listSSHKeys) Desc() string {
-	return "List all SSH keys."
-}
-
-func (_ listSSHKeys) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (o listSSHKeys) Exec(c Client, args []string, key string) (err error) {
+func (_ *listSSHKeys) Exec(c Client, args []string, key string) (err error) {
 	r, err := requests.GetSSHKeys(c, key)
 	if err != nil {
 		return

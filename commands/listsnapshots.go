@@ -9,29 +9,20 @@ import (
 	"text/tabwriter"
 )
 
-type listSnapshots struct{}
+type listSnapshots struct{Command}
 
-func NewListSnapshots() Command {
-	return listSnapshots{}
+func NewListSnapshots() *listSnapshots {
+	return &listSnapshots{
+		Command {
+			Desc: "List all snapshots.",
+			NeedsKey: true,
+			ArgsDesc: "",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ listSnapshots) Desc() string {
-	return "List all snapshots."
-}
-
-func (_ listSnapshots) Args() string {
-	return ""
-}
-
-func (_ listSnapshots) NeedsKey() bool {
-	return true
-}
-
-func (_ listSnapshots) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ listSnapshots) Exec(c Client, args []string, key string) (err error) {
+func (_ *listSnapshots) Exec(c Client, args []string, key string) (err error) {
 	r, err := requests.GetSnapshots(c, key)
 	if err != nil {
 		return

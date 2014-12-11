@@ -10,29 +10,20 @@ import (
 	"text/tabwriter"
 )
 
-type server struct{}
+type server struct{Command}
 
-func NewServer() Command {
-	return server{}
+func NewServer() *server {
+	return &server{
+		Command {
+			Desc: "Get server information.",
+			NeedsKey: true,
+			ArgsDesc: "server_id",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ server) NeedsKey() bool {
-	return true
-}
-
-func (_ server) Args() string {
-	return "server_id"
-}
-
-func (_ server) Desc() string {
-	return "Get server information."
-}
-
-func (_ server) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ server) Exec(c Client, args []string, key string) (err error) {
+func (_ *server) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return

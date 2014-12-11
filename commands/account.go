@@ -8,31 +8,16 @@ import (
 	"text/tabwriter"
 )
 
-type account struct{}
+type account struct{Command}
 
-func NewAccount() Command {
-	return account{}
+func NewAccount() *account {
+	return &account{
+		Command {Desc: "Get account information.", NeedsKey: true,},
+	}
 }
 
-func (_ account) NeedsKey() bool {
-	return true
-}
-
-func (_ account) Args() string {
-	return ""
-}
-
-func (_ account) Desc() string {
-	return "Get account information."
-}
-
-func (_ account) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ account) Exec(c Client, _ []string, key string) (err error) {
+func (_ *account) Exec(c Client, _ []string, key string) (err error) {
 	r, err := requests.GetAccount(c, key)
-
 	if err != nil {
 		return
 	}

@@ -7,31 +7,25 @@ import (
 )
 
 type help struct {
+	Command
 	name string
 	cd   CommandMap
 }
 
-func NewHelp(name string, cd CommandMap) Command {
-	return help{name, cd}
+func NewHelp(name string, cd CommandMap) *help {
+	return &help{
+		Command {
+			Desc: "Get help for a command.",
+			NeedsKey: false,
+			ArgsDesc: "command",
+			OptionsDesc: "",
+		},
+		name,
+		cd,
+	}
 }
 
-func (_ help) Desc() string {
-	return "Get help for a command."
-}
-
-func (_ help) NeedsKey() bool {
-	return false
-}
-
-func (_ help) Args() string {
-	return "command"
-}
-
-func (_ help) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (o help) Exec(_ Client, args []string, _ string) (err error) {
+func (o *help) Exec(_ Client, args []string, _ string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
@@ -43,15 +37,17 @@ func (o help) Exec(_ Client, args []string, _ string) (err error) {
 		return
 	}
 
-	fmt.Printf("%s\n\n", cmd.Desc())
+	fmt.Printf("%s\n\n", cmd.Desc)
 	o.cd.PrintCommandUsage(o.name, args[0])
 
-	if cmd.NeedsKey() {
+	if cmd.NeedsKey {
 		fmt.Println("\nYou must set env variable VULTR_API_KEY to your API key.")
 	}
 
-	fmt.Println("\nOptions:")
-	cmd.PrintOptions()
+	if opt := cmd.OptionsDesc; opt != "" {
+		fmt.Println("\nOptions:")
+		fmt.Println(cmd.OptionsDesc)
+	}
 
 	return
 }

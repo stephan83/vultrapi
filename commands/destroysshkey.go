@@ -7,29 +7,20 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 )
 
-type destroySSHKey struct{}
+type destroySSHKey struct{Command}
 
-func NewDestroySSHKey() Command {
-	return destroySSHKey{}
+func NewDestroySSHKey() *destroySSHKey {
+	return &destroySSHKey{
+		Command {
+			Desc: "Destroys an SSH key.",
+			NeedsKey: true,
+			ArgsDesc: "ssh_key_id",
+			OptionsDesc: "",
+		},
+	}
 }
 
-func (_ destroySSHKey) NeedsKey() bool {
-	return true
-}
-
-func (_ destroySSHKey) Args() string {
-	return "ssh_key_id"
-}
-
-func (_ destroySSHKey) Desc() string {
-	return "Destroys an SSH key."
-}
-
-func (_ destroySSHKey) PrintOptions() {
-	fmt.Println("None.")
-}
-
-func (_ destroySSHKey) Exec(c Client, args []string, key string) (err error) {
+func (_ *destroySSHKey) Exec(c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
