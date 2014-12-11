@@ -7,14 +7,14 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 )
 
-type destroySnapshot struct{BasicCommand}
+type destroySnapshot struct{ BasicCommand }
 
-func NewDestroySnapshot() *destroySnapshot {
+func NewDestroySnapshot() Command {
 	return &destroySnapshot{
-		BasicCommand {
-			Desc: "Destroys a snapshot.",
-			NeedsKey: true,
-			ArgsDesc: "snapshot_id",
+		BasicCommand{
+			Desc:        "Destroys a snapshot.",
+			NeedsKey:    true,
+			ArgsDesc:    "snapshot_id",
 			OptionsDesc: "",
 		},
 	}

@@ -14,13 +14,13 @@ type createServer struct {
 	options requests.CreateServerOptions
 }
 
-func NewCreateServer() *createServer {
+func NewCreateServer() Command {
 	f := flag.NewFlagSet("createserver", flag.ContinueOnError)
 
 	o := createServer{
 		BasicCommandWithOptions{
 			BasicCommand{
-				Desc: "Creates a server.",
+				Desc:     "Creates a server.",
 				NeedsKey: true,
 				ArgsDesc: "region_id plan_id os_id",
 			},

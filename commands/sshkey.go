@@ -9,14 +9,14 @@ import (
 	"text/tabwriter"
 )
 
-type sshKey struct{BasicCommand}
+type sshKey struct{ BasicCommand }
 
-func NewSSHKey() *sshKey {
+func NewSSHKey() Command {
 	return &sshKey{
-		BasicCommand {
-			Desc: "Get server information.",
-			NeedsKey: true,
-			ArgsDesc: "ssh_key_id",
+		BasicCommand{
+			Desc:        "Get server information.",
+			NeedsKey:    true,
+			ArgsDesc:    "ssh_key_id",
 			OptionsDesc: "Get SSH key information.",
 		},
 	}

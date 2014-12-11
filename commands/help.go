@@ -14,10 +14,10 @@ type help struct {
 
 func NewHelp(name string, cd CommandMap) Command {
 	return &help{
-		BasicCommand {
-			Desc: "Get help for a command.",
-			NeedsKey: false,
-			ArgsDesc: "command",
+		BasicCommand{
+			Desc:        "Get help for a command.",
+			NeedsKey:    false,
+			ArgsDesc:    "command",
 			OptionsDesc: "",
 		},
 		name,

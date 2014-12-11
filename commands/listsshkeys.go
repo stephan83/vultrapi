@@ -9,14 +9,14 @@ import (
 	"text/tabwriter"
 )
 
-type listSSHKeys struct{BasicCommand}
+type listSSHKeys struct{ BasicCommand }
 
-func NewListSSHKeys() *listSSHKeys {
+func NewListSSHKeys() Command {
 	return &listSSHKeys{
-		BasicCommand {
-			Desc: "List all SSH keys.",
-			NeedsKey: true,
-			ArgsDesc: "",
+		BasicCommand{
+			Desc:        "List all SSH keys.",
+			NeedsKey:    true,
+			ArgsDesc:    "",
 			OptionsDesc: "",
 		},
 	}

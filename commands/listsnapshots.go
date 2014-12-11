@@ -9,14 +9,14 @@ import (
 	"text/tabwriter"
 )
 
-type listSnapshots struct{BasicCommand}
+type listSnapshots struct{ BasicCommand }
 
-func NewListSnapshots() *listSnapshots {
+func NewListSnapshots() Command {
 	return &listSnapshots{
-		BasicCommand {
-			Desc: "List all snapshots.",
-			NeedsKey: true,
-			ArgsDesc: "",
+		BasicCommand{
+			Desc:        "List all snapshots.",
+			NeedsKey:    true,
+			ArgsDesc:    "",
 			OptionsDesc: "",
 		},
 	}

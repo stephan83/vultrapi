@@ -1,14 +1,14 @@
 package commands
 
 import (
+	"bytes"
+	"flag"
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
+	"os"
 	"sort"
 	"strings"
-	"flag"
-	"os"
-	"bytes"
 )
 
 type Command interface {
@@ -20,9 +20,9 @@ type Command interface {
 }
 
 type BasicCommand struct {
-	Desc string
-	NeedsKey bool
-	ArgsDesc string
+	Desc        string
+	NeedsKey    bool
+	ArgsDesc    string
 	OptionsDesc string
 }
 

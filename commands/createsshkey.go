@@ -8,14 +8,14 @@ import (
 	"io/ioutil"
 )
 
-type createSSHKey struct{BasicCommand}
+type createSSHKey struct{ BasicCommand }
 
-func NewCreateSSHKey() *createSSHKey {
+func NewCreateSSHKey() Command {
 	return &createSSHKey{
-		BasicCommand {
-			Desc: "Creates an SSH key.",
-			NeedsKey: true,
-			ArgsDesc: "name path_to_public_ssh_key",
+		BasicCommand{
+			Desc:        "Creates an SSH key.",
+			NeedsKey:    true,
+			ArgsDesc:    "name path_to_public_ssh_key",
 			OptionsDesc: "",
 		},
 	}

@@ -17,13 +17,13 @@ type listServers struct {
 	planId   int
 }
 
-func NewListServers() *listServers {
+func NewListServers() Command {
 	f := flag.NewFlagSet("listservers", flag.ContinueOnError)
 
 	o := listServers{
 		BasicCommandWithOptions{
 			BasicCommand{
-				Desc: "List all servers.",
+				Desc:     "List all servers.",
 				NeedsKey: true,
 				ArgsDesc: "",
 			},

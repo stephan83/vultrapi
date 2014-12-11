@@ -10,14 +10,14 @@ import (
 	"text/tabwriter"
 )
 
-type server struct{BasicCommand}
+type server struct{ BasicCommand }
 
-func NewServer() *server {
+func NewServer() Command {
 	return &server{
-		BasicCommand {
-			Desc: "Get server information.",
-			NeedsKey: true,
-			ArgsDesc: "server_id",
+		BasicCommand{
+			Desc:        "Get server information.",
+			NeedsKey:    true,
+			ArgsDesc:    "server_id",
 			OptionsDesc: "",
 		},
 	}

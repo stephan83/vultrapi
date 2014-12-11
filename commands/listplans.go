@@ -17,13 +17,13 @@ type listPlans struct {
 	regionId int
 }
 
-func NewListPlans() *listPlans {
+func NewListPlans() Command {
 	f := flag.NewFlagSet("listplans", flag.ContinueOnError)
 
 	o := listPlans{
 		BasicCommandWithOptions{
 			BasicCommand{
-				Desc: "List all available plans.",
+				Desc:     "List all available plans.",
 				NeedsKey: false,
 				ArgsDesc: "",
 			},
