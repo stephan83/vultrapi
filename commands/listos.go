@@ -10,11 +10,11 @@ import (
 	"text/tabwriter"
 )
 
-type listOS struct{Command}
+type listOS struct{BasicCommand}
 
 func NewListOS() *listOS {
 	return &listOS{
-		Command {
+		BasicCommand {
 			Desc: "List all available operating systems.",
 			NeedsKey: false,
 			ArgsDesc: "",

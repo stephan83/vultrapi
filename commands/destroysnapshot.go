@@ -7,11 +7,11 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 )
 
-type destroySnapshot struct{Command}
+type destroySnapshot struct{BasicCommand}
 
 func NewDestroySnapshot() *destroySnapshot {
 	return &destroySnapshot{
-		Command {
+		BasicCommand {
 			Desc: "Destroys a snapshot.",
 			NeedsKey: true,
 			ArgsDesc: "snapshot_id",

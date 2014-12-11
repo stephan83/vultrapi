@@ -9,11 +9,11 @@ import (
 	"text/tabwriter"
 )
 
-type listSnapshots struct{Command}
+type listSnapshots struct{BasicCommand}
 
 func NewListSnapshots() *listSnapshots {
 	return &listSnapshots{
-		Command {
+		BasicCommand {
 			Desc: "List all snapshots.",
 			NeedsKey: true,
 			ArgsDesc: "",

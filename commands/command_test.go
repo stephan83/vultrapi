@@ -1,6 +1,6 @@
 package commands
 
-func ExampleCommandPrintUsage() {
+func ExampleBasicCommandPrintUsage() {
 	cd := CommandMap{
 		"listregions": NewListRegions(),
 		"account":     NewAccount(),

@@ -10,7 +10,7 @@ import (
 )
 
 type createServer struct {
-	CommandWithOptions
+	BasicCommandWithOptions
 	options requests.CreateServerOptions
 }
 
@@ -18,8 +18,8 @@ func NewCreateServer() *createServer {
 	f := flag.NewFlagSet("createserver", flag.ContinueOnError)
 
 	o := createServer{
-		CommandWithOptions{
-			Command{
+		BasicCommandWithOptions{
+			BasicCommand{
 				Desc: "Creates a server.",
 				NeedsKey: true,
 				ArgsDesc: "region_id plan_id os_id",

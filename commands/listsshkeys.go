@@ -9,11 +9,11 @@ import (
 	"text/tabwriter"
 )
 
-type listSSHKeys struct{Command}
+type listSSHKeys struct{BasicCommand}
 
 func NewListSSHKeys() *listSSHKeys {
 	return &listSSHKeys{
-		Command {
+		BasicCommand {
 			Desc: "List all SSH keys.",
 			NeedsKey: true,
 			ArgsDesc: "",

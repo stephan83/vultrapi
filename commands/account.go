@@ -8,11 +8,11 @@ import (
 	"text/tabwriter"
 )
 
-type account struct{Command}
+type account struct{BasicCommand}
 
 func NewAccount() *account {
 	return &account{
-		Command {Desc: "Get account information.", NeedsKey: true,},
+		BasicCommand {Desc: "Get account information.", NeedsKey: true,},
 	}
 }
 

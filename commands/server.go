@@ -10,11 +10,11 @@ import (
 	"text/tabwriter"
 )
 
-type server struct{Command}
+type server struct{BasicCommand}
 
 func NewServer() *server {
 	return &server{
-		Command {
+		BasicCommand {
 			Desc: "Get server information.",
 			NeedsKey: true,
 			ArgsDesc: "server_id",

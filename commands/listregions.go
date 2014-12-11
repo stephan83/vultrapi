@@ -9,13 +9,13 @@ import (
 	"text/tabwriter"
 )
 
-type listRegions struct{Command}
+type listRegions struct{BasicCommand}
 
 func NewListRegions() *listRegions {
 	return &listRegions{
-		Command {
+		BasicCommand {
 			Desc: "List all available regions.",
-			NeedsKey: true,
+			NeedsKey: false,
 			ArgsDesc: "",
 			OptionsDesc: "",
 		},

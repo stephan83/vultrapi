@@ -8,11 +8,11 @@ import (
 	"strconv"
 )
 
-type destroyServer struct{Command}
+type destroyServer struct{BasicCommand}
 
 func NewDestroyServer() *destroyServer {
 	return &destroyServer{
-		Command {
+		BasicCommand {
 			Desc: "Destroys a server.",
 			NeedsKey: true,
 			ArgsDesc: "server_id",

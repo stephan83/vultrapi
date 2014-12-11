@@ -7,11 +7,11 @@ import (
 	"github.com/stephan83/vultrapi/requests"
 )
 
-type destroySSHKey struct{Command}
+type destroySSHKey struct{BasicCommand}
 
 func NewDestroySSHKey() *destroySSHKey {
 	return &destroySSHKey{
-		Command {
+		BasicCommand {
 			Desc: "Destroys an SSH key.",
 			NeedsKey: true,
 			ArgsDesc: "ssh_key_id",

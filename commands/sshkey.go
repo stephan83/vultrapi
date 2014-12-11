@@ -9,11 +9,11 @@ import (
 	"text/tabwriter"
 )
 
-type sshKey struct{Command}
+type sshKey struct{BasicCommand}
 
 func NewSSHKey() *sshKey {
 	return &sshKey{
-		Command {
+		BasicCommand {
 			Desc: "Get server information.",
 			NeedsKey: true,
 			ArgsDesc: "ssh_key_id",

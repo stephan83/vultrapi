@@ -10,7 +10,7 @@ import (
 )
 
 type createSnapshot struct {
-	CommandWithOptions
+	BasicCommandWithOptions
 	description    string
 }
 
@@ -18,8 +18,8 @@ func NewCreateSnapshot() *createSnapshot {
 	f := flag.NewFlagSet("createsnapshot", flag.ContinueOnError)
 
 	o := createSnapshot{
-		CommandWithOptions{
-			Command{
+		BasicCommandWithOptions{
+			BasicCommand{
 				Desc: "Creates a snapshot.",
 				NeedsKey: true,
 				ArgsDesc: "server_id",

@@ -8,11 +8,11 @@ import (
 	"io/ioutil"
 )
 
-type createSSHKey struct{Command}
+type createSSHKey struct{BasicCommand}
 
 func NewCreateSSHKey() *createSSHKey {
 	return &createSSHKey{
-		Command {
+		BasicCommand {
 			Desc: "Creates an SSH key.",
 			NeedsKey: true,
 			ArgsDesc: "name path_to_public_ssh_key",

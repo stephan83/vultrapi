@@ -7,14 +7,14 @@ import (
 )
 
 type help struct {
-	Command
+	BasicCommand
 	name string
 	cd   CommandMap
 }
 
-func NewHelp(name string, cd CommandMap) *help {
+func NewHelp(name string, cd CommandMap) Command {
 	return &help{
-		Command {
+		BasicCommand {
 			Desc: "Get help for a command.",
 			NeedsKey: false,
 			ArgsDesc: "command",
@@ -37,16 +37,16 @@ func (o *help) Exec(_ Client, args []string, _ string) (err error) {
 		return
 	}
 
-	fmt.Printf("%s\n\n", cmd.Desc)
+	fmt.Printf("%s\n\n", cmd.GetDesc())
 	o.cd.PrintCommandUsage(o.name, args[0])
 
-	if cmd.NeedsKey {
+	if cmd.GetNeedsKey() {
 		fmt.Println("\nYou must set env variable VULTR_API_KEY to your API key.")
 	}
 
-	if opt := cmd.OptionsDesc; opt != "" {
+	if opt := cmd.GetOptionsDesc(); opt != "" {
 		fmt.Println("\nOptions:")
-		fmt.Println(cmd.OptionsDesc)
+		fmt.Println(cmd.GetOptionsDesc())
 	}
 
 	return

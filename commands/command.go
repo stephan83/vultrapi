@@ -11,24 +11,48 @@ import (
 	"bytes"
 )
 
-type Command struct {
+type Command interface {
+	GetDesc() string
+	GetNeedsKey() bool
+	GetArgsDesc() string
+	GetOptionsDesc() string
+	Exec(c Client, args []string, key string) error
+}
+
+type BasicCommand struct {
 	Desc string
 	NeedsKey bool
 	ArgsDesc string
 	OptionsDesc string
 }
 
-func (_ *Command) Exec(c Client, args []string, key string) error {
+func (o *BasicCommand) GetDesc() string {
+	return o.Desc
+}
+
+func (o *BasicCommand) GetNeedsKey() bool {
+	return o.NeedsKey
+}
+
+func (o *BasicCommand) GetArgsDesc() string {
+	return o.ArgsDesc
+}
+
+func (o *BasicCommand) GetOptionsDesc() string {
+	return o.OptionsDesc
+}
+
+func (_ *BasicCommand) Exec(c Client, args []string, key string) error {
 	fmt.Println("Not implemented.")
 	return nil
 }
 
-type CommandWithOptions struct {
-	Command
+type BasicCommandWithOptions struct {
+	BasicCommand
 	FlagSet *flag.FlagSet
 }
 
-func (o *CommandWithOptions) Initialize() {
+func (o *BasicCommandWithOptions) Initialize() {
 	var buffer bytes.Buffer
 	o.FlagSet.SetOutput(&buffer)
 	o.FlagSet.PrintDefaults()
@@ -36,7 +60,7 @@ func (o *CommandWithOptions) Initialize() {
 	o.OptionsDesc = buffer.String()
 }
 
-type CommandMap map[string]*Command
+type CommandMap map[string]Command
 
 func (o CommandMap) Exec(args []string, c Client, key string) error {
 	if len(args) < 1 {
@@ -52,7 +76,7 @@ func (o CommandMap) Exec(args []string, c Client, key string) error {
 }
 
 func (o CommandMap) PrintCommandUsage(name string, cmd string) {
-	fmt.Printf("Usage: %s %s %s [options...]\n", name, cmd, o[cmd].ArgsDesc)
+	fmt.Printf("Usage: %s %s %s [options...]\n", name, cmd, o[cmd].GetArgsDesc())
 }
 
 func (o CommandMap) PrintUsage(name string) {
@@ -69,16 +93,16 @@ func (o CommandMap) PrintUsage(name string) {
 	fmt.Print("Commands:\n\n")
 
 	for i, c := range cmds {
-		if c.NeedsKey {
+		if c.GetNeedsKey() {
 			fmt.Printf("* %s", c.name)
 		} else {
 			fmt.Printf("  %s", c.name)
 		}
-		if args := c.ArgsDesc; args != "" {
+		if args := c.GetArgsDesc(); args != "" {
 			fmt.Printf(" %s", args)
 		}
 		fmt.Println()
-		desc := strings.Split(c.Desc, "\n")
+		desc := strings.Split(c.GetDesc(), "\n")
 		for _, line := range desc {
 			fmt.Printf("  %s\n", line)
 		}
@@ -89,7 +113,7 @@ func (o CommandMap) PrintUsage(name string) {
 }
 
 type commandWithName struct {
-	*Command
+	Command
 	name string
 }
 
@@ -106,10 +130,10 @@ func (a commandArray) Less(i, j int) bool {
 	if a[j].name == "help" {
 		return false
 	}
-	if a[i].NeedsKey && !a[j].NeedsKey {
+	if a[i].GetNeedsKey() && !a[j].GetNeedsKey() {
 		return false
 	}
-	if !a[i].NeedsKey && a[j].NeedsKey {
+	if !a[i].GetNeedsKey() && a[j].GetNeedsKey() {
 		return true
 	}
 

@@ -11,9 +11,6 @@ func ExampleHelpListRegions() {
 	// List all available regions.
 	//
 	// Usage: vultrapi listregions  [options...]
-	//
-	// Options:
-	// None.
 }
 
 func ExampleHelpListPlans() {
@@ -58,7 +55,7 @@ func TestHelpNotEnoughArgs(t *testing.T) {
 	}
 }
 
-func TestHelpUnknownCommand(t *testing.T) {
+func TestHelpUnknownBasicCommand(t *testing.T) {
 	err := NewHelp("vultrapi", cmdMap).Exec(nil, []string{"listplasn"}, "")
 	if err == nil {
 		t.Error("No error returned.")
@@ -68,7 +65,7 @@ func TestHelpUnknownCommand(t *testing.T) {
 	}
 }
 
-var cmdMap = map[string]Command{
+var cmdMap = CommandMap{
 	"listregions":  NewListRegions(),
 	"listplans":    NewListPlans(),
 	"createserver": NewCreateServer(),

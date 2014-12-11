@@ -13,7 +13,7 @@ import (
 )
 
 type listPlans struct {
-	CommandWithOptions
+	BasicCommandWithOptions
 	regionId int
 }
 
@@ -21,8 +21,8 @@ func NewListPlans() *listPlans {
 	f := flag.NewFlagSet("listplans", flag.ContinueOnError)
 
 	o := listPlans{
-		CommandWithOptions{
-			Command{
+		BasicCommandWithOptions{
+			BasicCommand{
 				Desc: "List all available plans.",
 				NeedsKey: false,
 				ArgsDesc: "",

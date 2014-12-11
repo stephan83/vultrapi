@@ -12,7 +12,7 @@ import (
 )
 
 type listServers struct {
-	CommandWithOptions
+	BasicCommandWithOptions
 	regionId int
 	planId   int
 }
@@ -21,8 +21,8 @@ func NewListServers() *listServers {
 	f := flag.NewFlagSet("listservers", flag.ContinueOnError)
 
 	o := listServers{
-		CommandWithOptions{
-			Command{
+		BasicCommandWithOptions{
+			BasicCommand{
 				Desc: "List all servers.",
 				NeedsKey: true,
 				ArgsDesc: "",
