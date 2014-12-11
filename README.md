@@ -7,7 +7,7 @@ Client/Library for [Vultr API](https://vultr.com) written in go.
 		1. Install go
 		2. `$ go get github.com/stephan83/vultrapi`
 
-		## Usage
+## Usage
 				
 		Usage: vultrapi command [options...]
 
