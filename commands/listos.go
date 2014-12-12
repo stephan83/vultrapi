@@ -4,10 +4,10 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
+	"io"
 	"sort"
 	"strconv"
 	"text/tabwriter"
-	"io"
 )
 
 type listOS struct{ BasicCommand }

@@ -7,9 +7,9 @@ import (
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"github.com/stephan83/vultrapi/types"
+	"io"
 	"sort"
 	"text/tabwriter"
-	"io"
 )
 
 type listPlans struct {

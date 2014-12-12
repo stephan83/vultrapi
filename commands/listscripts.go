@@ -9,12 +9,12 @@ import (
 	"text/tabwriter"
 )
 
-type listSSHKeys struct{ BasicCommand }
+type listScripts struct{ BasicCommand }
 
-func NewListSSHKeys() Command {
-	return &listSSHKeys{
+func NewListScripts() Command {
+	return &listScripts{
 		BasicCommand{
-			Desc:        "List all SSH keys.",
+			Desc:        "List all scripts.",
 			NeedsKey:    true,
 			ArgsDesc:    "",
 			OptionsDesc: "",
@@ -22,8 +22,8 @@ func NewListSSHKeys() Command {
 	}
 }
 
-func (_ *listSSHKeys) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
-	r, err := requests.GetSSHKeys(c, key)
+func (_ *listScripts) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
+	r, err := requests.GetScripts(c, key)
 	if err != nil {
 		return
 	}
@@ -36,7 +36,7 @@ func (_ *listSSHKeys) Fexec(w io.Writer, c Client, args []string, key string) (e
 	fmt.Fprintln(t, "ID\tNAME\tDATE CREATED")
 
 	for _, v := range a {
-		fmt.Fprintf(t, "%s\t%s\t%s\n", v.Id, v.Name, v.DateCreated)
+		fmt.Fprintf(t, "%d\t%s\t%s\n", v.Id, v.Name, v.DateCreated)
 	}
 
 	t.Flush()

@@ -9,20 +9,20 @@ import (
 	"strconv"
 )
 
-type destroyServer struct{ BasicCommand }
+type destroyScript struct{ BasicCommand }
 
-func NewDestroyServer() Command {
-	return &destroyServer{
+func NewDestroyScript() Command {
+	return &destroyScript{
 		BasicCommand{
-			Desc:        "Destroy a server.",
+			Desc:        "Destroy a script.",
 			NeedsKey:    true,
-			ArgsDesc:    "server_id",
+			ArgsDesc:    "script_id",
 			OptionsDesc: "",
 		},
 	}
 }
 
-func (_ *destroyServer) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
+func (_ *destroyScript) Fexec(w io.Writer, c Client, args []string, key string) (err error) {
 	if len(args) < 1 {
 		err = ErrUsage{}
 		return
@@ -34,7 +34,7 @@ func (_ *destroyServer) Fexec(w io.Writer, c Client, args []string, key string) 
 		return
 	}
 
-	err = requests.PostDestroyServer(c, key, id)
+	err = requests.PostDestroyScript(c, key, id)
 	if err != nil {
 		return
 	}

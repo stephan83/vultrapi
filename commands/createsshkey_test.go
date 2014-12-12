@@ -3,10 +3,10 @@ package commands
 import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
+	"os"
 	"path"
 	"runtime"
 	"testing"
-	"os"
 )
 
 func getCurrentDir() string {

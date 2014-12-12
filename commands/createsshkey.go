@@ -5,8 +5,8 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
-	"io/ioutil"
 	"io"
+	"io/ioutil"
 )
 
 type createSSHKey struct{ BasicCommand }

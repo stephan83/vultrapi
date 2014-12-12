@@ -27,6 +27,10 @@ var cmdMap = CommandMap{
 	"createsnapshot":  NewCreateSnapshot(),
 	"listsnapshots":   NewListSnapshots(),
 	"destroysnapshot": NewDestroySnapshot(),
+	"createscript":    NewCreateScript(),
+	"listscripts":     NewListScripts(),
+	"script":          NewScript(),
+	"destroyscript":   NewDestroyScript(),
 }
 
 func init() {

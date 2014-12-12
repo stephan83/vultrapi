@@ -6,8 +6,8 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
-	"strconv"
 	"io"
+	"strconv"
 )
 
 type createSnapshot struct {

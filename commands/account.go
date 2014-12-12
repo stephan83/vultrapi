@@ -4,8 +4,8 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	"github.com/stephan83/vultrapi/requests"
-	"text/tabwriter"
 	"io"
+	"text/tabwriter"
 )
 
 type account struct{ BasicCommand }

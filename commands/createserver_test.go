@@ -3,8 +3,8 @@ package commands
 import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
-	"testing"
 	"os"
+	"testing"
 )
 
 func ExampleCreateServer() {

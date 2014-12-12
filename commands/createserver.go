@@ -6,8 +6,8 @@ import (
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
-	"strconv"
 	"io"
+	"strconv"
 )
 
 type createServer struct {
@@ -38,7 +38,7 @@ func NewCreateServer() Command {
 	f.BoolVar(&o.options.EnablePrivateNetwork, "enable_private_network", false, "Enable private network")
 	f.StringVar(&o.options.Label, "label", "", "Label")
 	f.StringVar(&o.options.SSHKeyId, "ssh_key_id", "", "SSH key ID")
-	f.BoolVar(&o.options.EnableAutoBackups, "enable_auto_backups", false, "Enable auto auto backups")
+	f.BoolVar(&o.options.EnableAutoBackups, "enable_auto_backups", false, "Enable auto backups")
 
 	o.Initialize()
 

@@ -1,6 +1,6 @@
 package commands
 
-import(
+import (
 	. "github.com/stephan83/vultrapi/clients"
 	"os"
 )

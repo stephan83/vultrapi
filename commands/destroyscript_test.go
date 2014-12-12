@@ -5,9 +5,9 @@ import (
 	"os"
 )
 
-func ExampleDestroySSHKey() {
+func ExampleDestroyScript() {
 	c := NewTestClient(200, []byte("ok"))
-	NewDestroySSHKey().Fexec(os.Stdout, c, []string{"123"}, "")
+	NewDestroyScript().Fexec(os.Stdout, c, []string{"123"}, "")
 	// Output:
 	// OK
 }

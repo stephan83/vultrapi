@@ -2,8 +2,8 @@ package commands
 
 import (
 	. "github.com/stephan83/vultrapi/errors"
-	"testing"
 	"os"
+	"testing"
 )
 
 func ExampleHelpListRegions() {
@@ -35,7 +35,7 @@ func ExampleHelpCreateServer() {
 	// You must set env variable VULTR_API_KEY to your API key.
 	//
 	// Options:
-	//   -enable_auto_backups=false: Enable auto auto backups
+	//   -enable_auto_backups=false: Enable auto backups
 	//   -enable_ipv6=false: Enable IPV6
 	//   -enable_private_network=false: Enable private network
 	//   -ipxe_chain_url="": IPXE chain url

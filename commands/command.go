@@ -6,10 +6,10 @@ import (
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
-	"sort"
-	"strings"
 	"io"
 	"os"
+	"sort"
+	"strings"
 )
 
 type Command interface {
@@ -76,7 +76,7 @@ func (o CommandMap) Fexec(w io.Writer, args []string, c Client, key string) erro
 	return cmd.Fexec(w, c, args[1:], key)
 }
 
-func (o CommandMap) Exec(args[]string, c Client, key string) error {
+func (o CommandMap) Exec(args []string, c Client, key string) error {
 	return o.Fexec(os.Stdout, args, c, key)
 }
 
