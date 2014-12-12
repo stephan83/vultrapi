@@ -8,7 +8,7 @@ Covers most of the API functionality.
 
 1. Install go
 2. `$ go get github.com/stephan83/vultrapi`
-3. Type `vultrapi` to display all available commands.
+3. Type `vultrapi` to display all available commands
 
 ## Examples
 
@@ -33,7 +33,7 @@ Covers most of the API functionality.
 
 ### List plans available in a specific region
 
-		$ vultrapi listplans -region 24
+		$ vultrapi listplans -region 7
 		ID  NAME                                CPUS  PRICE/MONTH
 		29  768 MB RAM,15 GB SSD,1.00 TB BW     1     5.00
 		30  1024 MB RAM,20 GB SSD,2.00 TB BW    1     7.00
