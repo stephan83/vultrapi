@@ -93,11 +93,12 @@ Covers most of the API functionality.
 
 ### Retrieve specific server information
 		$ VULTR_API_KEY="My API key" vultrapi server 123456 -labels=false -field status
+		active
 
 ### Destroy a server
 
 		$ VULTR_API_KEY="My API key" vultrapi destroyserver 123456
-		active
+		OK
 
 **Many more commands are available**
 
