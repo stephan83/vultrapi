@@ -79,7 +79,6 @@ func (o *server) Fexec(w io.Writer, c Client, args []string, key string) (err er
 	}
 
 	fields := map[string]bool{}
-
 	for _, v := range o.Fields {
 		fields[v] = true
 	}

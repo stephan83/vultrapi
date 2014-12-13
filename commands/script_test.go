@@ -16,3 +16,11 @@ func ExampleScript() {
 	// SCRIPT		#!/bin/sh
 	// echo "test"
 }
+
+func ExampleScriptSpecificField() {
+	c := NewTestClient(200, scripts)
+	NewScript().Fexec(os.Stdout, c, []string{"1689", "-labels=false", "-field", "script"}, "API_KEY")
+	// Output:
+	// #!/bin/sh
+	// echo "test"
+}
