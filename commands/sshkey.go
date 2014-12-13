@@ -1,16 +1,16 @@
 package commands
 
 import (
+	"flag"
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
 	"github.com/stephan83/vultrapi/requests"
 	"io"
 	"text/tabwriter"
-	"flag"
 )
 
-type sshKey struct{
+type sshKey struct {
 	BasicCommandWithOptions
 	Labels bool
 	Fields StringSlice

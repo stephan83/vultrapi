@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"flag"
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
@@ -8,10 +9,9 @@ import (
 	"io"
 	"strconv"
 	"text/tabwriter"
-	"flag"
 )
 
-type server struct{
+type server struct {
 	BasicCommandWithOptions
 	Labels bool
 	Fields StringSlice
@@ -36,14 +36,14 @@ func NewServer() Command {
 
 	o.Initialize()
 
-	o.OptionsDesc += "\nAvailable fields: id, os, ram, disk, ipv4, cpus,"+
-	                 "location, region_id, default_password,"+
-	                 "date_created, pending_charges, status,"+
-	                 "price_per_month, currend_bandwidth_gb,"+
-	                 "allowed_bandwidth_gb, ipv4_netmask, ipv4_gateway,"+
-	                 "power_status, plan_id, ipv6_network, ipv6,"+
-	                 "ipv6_network_size, label, private_ip, kvm_url,"+
-	                 "auto_backups"
+	o.OptionsDesc += "\nAvailable fields: id, os, ram, disk, ipv4, cpus," +
+		"location, region_id, default_password," +
+		"date_created, pending_charges, status," +
+		"price_per_month, currend_bandwidth_gb," +
+		"allowed_bandwidth_gb, ipv4_netmask, ipv4_gateway," +
+		"power_status, plan_id, ipv6_network, ipv6," +
+		"ipv6_network_size, label, private_ip, kvm_url," +
+		"auto_backups"
 
 	return &o
 }

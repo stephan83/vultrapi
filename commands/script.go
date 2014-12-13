@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"flag"
 	"fmt"
 	. "github.com/stephan83/vultrapi/clients"
 	. "github.com/stephan83/vultrapi/errors"
@@ -8,10 +9,9 @@ import (
 	"io"
 	"strconv"
 	"text/tabwriter"
-	"flag"
 )
 
-type script struct{
+type script struct {
 	BasicCommandWithOptions
 	Labels bool
 	Fields StringSlice
