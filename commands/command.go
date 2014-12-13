@@ -125,6 +125,17 @@ func (o CommandMap) PrintUsage(name string) {
 	o.FprintUsage(os.Stdout, name)
 }
 
+type StringSlice []string
+
+func (o *StringSlice) String() string {
+	return strings.Join(*o, ",")
+}
+
+func (o *StringSlice) Set(v string) error {
+	*o = append(*o, v)
+	return nil
+}
+
 type commandWithName struct {
 	Command
 	name string

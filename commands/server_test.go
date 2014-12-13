@@ -11,8 +11,9 @@ func ExampleServer() {
 	// Output:
 	// ID			1571183
 	// OS			CentOS 7 x64
-	// RAM			Virtual 20 GB
-	// DISK			108.61.177.174
+	// RAM			1024
+	// DISK			Virtual 20 GB
+	// IPV4			108.61.177.174
 	// CPUS			1
 	// LOCATION		France
 	// REGION ID		24
@@ -34,4 +35,11 @@ func ExampleServer() {
 	// PRIVATE IP		test
 	// KVM URL			test
 	// AUTO BACKUPS		false
+}
+
+func ExampleServerSpecificField() {
+	c := NewTestClient(200, servers)
+	NewServer().Fexec(os.Stdout, c, []string{"1571183", "-labels=false", "-field", "ipv4"}, "API_KEY")
+	// Output:
+	// 108.61.177.174
 }

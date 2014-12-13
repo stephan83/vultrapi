@@ -57,7 +57,7 @@ Covers most of the API functionality.
 		139  Debian 7 x64 (wheezy)   debian    x64   false
 		140  FreeBSD 10 x64          freebsd   x64   false
 		159  Custom                  iso       x64   false
-		164  Snapsho                 snapshot  x64   false
+		164  Snapshot                snapshot  x64   false
 		148  Ubuntu 12.04 i386       ubuntu    i386  false
 		161  Ubuntu 14.04 i386       ubuntu    i386  false
 		182  Ubuntu 14.10 i386       ubuntu    i386  false
@@ -91,10 +91,13 @@ Covers most of the API functionality.
 		$ VULTR_API_KEY="My API key" vultrapi createserver 7 30 160
 		$ SERVER ID:  123456
 
+### Retrieve specific server information
+		$ VULTR_API_KEY="My API key" vultrapi server 123456 -labels=false -field status
+
 ### Destroy a server
 
 		$ VULTR_API_KEY="My API key" vultrapi destroyserver 123456
-		OK
+		active
 
 **Many more commands are available**
 
